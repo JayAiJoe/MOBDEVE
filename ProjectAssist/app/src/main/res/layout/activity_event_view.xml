@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/red">
+
+    <TextView
+        android:id="@+id/tv_view_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:text="7:00 am - 8:30 am"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_date" />
+
+    <TextView
+        android:id="@+id/tv_view_template"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Biology Exam #1 Template"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_time" />
+
+    <TextView
+        android:id="@+id/tv_view_reminder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-black"
+        android:text="1 hour before"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_template" />
+
+    <TextView
+        android:id="@+id/tv_view_event_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Biology Exam #1"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_view_event_name2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/groups"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_reminder" />
+
+    <Button
+        android:id="@+id/btn_view_delete_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/delete_event"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_view_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Wednesday, August 11, 2021"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_event_name"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_view_event_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_view_event_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

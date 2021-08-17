@@ -1,0 +1,2 @@
+rootProject.name = "ProjectAssist"
+include ':app'

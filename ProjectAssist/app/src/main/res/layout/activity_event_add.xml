@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_edit_event_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_edit_event_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <EditText
+        android:id="@+id/et_add_event_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/event_name"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_add_event_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/date"
+        android:padding="3dp"
+        android:inputType="date"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_name" />
+
+    <EditText
+        android:id="@+id/et_add_event_start_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/start_time"
+        android:inputType="time"
+        android:padding="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_add_to"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+
+    <EditText
+        android:id="@+id/et_add_event_end_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/end_time"
+        android:inputType="time"
+        android:padding="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintStart_toEndOf="@+id/tv_add_to"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+
+    <EditText
+        android:id="@+id/et_add_event_template"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/template"
+        android:inputType="text"
+        android:padding="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_start_time" />
+
+    <EditText
+        android:id="@+id/et_add_event_reminder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/clear_edit_field"
+        android:hint="@string/notif_time"
+        android:inputType="text"
+        android:padding="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_template" />
+
+    <Button
+        android:id="@+id/btn_add_delete_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/delete_event"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_add_groups"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_reminder"
+        tools:context=".MainActivity">
+
+        <Button
+            android:id="@+id/btn_add_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/dark_blue"
+            android:text="@string/groups"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_add_event_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_add_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="3dp"
+        android:text="to"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
