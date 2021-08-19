@@ -18,8 +18,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_view_date"
-        android:drawableLeft="@drawable/item_icon_small"
-        style="@style/text_with_icon"
         />
 
     <TextView
@@ -62,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_view_event_name2"
+        android:id="@+id/tv_view_event_groups"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -74,6 +72,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_view_reminder" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_view_groups"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_event_groups"/>
 
     <Button
         android:id="@+id/btn_view_delete_event"
@@ -104,13 +110,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_view_event_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
