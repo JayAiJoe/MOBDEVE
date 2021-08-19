@@ -17,8 +17,11 @@
     <string name="template">Template</string>
     <string name="notif_time">Notification Time</string>
 
+    <string name="sample1">Grade 5 - Service</string>
+    <string name="sample2">Grade 6 - Courtesy</string>
+
     <string-array name="sample_groups">
-        <item>Grade 5 - Service</item>
-        <item>Grade 6 - Courtesy</item>
+        <item>@string/sample1</item>
+        <item>@string/sample2</item>
     </string-array>
 </resources>
