@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include8"
+        layout="@layout/toolbar_edit" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivProfilePic"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/resource_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include8" />
+
+    <TextView
+        android:id="@+id/tvAddPhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Photo"
+        android:textColor="#116ACC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeft2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="30dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRight2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="30dp" />
+
+    <TextView
+        android:id="@+id/tvFName"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/personicon"
+        android:drawablePadding="8dp"
+
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="Sandra Angela"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddPhoto" />
+
+    <TextView
+        android:id="@+id/tvLName"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/personicon"
+        android:drawablePadding="8dp"
+
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="Berjamin"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvFName" />
+
+    <TextView
+        android:id="@+id/tvNumber"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/phoneicon_red"
+        android:drawablePadding="8dp"
+
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="09189854552"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvLName" />
+
+    <TextView
+        android:id="@+id/tvPName"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/parenticon_red"
+        android:drawablePadding="8dp"
+
+        android:gravity="center_vertical"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:text="Sharon Berjamin"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilGrp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2"
+        app:layout_constraintTop_toBottomOf="@+id/tvPName">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoChecklists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:inputType="none"
+            android:text="Groups"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#9C1111"
+
+        android:text="Delete Contact"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:icon="@drawable/deleteicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/glRight2"
+        app:layout_constraintStart_toStartOf="@+id/glLeft2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

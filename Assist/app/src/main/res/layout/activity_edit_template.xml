@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/include7"
+        layout="@layout/toolbar_edit" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLeft3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="30dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glRight3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="30dp" />
+
+
+    <TextView
+        android:id="@+id/tvTitleEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:background="@drawable/round_corner"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:text="Biology Exam #1 Template"
+        android:textColor="#374151"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include7" />
+
+    <TextView
+        android:id="@+id/tvSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/subjecticon"
+        android:drawablePadding="16dp"
+
+        android:gravity="center_vertical"
+        android:text="Biology Exam #1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/glLeft3"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleEdit" />
+
+    <TextView
+        android:id="@+id/tvNotes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/notesicon"
+        android:drawablePadding="16dp"
+
+        android:gravity="center_vertical"
+        android:text="Please take note of the following for your exam tomorrow:"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/glRight3"
+        app:layout_constraintStart_toStartOf="@+id/glLeft3"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubject" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#9C1111"
+
+        android:text="Delete Template"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:icon="@drawable/deleteicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/glRight3"
+        app:layout_constraintStart_toStartOf="@+id/glLeft3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

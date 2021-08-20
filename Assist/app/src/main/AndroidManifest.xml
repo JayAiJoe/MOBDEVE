@@ -15,6 +15,12 @@
         <activity android:name=".AddEventActivity" />
         <activity android:name=".ViewEventActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ViewContactListActivity"/>
+        <activity android:name=".AddContactActivity"/>
+        <activity android:name=".AddGroupActivity"/>
+        <activity android:name=".AddTemplateActivity"/>
+        <activity android:name=".ViewGroupListActivity"/>
+        <activity android:name=".ViewTemplateListActivity"/>
         <activity android:name=".CalendarDayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
