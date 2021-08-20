@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Assist">
-        <activity android:name=".CalendarDayActivity"></activity>
+        <activity android:name=".CalendarMonthActivity"></activity>
         <activity android:name=".EditEventActivity" />
         <activity android:name=".CalendarYearActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".ViewEventActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".CalendarMonthActivity">
+        <activity android:name=".CalendarDayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
