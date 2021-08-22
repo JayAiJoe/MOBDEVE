@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "contacts_table")
 public class Contact {
 
     @PrimaryKey(autoGenerate = true)

@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
 import java.sql.Time;
 import java.time.LocalDate;
 
-@Entity(foreignKeys = {@ForeignKey(entity = Template.class, parentColumns = "id", childColumns = "templateId", onUpdate = ForeignKey.CASCADE)})
+@Entity(tableName = "events_table", foreignKeys = {@ForeignKey(entity = Template.class, parentColumns = "id", childColumns = "templateId", onUpdate = ForeignKey.CASCADE)})
 public class Event {
 
     @PrimaryKey(autoGenerate = true)

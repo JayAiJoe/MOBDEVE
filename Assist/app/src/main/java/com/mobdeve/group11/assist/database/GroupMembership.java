@@ -6,7 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = {
+@Entity(tableName = "group_memberships_table",
+        foreignKeys = {
         @ForeignKey(entity = Contact.class, parentColumns = "id", childColumns = "contactId", onDelete = ForeignKey.CASCADE),
         @ForeignKey(entity = ContactGroup.class, parentColumns = "id", childColumns = "groupId", onDelete = ForeignKey.CASCADE)},
         primaryKeys = {"contactId","groupId"})

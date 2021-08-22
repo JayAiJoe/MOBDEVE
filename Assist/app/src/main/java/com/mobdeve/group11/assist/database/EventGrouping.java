@@ -5,7 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
-@Entity(foreignKeys = {
+@Entity(tableName = "event_groupings_table",
+        foreignKeys = {
         @ForeignKey(entity = ContactGroup.class, parentColumns = "id", childColumns = "groupId"),
         @ForeignKey(entity = Event.class, parentColumns = "id", childColumns = "eventId")},
         primaryKeys = {"groupId", "eventId"})
