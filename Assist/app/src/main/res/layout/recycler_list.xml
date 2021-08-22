@@ -11,27 +11,29 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvAlphabet"
+            android:id="@+id/tv_list_letter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#CDCBCB"
+            android:fontFamily="@font/amiko_bold"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="A"
+            android:textColor="@color/gray"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
+            android:id="@+id/rv_list_list"
             android:layout_width="409dp"
             android:layout_height="700dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAlphabet" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_list_letter" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

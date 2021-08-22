@@ -10,7 +10,7 @@
         layout="@layout/toolbar_view" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivProfilePic"
+        android:id="@+id/iv_view_group_picture"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="8dp"
@@ -20,70 +20,59 @@
         app:layout_constraintTop_toBottomOf="@+id/include6" />
 
     <TextView
-        android:id="@+id/tvFullName"
+        android:id="@+id/tv_vew_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
 
+        android:fontFamily="@font/amiko_bold"
         android:text="Grade 5 - Service"
         android:textAlignment="center"
+        android:textColor="@color/gray"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_group_picture" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glLeft1"
+        android:id="@+id/gl_view_group_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glRight1"
+        android:id="@+id/gl_view_group_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="30dp" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilGroups"
+        android:id="@+id/til_view_group_members"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight1"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1"
-        app:layout_constraintTop_toBottomOf="@+id/tvFullName">
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_group_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_vew_group_name">
 
         <AutoCompleteTextView
-            android:id="@+id/autoGroups"
+            android:id="@+id/ac_view_group_members"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
+            android:fontFamily="@font/amiko_semibold"
             android:inputType="none"
             android:text="Members"
+            android:textColor="@color/gray"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#9C1111"
-
-        android:text="Delete Group"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/glRight1"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

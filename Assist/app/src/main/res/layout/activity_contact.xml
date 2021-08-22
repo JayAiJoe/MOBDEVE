@@ -10,7 +10,7 @@
         layout="@layout/toolbar_view" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivProfilePic"
+        android:id="@+id/iv_view_contact_pic"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="8dp"
@@ -20,118 +20,127 @@
         app:layout_constraintTop_toBottomOf="@+id/include9" />
 
     <TextView
-        android:id="@+id/tvFullName"
+        android:id="@+id/tv_view_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
 
+        android:fontFamily="@font/amiko_bold"
         android:text="Sandra Angela Berjamin"
         android:textAlignment="center"
+        android:textColor="@color/gray"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_contact_pic" />
 
     <ImageView
-        android:id="@+id/ivCoolicon"
+        android:id="@+id/iv_view_contact_phone_icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1"
-        app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_contact_name"
         app:srcCompat="@drawable/phoneicon" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glLeft1"
+        android:id="@+id/gl_view_contact_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glRight1"
+        android:id="@+id/gl_view_contact_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="30dp" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <TextView
-        android:id="@+id/tvPhoneNumber"
+        android:id="@+id/tv_view_contact_number"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
 
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center"
         android:text="0918 985 4552"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivCoolicon"
-        app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
+        app:layout_constraintStart_toEndOf="@+id/iv_view_contact_phone_icon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_contact_name" />
 
     <ImageView
-        android:id="@+id/ivParenticon"
+        android:id="@+id/iv_view_contact_guardian_icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1"
-        app:layout_constraintTop_toBottomOf="@+id/ivCoolicon"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_contact_phone_icon"
         app:srcCompat="@drawable/parenticon" />
 
     <TextView
-        android:id="@+id/tvParentName"
+        android:id="@+id/tv_view_contact_guardian"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
 
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center"
         android:text="Sharon Berjamin"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivParenticon"
-        app:layout_constraintTop_toBottomOf="@+id/ivCoolicon" />
+        app:layout_constraintStart_toEndOf="@+id/iv_view_contact_guardian_icon"
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_contact_phone_icon" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilGroups"
+        android:id="@+id/til_view_contact_groups"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight1"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1"
-        app:layout_constraintTop_toBottomOf="@+id/tvParentName">
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_contact_guardian">
 
         <AutoCompleteTextView
-            android:id="@+id/autoGroups"
+            android:id="@+id/ac_view_contact_groups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
+            android:fontFamily="@font/amiko_semibold"
             android:inputType="none"
             android:text="Groups"
+            android:textColor="@color/gray"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btn_view_contact_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#9C1111"
 
+        android:fontFamily="@font/amiko_semibold"
         android:text="Delete Contact"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:icon="@drawable/deleteicon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/glRight1"
-        app:layout_constraintStart_toStartOf="@+id/glLeft1" />
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

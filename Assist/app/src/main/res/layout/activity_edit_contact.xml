@@ -10,7 +10,7 @@
         layout="@layout/toolbar_edit" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivProfilePic"
+        android:id="@+id/iv_edit_contact_picture"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginTop="8dp"
@@ -20,31 +20,32 @@
         app:layout_constraintTop_toBottomOf="@+id/include8" />
 
     <TextView
-        android:id="@+id/tvAddPhoto"
+        android:id="@+id/tv_edit_contact_add_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/amiko_semibold"
         android:text="Add Photo"
         android:textColor="#116ACC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_edit_contact_picture" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glLeft2"
+        android:id="@+id/gl_edit_contact_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glRight2"
+        android:id="@+id/gl_edit_contact_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="30dp" />
+        app:layout_constraintGuide_percent="0.95" />
 
-    <TextView
-        android:id="@+id/tvFName"
+    <EditText
+        android:id="@+id/et_edit_contact_fname"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -52,20 +53,18 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/personicon"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center_vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:text="Sandra Angela"
-        android:textSize="18sp"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddPhoto" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_edit_contact_add_pic" />
 
-    <TextView
-        android:id="@+id/tvLName"
+    <EditText
+        android:id="@+id/et_edit_contact_lname"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -73,20 +72,18 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/personicon"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center_vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:text="Berjamin"
-        android:textSize="18sp"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/tvFName" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_contact_fname" />
 
-    <TextView
-        android:id="@+id/tvNumber"
+    <EditText
+        android:id="@+id/et_edit_contact_number"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -94,20 +91,18 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/phoneicon_red"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center_vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:text="09189854552"
-        android:textSize="18sp"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/tvLName" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_contact_lname" />
 
-    <TextView
-        android:id="@+id/tvPName"
+    <EditText
+        android:id="@+id/et_edit_contact_guardian"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -115,55 +110,56 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/parenticon_red"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/amiko_semibold"
         android:gravity="center_vertical"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:text="Sharon Berjamin"
-        android:textSize="18sp"
         android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/tvNumber" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_contact_number" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilGrp"
+        android:id="@+id/til_edit_contact_groups"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2"
-        app:layout_constraintTop_toBottomOf="@+id/tvPName">
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_contact_guardian">
 
         <AutoCompleteTextView
-            android:id="@+id/autoChecklists"
+            android:id="@+id/ac_edit_event_groups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
+            android:fontFamily="@font/amiko_semibold"
             android:inputType="none"
             android:text="Groups"
+            android:textColor="@color/gray"
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btn_edit_contact_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#9C1111"
 
+        android:fontFamily="@font/amiko_semibold"
         android:text="Delete Contact"
         android:textAllCaps="false"
         android:textSize="18sp"
         app:icon="@drawable/deleteicon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/glRight2"
-        app:layout_constraintStart_toStartOf="@+id/glLeft2" />
+        app:layout_constraintEnd_toStartOf="@+id/gl_edit_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_edit_contact_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

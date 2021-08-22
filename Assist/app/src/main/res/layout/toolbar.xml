@@ -9,36 +9,37 @@
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/gl_toolbar_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="60dp" />
 
     <ImageView
-        android:id="@+id/ivLeft"
+        android:id="@+id/iv_toolbar_left"
         android:layout_width="20dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/gl_toolbar_h"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menu" />
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="AssisT"
+        android:textColor="@color/gray"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivLeft"
+        app:layout_constraintStart_toEndOf="@+id/iv_toolbar_left"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivRight"
+        android:id="@+id/iv_toolbar_right"
         android:layout_width="20dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"

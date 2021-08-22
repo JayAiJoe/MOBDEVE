@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
+    private void initComponents() {
         this.calendar = findViewById(R.id.btn_home_calendar);
         this.contacts = findViewById(R.id.btn_home_contacts);
         this.groups = findViewById(R.id.btn_home_groups);
@@ -51,5 +53,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
     }
 }

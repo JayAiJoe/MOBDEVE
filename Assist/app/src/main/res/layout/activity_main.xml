@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <include
+        android:id="@+id/include15"
+        layout="@layout/toolbar_menu" />
 
     <LinearLayout
         android:id="@+id/ll_home_buttons"
@@ -14,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/include15">
 
         <Button
             android:id="@+id/btn_home_calendar"
@@ -22,11 +25,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/clear_button"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/amiko_bold"
             android:shadowColor="#000000"
             android:text="@string/calendar"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:backgroundTint="#116ACC" />
 
         <Button
             android:id="@+id/btn_home_contacts"
@@ -34,11 +38,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/clear_button"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/amiko_bold"
             android:shadowColor="#000000"
             android:text="@string/contacts"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:backgroundTint="#116ACC" />
 
         <Button
             android:id="@+id/btn_home_groups"
@@ -46,11 +51,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/clear_button"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/amiko_bold"
             android:shadowColor="#000000"
             android:text="@string/groups"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:backgroundTint="#116ACC" />
 
         <Button
             android:id="@+id/btn_home_templates"
@@ -58,11 +64,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:background="@drawable/clear_button"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="@font/amiko_bold"
             android:shadowColor="#000000"
             android:text="@string/templates"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            app:backgroundTint="#116ACC" />
 
 
     </LinearLayout>

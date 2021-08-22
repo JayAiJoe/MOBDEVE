@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:fontFamily="@font/amiko_bold"
-        android:text="Contacts"
+        android:text="2021"
         android:textColor="#FD4E5D"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -46,5 +46,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pencilicon" />
+        app:srcCompat="@drawable/x" />
 </androidx.constraintlayout.widget.ConstraintLayout>

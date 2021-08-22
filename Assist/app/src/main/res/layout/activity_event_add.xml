@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar_edit" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_add_event_left"
         android:layout_width="wrap_content"
@@ -23,27 +27,29 @@
         android:id="@+id/et_add_event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/clear_edit_field"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round_corner"
+        android:fontFamily="@font/amiko_semibold"
         android:hint="@string/event_name"
         android:inputType="text"
         android:padding="5dp"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/include2" />
 
     <EditText
         android:id="@+id/et_add_event_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:background="@drawable/clear_edit_field"
-        android:hint="@string/date"
-        android:padding="3dp"
-        android:inputType="date"
+        android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/calendar_icon"
         android:drawablePadding="8dp"
+        android:fontFamily="@font/amiko_semibold"
+        android:hint="@string/date"
+        android:inputType="date"
+        android:padding="3dp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
@@ -55,9 +61,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/clear_edit_field"
+        android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/clock_icon"
         android:drawablePadding="8dp"
+        android:fontFamily="@font/amiko_semibold"
         android:hint="@string/start_time"
         android:inputType="time"
         android:padding="3dp"
@@ -71,11 +78,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/clear_edit_field"
-        android:hint="@string/end_time"
-        android:inputType="time"
+        android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/clock_icon"
         android:drawablePadding="8dp"
+        android:fontFamily="@font/amiko_semibold"
+        android:hint="@string/end_time"
+        android:inputType="time"
         android:padding="3dp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toEndOf="@+id/tv_add_to"
@@ -86,12 +94,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/clear_edit_field"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/template_icon"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/amiko_semibold"
         android:hint="@string/template"
         android:inputType="text"
         android:padding="3dp"
-        android:drawableLeft="@drawable/template_icon"
-        android:drawablePadding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
@@ -102,47 +111,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/clear_edit_field"
+        android:background="@drawable/round_corner"
+        android:drawableLeft="@drawable/bell_icon"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/amiko_semibold"
         android:hint="@string/notif_time"
         android:inputType="text"
         android:padding="3dp"
-        android:drawableLeft="@drawable/bell_icon"
-        android:drawablePadding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
         app:layout_constraintTop_toBottomOf="@+id/et_add_event_template" />
-
-    <Button
-        android:id="@+id/btn_add_delete_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/red"
-        android:text="@string/delete_event"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_add_groups"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/dark_blue"
-        android:text="@string/groups"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_reminder" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cg_add_groups"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add_groups" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_add_event_mid"
@@ -151,14 +130,39 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_edit_event_groups"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_reminder">>
+
+        <AutoCompleteTextView
+            android:id="@+id/ac_edit_event_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/amiko_semibold"
+            android:inputType="none"
+            android:text="Groups"
+            android:textColor="@color/gray"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tv_add_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/amiko_semibold"
         android:padding="3dp"
         android:text="to"
-        android:textColor="@color/black"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"

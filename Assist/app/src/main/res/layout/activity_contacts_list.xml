@@ -11,43 +11,45 @@
         layout="@layout/toolbar" />
 
     <TextView
-        android:id="@+id/tvGroups"
+        android:id="@+id/tv_view_clist_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/underline"
+        android:fontFamily="@font/amiko_bold"
         android:gravity="center"
         android:text="CONTACTS"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/gray"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/glHorizontal"
+        app:layout_constraintBottom_toTopOf="@+id/gl_view_clist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include5" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glHorizontal"
+        android:id="@+id/gl_view_clist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="130dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListWithAlphabet"
+        android:id="@+id/rv_view_clist"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glHorizontal" />
+        app:layout_constraintTop_toTopOf="@+id/gl_view_clist" />
 
     <TextView
-        android:id="@+id/tvNumberContacts"
+        android:id="@+id/tv_view_clist_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/amiko_semibold"
         android:text="7 Contacts"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvListWithAlphabet" />
+        app:layout_constraintTop_toBottomOf="@+id/rv_view_clist" />
 </androidx.constraintlayout.widget.ConstraintLayout>

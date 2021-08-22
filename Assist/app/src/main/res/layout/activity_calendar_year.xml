@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".CalendarYearActivity">
 
+    <include
+        android:id="@+id/include9"
+        layout="@layout/toolbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

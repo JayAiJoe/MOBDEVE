@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tv_list_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
