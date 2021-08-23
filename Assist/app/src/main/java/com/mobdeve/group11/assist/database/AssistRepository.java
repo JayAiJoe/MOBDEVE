@@ -72,6 +72,10 @@ class AssistRepository {
 
     LiveData<List<Integer>> getEventsOfGroup(Integer groupId) { return eventGroupingDao.findGroupingsByGroupId(groupId); }
 
+    LiveData<List<Contact>> getManyContactsById(List<Integer> ids) { return contactDao.findManyContactsById(ids); }
+
+    LiveData<List<ContactGroup>> getManyGroupsById(List<Integer> ids) { return contactGroupDao.findManyContactGroupsById(ids); }
+
     //async db update functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {

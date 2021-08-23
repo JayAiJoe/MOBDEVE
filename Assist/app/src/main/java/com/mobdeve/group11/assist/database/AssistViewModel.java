@@ -7,11 +7,11 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class ViewModel extends AndroidViewModel {
+public class AssistViewModel extends AndroidViewModel {
 
     private AssistRepository mRepository;
 
-    public ViewModel (Application application) {
+    public AssistViewModel(Application application) {
         super(application);
         mRepository = new AssistRepository(application);
     }
@@ -30,19 +30,23 @@ public class ViewModel extends AndroidViewModel {
 
     public LiveData<Event> getEventById(Integer id) { return mRepository.getEventById(id); }
 
-    public LiveData<Template> getCTemplateById(Integer id) { return mRepository.getTemplateById(id); }
+    public LiveData<Template> getTemplateById(Integer id) { return mRepository.getTemplateById(id); }
 
     public LiveData<Contact> getContactByName(String firstName, String lastName) { return mRepository.getContactByName(firstName, lastName); }
 
     public LiveData<ContactGroup> getGroupByName(String name) { return mRepository.getGroupByName(name); }
 
-    public LiveData<List<Integer>> getGroupsInEvent(Integer eventId) { return mRepository.getGroupsInEvent(eventId); }
+    public LiveData<List<Integer>> getGroupIdsInEvent(Integer eventId) { return mRepository.getGroupsInEvent(eventId); }
 
-    public LiveData<List<Integer>> getEventsOfGroup(Integer groupId) { return mRepository.getEventsOfGroup(groupId); }
+    public LiveData<List<Integer>> getEventIdsOfGroup(Integer groupId) { return mRepository.getEventsOfGroup(groupId); }
 
-    public LiveData<List<Integer>> getGroupsOfContact(Integer contactId) { return mRepository.getGroupsOfContact(contactId); }
+    public LiveData<List<Integer>> getGroupIdsOfContact(Integer contactId) { return mRepository.getGroupsOfContact(contactId); }
 
-    public LiveData<List<Integer>> getContactsInGroup(Integer groupId) { return mRepository.getContactsInGroup(groupId); }
+    public LiveData<List<Integer>> getContactIdsInGroup(Integer groupId) { return mRepository.getContactsInGroup(groupId); }
+
+    public LiveData<List<Contact>> getManyContactsById(List<Integer> ids) { return mRepository.getManyContactsById(ids); }
+
+    public LiveData<List<ContactGroup>> getManyCGroupsById(List<Integer> ids) { return mRepository.getManyGroupsById(ids); }
 
     public void addContact(Contact contact) { mRepository.addContact(contact); }
 

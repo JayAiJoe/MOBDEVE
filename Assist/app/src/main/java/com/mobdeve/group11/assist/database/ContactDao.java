@@ -29,4 +29,7 @@ public interface ContactDao {
 
     @Query("SELECT * FROM contacts_table WHERE firstName=:firstName AND lastName=:lastName")
     public LiveData<Contact> findContactByName(String firstName, String lastName);
+
+    @Query("SELECT * FROM contacts_table WHERE id IN (:ids)")
+    public LiveData<List<Contact>> findManyContactsById(List<Integer> ids);
 }

@@ -11,12 +11,13 @@ public class ContactGroup {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo
-    private Integer id;
+    Integer id;
 
     @ColumnInfo
     private String name;
 
     public ContactGroup(String name){
+        this.id = null;
         this.name = name;
     }
 

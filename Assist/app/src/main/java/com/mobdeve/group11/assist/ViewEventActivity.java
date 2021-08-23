@@ -19,7 +19,7 @@ public class ViewEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_view);
 
-        cgViewGroups = findViewById(R.id.cg_view_groups);
+        cgViewGroups = findViewById(R.id.cg_temp_view_group);
 
         //get and display groups
         String[] groupsArray = getResources().getStringArray(R.array.sample_groups); //sample only

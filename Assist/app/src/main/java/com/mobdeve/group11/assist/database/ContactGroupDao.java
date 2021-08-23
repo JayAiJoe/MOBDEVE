@@ -30,4 +30,9 @@ public interface ContactGroupDao {
     @Query("SELECT * FROM contact_groups_table WHERE name=:name ")
     public LiveData<ContactGroup> findContactByName(String name);
 
+    @Query("DELETE FROM contact_groups_table")
+    public void deleteAllContactGroups();
+
+    @Query("SELECT * FROM contact_groups_table WHERE id IN (:ids)")
+    public LiveData<List<ContactGroup>> findManyContactGroupsById(List<Integer> ids);
 }

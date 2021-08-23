@@ -1,4 +1,6 @@
 package com.mobdeve.group11.assist;
 
-public class AddTemplateActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class AddTemplateActivity extends AppCompatActivity {
 }

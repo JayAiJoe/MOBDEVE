@@ -26,8 +26,8 @@ public class EditEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
-        cgEditGroups = findViewById(R.id.cg_edit_groups);
-        btnEditGroups = findViewById(R.id.btn_edit_groups);
+        cgEditGroups = findViewById(R.id.cg_temp_edit_group);
+        btnEditGroups = findViewById(R.id.btn_temp_edit_groups);
 
         setButtons();
 

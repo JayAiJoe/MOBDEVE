@@ -12,7 +12,7 @@
         <activity android:name=".CalendarMonthActivity"></activity>
         <activity android:name=".EditEventActivity" />
         <activity android:name=".CalendarYearActivity" />
-        <activity android:name=".AddEventActivity" />
+        <activity android:name=".CalendarDayActivity" />
         <activity android:name=".ViewEventActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ViewContactListActivity"/>
@@ -21,7 +21,7 @@
         <activity android:name=".AddTemplateActivity"/>
         <activity android:name=".ViewGroupListActivity"/>
         <activity android:name=".ViewTemplateListActivity"/>
-        <activity android:name=".CalendarDayActivity">
+        <activity android:name=".AddEventActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

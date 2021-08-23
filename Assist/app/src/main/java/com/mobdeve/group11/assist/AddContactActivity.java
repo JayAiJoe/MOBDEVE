@@ -1,4 +1,6 @@
 package com.mobdeve.group11.assist;
 
-public class AddContactActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class AddContactActivity extends AppCompatActivity {
 }

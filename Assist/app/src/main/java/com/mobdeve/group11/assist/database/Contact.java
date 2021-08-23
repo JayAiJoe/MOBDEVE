@@ -11,7 +11,7 @@ public class Contact {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo
-    private Integer id;
+    Integer id=0;
 
     @ColumnInfo
     private String firstName;
