@@ -11,14 +11,14 @@
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_edit_template_left"
+        android:id="@+id/gl_add_template_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_edit_template_right"
+        android:id="@+id/gl_add_template_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -26,80 +26,70 @@
 
 
     <EditText
-        android:id="@+id/et_edit_template_title"
-        android:layout_width="wrap_content"
+        android:id="@+id/et_add_template_title"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/round_corner"
         android:fontFamily="@font/amiko_bold"
         android:gravity="center_vertical"
+        android:hint="Title"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:text="Biology Exam #1 Template"
         android:textColor="#374151"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gl_add_template_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_add_template_left"
         app:layout_constraintTop_toBottomOf="@+id/include7" />
 
     <EditText
-        android:id="@+id/et_edit_template_subject"
+        android:id="@+id/et_add_template_subject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/subjecticon"
         android:drawablePadding="16dp"
-
         android:fontFamily="@font/amiko_bold"
         android:gravity="center_vertical"
-        android:text="Biology Exam #1"
+        android:hint="Subject"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp"
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/gl_edit_template_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_edit_template_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_edit_template_title" />
+        app:layout_constraintEnd_toStartOf="@+id/gl_add_template_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_add_template_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_template_title" />
 
     <EditText
-        android:id="@+id/et_edit_template_notes"
+        android:id="@+id/et_add_template_notes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/round_corner"
         android:drawableLeft="@drawable/notesicon"
         android:drawablePadding="16dp"
         android:fontFamily="@font/amiko_semibold"
-        android:gravity="start"
+        android:gravity="top"
+        android:hint="Compose the notification"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingRight="16dp"
         android:paddingBottom="8dp"
-        android:text="Please take note of the following for your exam tomorrow:"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_edit_template_delete"
-        app:layout_constraintEnd_toEndOf="@+id/gl_edit_template_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_edit_template_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_edit_template_subject" />
-
-    <Button
-        android:id="@+id/btn_edit_template_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#9C1111"
-        android:fontFamily="@font/amiko_semibold"
-        android:text="Delete Template"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/gl_edit_template_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_edit_template_left" />
+        app:layout_constraintEnd_toEndOf="@+id/gl_add_template_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_add_template_left"
+        app:layout_constraintTop_toBottomOf="@+id/et_add_template_subject" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
