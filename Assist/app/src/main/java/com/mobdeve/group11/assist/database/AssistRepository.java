@@ -35,7 +35,7 @@ class AssistRepository {
         allTemplates = templateDao.loadAllTemplates();
     }
 
-    //sync get functions
+    //query functions
     LiveData<List<Contact>> getAllContacts() {
         return allContacts;
     }
@@ -72,7 +72,7 @@ class AssistRepository {
 
     LiveData<List<Integer>> getEventsOfGroup(Integer groupId) { return eventGroupingDao.findGroupingsByGroupId(groupId); }
 
-    //async functions
+    //async db update functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactDao.insertContact(contact);
