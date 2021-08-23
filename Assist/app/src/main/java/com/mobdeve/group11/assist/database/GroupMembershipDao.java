@@ -17,9 +17,9 @@ public interface GroupMembershipDao {
     @Delete
     public void deleteGroupMemberShip(GroupMembership groupMembership);
 
-    @Query("SELECT * FROM group_memberships_table WHERE groupId=:id")
-    public LiveData<List<GroupMembership>> findMembershipsByGroupId(Integer id);
+    @Query("SELECT contactId FROM group_memberships_table WHERE groupId=:id")
+    public LiveData<List<Integer>> findMembershipsByGroupId(Integer id);
 
-    @Query("SELECT * FROM group_memberships_table WHERE contactId=:id")
-    public LiveData<List<GroupMembership>> findMembershipsByContactId(Integer id);
+    @Query("SELECT groupId FROM group_memberships_table WHERE contactId=:id")
+    public LiveData<List<Integer>> findMembershipsByContactId(Integer id);
 }

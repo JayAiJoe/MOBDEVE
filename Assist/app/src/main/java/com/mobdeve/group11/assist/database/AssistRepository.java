@@ -35,11 +35,12 @@ class AssistRepository {
         allTemplates = templateDao.loadAllTemplates();
     }
 
+    //sync get functions
     LiveData<List<Contact>> getAllContacts() {
         return allContacts;
     }
 
-    LiveData<List<ContactGroup>> getAllContactGroups() {
+    LiveData<List<ContactGroup>> getAllGroups() {
         return allContactGroups;
     }
 
@@ -51,6 +52,27 @@ class AssistRepository {
         return allTemplates;
     }
 
+    LiveData<Contact> getContactById(Integer id) { return contactDao.findContactById(id); }
+
+    LiveData<ContactGroup> getGroupById(Integer id) { return contactGroupDao.findContactGroupById(id); }
+
+    LiveData<Event> getEventById(Integer id) { return eventDao.findEventById(id); }
+
+    LiveData<Template> getTemplateById(Integer id) { return templateDao.findTemplateById(id); }
+
+    LiveData<Contact> getContactByName(String firstName, String lastName) { return contactDao.findContactByName(firstName, lastName); }
+
+    LiveData<ContactGroup> getGroupByName(String name) { return contactGroupDao.findContactByName(name); }
+
+    LiveData<List<Integer>> getGroupsOfContact(Integer contactId) { return groupMembershipDao.findMembershipsByContactId(contactId); }
+
+    LiveData<List<Integer>> getContactsInGroup(Integer groupId) { return groupMembershipDao.findMembershipsByGroupId(groupId); }
+
+    LiveData<List<Integer>> getGroupsInEvent(Integer eventId) { return eventGroupingDao.findGroupingsByEventId(eventId); }
+
+    LiveData<List<Integer>> getEventsOfGroup(Integer groupId) { return eventGroupingDao.findGroupingsByGroupId(groupId); }
+
+    //async functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactDao.insertContact(contact);

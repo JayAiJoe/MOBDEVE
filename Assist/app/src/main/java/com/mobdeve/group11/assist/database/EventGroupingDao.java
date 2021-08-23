@@ -17,10 +17,10 @@ public interface EventGroupingDao {
     @Delete
     public void deleteEventGrouping(EventGrouping eventGrouping);
 
-    @Query("SELECT * FROM event_groupings_table WHERE eventId=:id")
-    public LiveData<List<EventGrouping>> findGroupingsByEventId(Integer id);
+    @Query("SELECT groupId FROM event_groupings_table WHERE eventId=:id")
+    public LiveData<List<Integer>> findGroupingsByEventId(Integer id);
 
-    @Query("SELECT * FROM event_groupings_table WHERE groupId=:id")
-    public LiveData<List<EventGrouping>> findGroupingsByGroupId(Integer id);
+    @Query("SELECT eventId FROM event_groupings_table WHERE groupId=:id")
+    public LiveData<List<Integer>> findGroupingsByGroupId(Integer id);
 
 }
