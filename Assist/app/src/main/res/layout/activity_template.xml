@@ -80,4 +80,20 @@
         app:layout_constraintStart_toStartOf="@+id/gl_view_template_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_view_template_subject" />
 
+    <Button
+        android:id="@+id/btn_view_template_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#9C1111"
+
+        android:fontFamily="@font/amiko_semibold"
+        android:text="Delete Template"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:icon="@drawable/deleteicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_template_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_template_left" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

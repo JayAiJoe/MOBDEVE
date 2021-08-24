@@ -20,12 +20,28 @@ import java.util.Comparator;
 
 public class ViewContactListActivity extends AppCompatActivity {
 
-    private ArrayList<Contact> dataContacts;
+    private ArrayList<Contact> dataContacts = new ArrayList<Contact>();;
     private RecyclerView rvContacts;
     private ContactAdapter contactAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberContacts;
+
+    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent intent = result.getData();
+                    String fName = intent.getStringExtra(ContactInfo.FIRST_NAME.name());
+                    String lName = intent.getStringExtra(ContactInfo.LAST_NAME.name());
+                    String pNum = intent.getStringExtra(ContactInfo.PHONE_NUMBER.name());
+                    String guardian = intent.getStringExtra(ContactInfo.GUARDIAN.name());
+
+                    dataContacts.add(0, new Contact(fName, lName, pNum, guardian));
+                }
+            }
+    );
 
     //sorted in alphabetical order
     private ArrayList<Contact> sortList(ArrayList<Contact> list) {
@@ -105,18 +121,22 @@ public class ViewContactListActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
         DataHelper helper = new DataHelper();
-        this.dataContacts = helper.initializeContacts();
+        if (this.dataContacts.size() == 0){
+            this.dataContacts = helper.initializeContacts();
+        }
 
         int count = dataContacts.size();
         this.tvNumberContacts.setText(count+" Contacts");
 
+        ArrayList<Contact> contacts = new ArrayList<Contact>();
+
         this.dataContacts = sortList(dataContacts);
-        this.dataContacts = addAlphabets(dataContacts);
+        contacts = addAlphabets(dataContacts);
 
         this.rvContacts = findViewById(R.id.rv_view_clist);
         this.rvContacts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        this.contactAdapter = new ContactAdapter(this.dataContacts);
+        this.contactAdapter = new ContactAdapter(contacts, ViewContactListActivity.this);
         this.rvContacts.setAdapter(this.contactAdapter);
     }
 

@@ -58,7 +58,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                 }
                 else {
                     Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered anything!",
+                            "You have not yet entered in all of the required fields!",
                             Toast.LENGTH_LONG);
                     t.show();
                 }

@@ -21,6 +21,9 @@
         <activity android:name=".AddTemplateActivity"/>
         <activity android:name=".ViewGroupListActivity"/>
         <activity android:name=".ViewTemplateListActivity"/>
+        <activity android:name=".ContactActivity"/>
+        <activity android:name=".GroupActivity"/>
+        <activity android:name=".TemplateActivity"/>
         <activity android:name=".AddEventActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -20,13 +20,26 @@ import java.util.Comparator;
 
 public class ViewGroupListActivity extends AppCompatActivity {
 
-    private ArrayList<Group> dataGroups;
+    private ArrayList<Group> dataGroups = new ArrayList<Group>();
     private RecyclerView rvGroups;
     private GroupAdapter groupAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberGroups;
 
+    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent intent = result.getData();
+                    String name = intent.getStringExtra(GroupInfo.NAME.name());
+                    //ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvMembers.getText().toString().split(",")));
+
+                    //dataGroups.add(0, new Group(name));
+                }
+            }
+    );
 
     //sorted in alphabetical order
     private ArrayList<Group> sortList(ArrayList<Group> list) {
@@ -101,18 +114,22 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
         DataHelper helper = new DataHelper();
-        this.dataGroups = helper.initializeGroups();
+        if (this.dataGroups.size() == 0){
+            this.dataGroups = helper.initializeGroups();
+        }
 
         int count = dataGroups.size();
         this.tvNumberGroups.setText(count+" Groups");
 
+        ArrayList<Group> groups = new ArrayList<Group>();
+
         this.dataGroups = sortList(dataGroups);
-        this.dataGroups = addAlphabets(dataGroups);
+        groups = addAlphabets(dataGroups);
 
         this.rvGroups = findViewById(R.id.rv_glist);
         this.rvGroups.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        this.groupAdapter = new GroupAdapter(this.dataGroups);
+        this.groupAdapter = new GroupAdapter(groups, ViewGroupListActivity.this);
         this.rvGroups.setAdapter(this.groupAdapter);
     }
 

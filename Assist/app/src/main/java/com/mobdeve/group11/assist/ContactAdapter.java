@@ -1,5 +1,6 @@
 package com.mobdeve.group11.assist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,8 +22,12 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_LETTER = 1, TYPE_MEMBER = 2;
 
     private ArrayList<Contact> dataContacts;
+    private Activity activity;
 
-    public ContactAdapter(ArrayList<Contact> dataContacts) { this.dataContacts = dataContacts;}
+    public ContactAdapter(ArrayList<Contact> dataContacts, Activity activity) {
+        this.dataContacts = dataContacts;
+        this.activity = activity;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -69,6 +74,21 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         else{
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
             viewHolderMember.tvName.setText(currentContact.getFName()+" "+currentContact.getLName());
+
+            viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), ContactActivity.class);
+                    //photo
+                    intent.putExtra(ContactInfo.FIRST_NAME.name(),currentContact.getFName());
+                    intent.putExtra(ContactInfo.LAST_NAME.name(),currentContact.getLName());
+                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(),currentContact.getPNumber());
+                    intent.putExtra(ContactInfo.GUARDIAN.name(),currentContact.getGuardian());
+                    //groups
+
+                    activity.startActivityForResult(intent, 1);
+                }
+            });
         }
     }
 

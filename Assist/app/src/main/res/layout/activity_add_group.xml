@@ -64,31 +64,26 @@
         app:layout_constraintStart_toStartOf="@+id/gl_add_group_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_group_add_pic" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_add_group_members"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+    <TextView
+        android:id="@+id/tv_add_group_members"
+        style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/amiko_semibold"
+        android:hint="Groups"
+        android:padding="12dp"
+        android:text="Groups"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_group_right"
         app:layout_constraintStart_toStartOf="@+id/gl_add_group_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_group_gname">
-
-        <AutoCompleteTextView
-            android:id="@+id/ac_add_group_members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:fontFamily="@font/amiko_semibold"
-            android:inputType="none"
-            android:text="Members"
-            android:textColor="@color/gray"
-            android:textSize="18sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/et_add_group_gname" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

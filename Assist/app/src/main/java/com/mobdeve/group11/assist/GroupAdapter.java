@@ -1,5 +1,6 @@
 package com.mobdeve.group11.assist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,8 +22,12 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_L = 1, TYPE_M = 2;
 
     private ArrayList<Group> dataGroups;
+    private Activity activity;
 
-    public GroupAdapter(ArrayList<Group> dataGroups) { this.dataGroups = dataGroups;}
+    public GroupAdapter(ArrayList<Group> dataGroups, Activity activity) {
+        this.dataGroups = dataGroups;
+        this.activity = activity;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -69,6 +74,18 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         else{
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
             viewHolderMember.tvName.setText(currentGroup.getName());
+
+            viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), GroupActivity.class);
+                    //photo
+                    intent.putExtra(GroupInfo.NAME.name(),currentGroup.getName());
+                    //members
+
+                    activity.startActivityForResult(intent, 1);
+                }
+            });
         }
     }
 
