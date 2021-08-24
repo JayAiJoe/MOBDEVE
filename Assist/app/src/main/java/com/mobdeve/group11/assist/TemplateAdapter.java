@@ -1,5 +1,6 @@
 package com.mobdeve.group11.assist;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,8 +22,12 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_LE = 1, TYPE_ME = 2;
 
     private ArrayList<Template> dataTemplates;
+    private Activity activity;
 
-    public TemplateAdapter(ArrayList<Template> dataTemplates) { this.dataTemplates = dataTemplates;}
+    public TemplateAdapter(ArrayList<Template> dataTemplates, Activity activity) {
+        this.dataTemplates = dataTemplates;
+        this.activity = activity;
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -69,6 +74,21 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else{
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
             viewHolderMember.tvName.setText(currentTemplate.getTitle());
+
+            viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), TemplateActivity.class);
+                    //photo
+                    intent.putExtra(TemplateInfo.TITLE.name(),currentTemplate.getTitle());
+                    intent.putExtra(TemplateInfo.SUBJECT.name(),currentTemplate.getSubject());
+                    intent.putExtra(TemplateInfo.NOTES.name(),currentTemplate.getNotes());
+
+                    //groups
+
+                    activity.startActivityForResult(intent, 1);
+                }
+            });
         }
     }
 

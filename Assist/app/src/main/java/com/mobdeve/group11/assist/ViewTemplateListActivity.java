@@ -20,13 +20,27 @@ import java.util.Comparator;
 
 public class ViewTemplateListActivity extends AppCompatActivity {
 
-    private ArrayList<Template> dataTemplates;
+    private ArrayList<Template> dataTemplates = new ArrayList<Template>();
     private RecyclerView rvTemplates;
     private TemplateAdapter templateAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberTemplates;
 
+    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent intent = result.getData();
+                    String title = intent.getStringExtra(TemplateInfo.TITLE.name());
+                    String sub = intent.getStringExtra(TemplateInfo.SUBJECT.name());
+                    String notes = intent.getStringExtra(TemplateInfo.NOTES.name());
+
+                    dataTemplates.add(0, new Template(title, sub, notes));
+                }
+            }
+    );
 
     //sorted in alphabetical order
     private ArrayList<Template> sortList(ArrayList<Template> list) {
@@ -101,18 +115,22 @@ public class ViewTemplateListActivity extends AppCompatActivity {
 
     private void initRecyclerView(){
         DataHelper helper = new DataHelper();
-        this.dataTemplates = helper.initializeTemplates();
+        if (this.dataTemplates.size() == 0){
+            this.dataTemplates = helper.initializeTemplates();
+        }
 
         int count = dataTemplates.size();
         this.tvNumberTemplates.setText(count+" Templates");
 
+        ArrayList<Template> templates = new ArrayList<Template>();
+
         this.dataTemplates = sortList(dataTemplates);
-        this.dataTemplates = addAlphabets(dataTemplates);
+        templates = addAlphabets(dataTemplates);
 
         this.rvTemplates = findViewById(R.id.rv_tlist);
         this.rvTemplates.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        this.templateAdapter = new TemplateAdapter(this.dataTemplates);
+        this.templateAdapter = new TemplateAdapter(templates, ViewTemplateListActivity.this);
         this.rvTemplates.setAdapter(this.templateAdapter);
     }
 

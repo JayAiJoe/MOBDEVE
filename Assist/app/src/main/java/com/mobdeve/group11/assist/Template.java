@@ -18,7 +18,7 @@ public class Template {
     }
 
     public String getTitle() { return title;}
-    public String getSubtitle() { return subtitle;}
+    public String getSubject() { return subtitle;}
     public String getNotes() { return notes;}
 
     public void setTitle(String title){ this.title = title;}
