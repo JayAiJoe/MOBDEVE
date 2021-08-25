@@ -16,10 +16,11 @@ import java.util.Arrays;
 
 public class TemplateActivity extends AppCompatActivity {
     private ImageView ivBack, ivEdit;
-    private TextView tvTitle, tvSub, tvNotes;
+    private TextView tvTitle, tvSub, tvNotes, tvHead;
     private Button btnDelete;
 
     private String title, sub, notes;
+    private Activity activity = TemplateActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,13 @@ public class TemplateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(v.getContext(), EditTemplateActivity.class);
 
-                //add photo to database
                 intent.putExtra(TemplateInfo.TITLE.name(), title);
                 intent.putExtra(TemplateInfo.SUBJECT.name(), sub);
                 intent.putExtra(TemplateInfo.NOTES.name(), notes);
 
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -70,6 +69,7 @@ public class TemplateActivity extends AppCompatActivity {
         this.tvTitle = findViewById(R.id.tv_view_template_title);
         this.tvSub = findViewById(R.id.tv_view_template_subject);
         this.tvNotes = findViewById(R.id.tv_view_template_notes);
+        this.tvHead = findViewById(R.id.tv_toolbar_view_title);
 
         Intent intent = getIntent();
 
@@ -80,6 +80,8 @@ public class TemplateActivity extends AppCompatActivity {
         this.tvTitle.setText(title);
         this.tvSub.setText(sub);
         this.tvNotes.setText(notes);
+
+        this.tvHead.setText("Templates");
 
     }
 

@@ -98,8 +98,8 @@ public class ViewContactListActivity extends AppCompatActivity {
     }
 
     private void initComponents(){
-        this.ivAdd = findViewById(R.id.iv_toolbar_view_right);
-        this.ivMenu = findViewById(R.id.iv_toolbar_view_left);
+        this.ivAdd = findViewById(R.id.iv_toolbar_right);
+        this.ivMenu = findViewById(R.id.iv_toolbar_left);
         this.tvNumberContacts = findViewById(R.id.tv_view_clist_total);
 
         this.ivAdd.setOnClickListener(new View.OnClickListener() {

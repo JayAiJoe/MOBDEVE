@@ -92,8 +92,8 @@ public class ViewTemplateListActivity extends AppCompatActivity {
     }
 
     private void initComponents(){
-        this.ivAdd = findViewById(R.id.iv_toolbar_view_right);
-        this.ivMenu = findViewById(R.id.iv_toolbar_view_left);
+        this.ivAdd = findViewById(R.id.iv_toolbar_right);
+        this.ivMenu = findViewById(R.id.iv_toolbar_left);
         this.tvNumberTemplates = findViewById(R.id.tv_tlist_total);
 
         this.ivAdd.setOnClickListener(new View.OnClickListener() {

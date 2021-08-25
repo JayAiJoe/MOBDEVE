@@ -35,7 +35,7 @@ public class AddContactActivity extends AppCompatActivity  {
      */
 
     private ImageView ivPic, ivCancel, ivDone;
-    private TextView tvPic, tvGroups;
+    private TextView tvPic, tvGroups, tvHead;
     private EditText etFName, etLName, etPNum, etGuardian;
 
     private boolean[] selectedGroups;
@@ -57,6 +57,9 @@ public class AddContactActivity extends AppCompatActivity  {
         this.etLName = findViewById(R.id.et_add_contact_lname);
         this.etPNum = findViewById(R.id.et_add_contact_number);
         this.etGuardian = findViewById(R.id.et_add_contact_guardian);
+
+        this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
+        this.tvHead.setText("Add Contact");
 
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override

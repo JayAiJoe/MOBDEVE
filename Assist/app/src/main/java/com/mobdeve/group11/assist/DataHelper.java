@@ -13,6 +13,21 @@ public class DataHelper {
                 "09987654123",
                 "Pat Ang"));
         data.add(new Contact(
+                "Patricia",
+                "Ang",
+                "09987654123",
+                "Pat Ang"));
+        data.add(new Contact(
+                "Patricia",
+                "Ang",
+                "09987654123",
+                "Pat Ang"));
+        data.add(new Contact(
+                "Patricia",
+                "Ang",
+                "09987654123",
+                "Pat Ang"));
+        data.add(new Contact(
                 "Rogene",
                 "Bueno",
                 "09981254123",
@@ -37,6 +52,41 @@ public class DataHelper {
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Angeli",
+                "Mata",
+                "09190038255",
+                "Grace Mata"));
+        data.add(new Contact(
+                "Dianne",
+                "Mata",
+                "09497134683",
+                "Angeli Mata"));
         data.add(new Contact(
                 "Dianne",
                 "Mata",

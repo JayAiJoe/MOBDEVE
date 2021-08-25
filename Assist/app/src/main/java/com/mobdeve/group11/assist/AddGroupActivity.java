@@ -29,7 +29,7 @@ import java.util.Comparator;
 
 public class AddGroupActivity extends AppCompatActivity {
     private ImageView ivPic, ivCancel, ivDone;
-    private TextView tvPic, tvMembers;
+    private TextView tvHead, tvPic, tvMembers;
     private EditText etName;
 
     private boolean[] selectedMembers;
@@ -49,10 +49,13 @@ public class AddGroupActivity extends AppCompatActivity {
         this.tvPic = findViewById(R.id.tv_add_group_add_pic);
         this.etName = findViewById(R.id.et_add_group_gname);
 
+        this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
+        this.tvHead.setText("Add Group");
+
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewContactListActivity.class);
+                Intent intent = new Intent(view.getContext(), ViewGroupListActivity.class);
                 view.getContext().startActivity(intent);
             }
         });

@@ -8,24 +8,24 @@
     android:elevation="20dp">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_toolbar_view"
+        android:id="@+id/gl_toolbar_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="60dp" />
 
     <ImageView
-        android:id="@+id/iv_toolbar_view_left"
+        android:id="@+id/iv_toolbar_date_left"
         android:layout_width="20dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/gl_toolbar_view"
+        app:layout_constraintBottom_toTopOf="@+id/gl_toolbar_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backicon" />
 
     <TextView
-        android:id="@+id/tv_toolbar_view_title"
+        android:id="@+id/tv_toolbar_date_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -35,11 +35,11 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_toolbar_view_left"
+        app:layout_constraintStart_toEndOf="@+id/iv_toolbar_date_left"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_toolbar_view_right"
+        android:id="@+id/iv_toolbar_date_right"
         android:layout_width="20dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"

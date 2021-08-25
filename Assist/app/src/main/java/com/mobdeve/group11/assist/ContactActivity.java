@@ -17,10 +17,11 @@ import java.util.Arrays;
 public class ContactActivity extends AppCompatActivity {
 
     private ImageView ivBack, ivEdit, ivPic;
-    private TextView tvName, tvPNum, tvGuardian, tvGroups;
+    private TextView tvName, tvPNum, tvGuardian, tvGroups, tvHead;
     private Button btnDelete;
 
     private String fName, lName, pNum, guardian;
+    private Activity activity = ContactActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class ContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(v.getContext(), EditContactActivity.class);
 
                 //add photo to database
                 intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
@@ -54,8 +55,7 @@ public class ContactActivity extends AppCompatActivity {
                 intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
                 //add as member to the groups in database
 
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -75,6 +75,7 @@ public class ContactActivity extends AppCompatActivity {
         this.tvPNum = findViewById(R.id.tv_view_contact_number);
         this.tvGuardian = findViewById(R.id.tv_view_contact_guardian);
         this.tvGroups = findViewById(R.id.tv_view_contact_groups);
+        this.tvHead = findViewById(R.id.tv_toolbar_view_title);
 
         Intent intent = getIntent();
 
@@ -90,6 +91,8 @@ public class ContactActivity extends AppCompatActivity {
         this.tvPNum.setText(pNum);
         this.tvGuardian.setText(guardian);
         //groups
+
+        this.tvHead.setText("Contacts");
     }
 
     public void onResume() {

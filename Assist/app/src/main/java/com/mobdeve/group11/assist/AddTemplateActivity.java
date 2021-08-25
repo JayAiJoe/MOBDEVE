@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 public class AddTemplateActivity extends AppCompatActivity {
     private ImageView ivCancel, ivDone;
-    private TextView etTitle, etSub, etNotes;
+    private EditText etTitle, etSub, etNotes;
+    private TextView tvHead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +33,13 @@ public class AddTemplateActivity extends AppCompatActivity {
         this.etSub = findViewById(R.id.et_add_template_subject);
         this.etNotes = findViewById(R.id.et_add_template_notes);
 
+        this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
+        this.tvHead.setText("Add Template");
+
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewContactListActivity.class);
+                Intent intent = new Intent(view.getContext(), ViewTemplateListActivity.class);
                 view.getContext().startActivity(intent);
             }
         });

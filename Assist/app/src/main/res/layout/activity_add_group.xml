@@ -76,7 +76,7 @@
         android:drawableEnd="@android:drawable/arrow_down_float"
         android:drawablePadding="16dp"
         android:fontFamily="@font/amiko_semibold"
-        android:hint="Groups"
+        android:hint="Members"
         android:padding="12dp"
         android:text="Groups"
         android:textColor="@color/gray"

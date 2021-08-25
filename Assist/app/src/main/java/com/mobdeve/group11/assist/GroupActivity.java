@@ -16,10 +16,11 @@ import java.util.Arrays;
 
 public class GroupActivity extends AppCompatActivity{
     private ImageView ivBack, ivEdit, ivPic;
-    private TextView tvName, tvMembers;
+    private TextView tvName, tvMembers, tvHead;
     private Button btnDelete;
 
     private String name;
+    private Activity activity = GroupActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,13 @@ public class GroupActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(v.getContext(), EditGroupActivity.class);
 
                 //add photo to database
                 intent.putExtra(GroupInfo.NAME.name(), name);
                 //add as group to the members in database
 
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -68,6 +68,7 @@ public class GroupActivity extends AppCompatActivity{
         this.ivPic = findViewById(R.id.iv_view_group_picture);
         this.tvName = findViewById(R.id.tv_view_group_name);
         this.tvMembers = findViewById(R.id.tv_view_group_members);
+        this.tvHead = findViewById(R.id.tv_toolbar_view_title);
 
         Intent intent = getIntent();
 
@@ -78,6 +79,7 @@ public class GroupActivity extends AppCompatActivity{
         this.tvName.setText(name);
         //members
 
+        this.tvHead.setText("Groups");
     }
 
     public void onResume() {
