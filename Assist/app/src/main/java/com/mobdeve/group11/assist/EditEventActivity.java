@@ -1,22 +1,32 @@
 package com.mobdeve.group11.assist;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,13 +35,22 @@ import java.util.List;
 public class EditEventActivity extends AppCompatActivity {
 
     private ImageView ivCancel, ivDone;
-    private EditText etName, etDate, etSTime, etETime, etTemplate, etRemind;
-    private TextView tvHead, tvGroups;//for groups edit
+    private EditText etName, etTemplate, etRemind;
+    private TextView tvDate, tvSTime, tvETime, tvHead, tvGroups;//for groups edit
     private Activity activity = EditEventActivity.this;
+
+    private DatePickerDialog.OnDateSetListener dateSetListener;
+    private LocalDate selectedDate;
+
+    private TimePickerDialog.OnTimeSetListener startSetListener;
+    private TimePickerDialog.OnTimeSetListener endSetListener;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     Button btnEditGroups;
     ChipGroup cgEditGroups;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +65,16 @@ public class EditEventActivity extends AppCompatActivity {
         ivDone = findViewById(R.id.iv_toolbar_edit_right);
 
         etName = findViewById(R.id.et_add_event_name);
-        etDate = findViewById(R.id.et_add_event_date);
-        etSTime = findViewById(R.id.et_add_event_start_time);
-        etETime = findViewById(R.id.et_add_event_end_time);
+        tvDate = findViewById(R.id.tv_add_event_date);
+        tvSTime = findViewById(R.id.tv_add_event_start_time);
+        tvETime = findViewById(R.id.tv_add_event_end_time);
         etTemplate = findViewById(R.id.et_add_event_template);
         etRemind = findViewById(R.id.et_add_event_reminder);
+
+        setDateAndTimes();
+
+
+
         //group
 
         this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
@@ -67,9 +91,9 @@ public class EditEventActivity extends AppCompatActivity {
         //groups
 
         this.etName.setText(name);
-        this.etDate.setText(date);
-        this.etSTime.setText(sTime);
-        this.etETime.setText(eTime);
+        this.tvDate.setText(date);
+        this.tvSTime.setText(sTime);
+        this.tvETime.setText(eTime);
         this.etTemplate.setText(template);
         this.etRemind.setText(remind);
         //groups
@@ -88,9 +112,9 @@ public class EditEventActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String name = etName.getText().toString();
-                String date = etDate.getText().toString();
-                String sTime = etSTime.getText().toString();
-                String eTime = etETime.getText().toString();
+                String date = tvDate.getText().toString();
+                String sTime = tvSTime.getText().toString();
+                String eTime = tvETime.getText().toString();
                 String template = etTemplate.getText().toString();
                 String remind = etRemind.getText().toString();
                 //group
@@ -163,6 +187,77 @@ public class EditEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setDateAndTimes(){
+
+        selectedDate = LocalDate.now(); // change to actual selected date
+        tvDate.setText(selectedDate.getMonth() + " " + selectedDate.getDayOfMonth() + ", " + selectedDate.getYear());
+
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dpDialog = new DatePickerDialog(EditEventActivity.this,
+                        android.R.style.Theme_Holo_Dialog, dateSetListener,
+                        selectedDate.getYear(), selectedDate.getMonthValue()-1, selectedDate.getDayOfMonth());
+                dpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dpDialog.show();
+            }
+        });
+
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                selectedDate = LocalDate.of(year,month+1,dayOfMonth);
+                tvDate.setText(selectedDate.getMonth() + " " + selectedDate.getDayOfMonth() + ", " + selectedDate.getYear());
+            }
+        };
+
+        startTime = LocalTime.of(8, 0);
+        endTime = LocalTime.of(10, 0);
+        tvSTime.setText(String.format("%2d:%02d", startTime.getHour(), startTime.getMinute()));
+        tvETime.setText(String.format("%2d:%02d", endTime.getHour(), endTime.getMinute()));
+
+        tvSTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog tpDialog = new TimePickerDialog(EditEventActivity.this,
+                        android.R.style.Theme_Holo_Dialog, startSetListener,
+                        startTime.getHour(), startTime.getMinute(), true);
+                tpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                tpDialog.show();
+            }
+        });
+
+        tvETime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog tpDialog = new TimePickerDialog(EditEventActivity.this,
+                        android.R.style.Theme_Holo_Dialog, endSetListener,
+                        endTime.getHour(), endTime.getMinute(), true);
+                tpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                tpDialog.show();
+            }
+        });
+
+        startSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                startTime = LocalTime.of(hourOfDay,minute);
+                tvSTime.setText(String.format("%2d:%02d", startTime.getHour(), startTime.getMinute()));
+            }
+        };
+
+        endSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                endTime = LocalTime.of(hourOfDay,minute);
+                tvETime.setText(String.format("%2d:%02d", endTime.getHour(), endTime.getMinute()));
+            }
+        };
     }
 
     private void displayGroups(String[] groups , ChipGroup pChipGroup) {

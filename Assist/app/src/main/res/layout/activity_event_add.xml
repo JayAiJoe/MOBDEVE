@@ -38,25 +38,26 @@
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
         app:layout_constraintTop_toBottomOf="@+id/include2" />
 
-    <EditText
-        android:id="@+id/et_add_event_date"
+    <TextView
+        android:id="@+id/tv_add_event_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/round_corner"
-        android:drawableLeft="@drawable/calendar_icon"
+        android:drawableStart="@drawable/calendar_icon"
         android:drawablePadding="8dp"
         android:fontFamily="@font/amiko_semibold"
         android:hint="@string/date"
-        android:inputType="date"
+        android:inputType="none"
         android:padding="3dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
         app:layout_constraintTop_toBottomOf="@+id/et_add_event_name" />
 
-    <EditText
-        android:id="@+id/et_add_event_start_time"
+    <TextView
+        android:id="@+id/tv_add_event_start_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -68,12 +69,13 @@
         android:hint="@string/start_time"
         android:inputType="time"
         android:padding="3dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_add_to"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_event_date" />
 
-    <EditText
-        android:id="@+id/et_add_event_end_time"
+    <TextView
+        android:id="@+id/tv_add_event_end_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -85,9 +87,10 @@
         android:hint="@string/end_time"
         android:inputType="time"
         android:padding="3dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toEndOf="@+id/tv_add_to"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_event_date" />
 
     <EditText
         android:id="@+id/et_add_event_template"
@@ -104,7 +107,7 @@
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_start_time" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_event_start_time" />
 
     <EditText
         android:id="@+id/et_add_event_reminder"
@@ -166,7 +169,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_event_date" />
 
     <Button
         android:id="@+id/btn_temp_add_group"

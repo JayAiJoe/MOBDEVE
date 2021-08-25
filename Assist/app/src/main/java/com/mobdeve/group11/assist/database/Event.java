@@ -6,8 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity(tableName = "events_table", foreignKeys = {@ForeignKey(entity = Template.class, parentColumns = "id", childColumns = "templateId", onUpdate = ForeignKey.CASCADE)})
 public class Event {
@@ -24,10 +24,10 @@ public class Event {
     private LocalDate date;
 
     @ColumnInfo
-    private Time timeStart;
+    private LocalTime timeStart;
 
     @ColumnInfo
-    private Time timeEnd;
+    private LocalTime timeEnd;
 
     @ColumnInfo
     private Integer templateId;
@@ -35,7 +35,7 @@ public class Event {
     @ColumnInfo
     private int reminder;
 
-    public Event(String title, LocalDate date, Time timeStart, Time timeEnd, Integer templateId, int reminder){
+    public Event(String title, LocalDate date, LocalTime timeStart, LocalTime timeEnd, Integer templateId, int reminder){
         this.title = title;
         this.date = date;
         this.timeStart = timeStart;
@@ -57,11 +57,11 @@ public class Event {
         return date;
     }
 
-    public Time getTimeStart() {
+    public LocalTime getTimeStart() {
         return timeStart;
     }
 
-    public Time getTimeEnd() {
+    public LocalTime getTimeEnd() {
         return timeEnd;
     }
 
@@ -81,11 +81,11 @@ public class Event {
         this.date = date;
     }
 
-    public void setTimeStart(Time timeStart) {
+    public void setTimeStart(LocalTime timeStart) {
         this.timeStart = timeStart;
     }
 
-    public void setTimeEnd(Time timeEnd) {
+    public void setTimeEnd(LocalTime timeEnd) {
         this.timeEnd = timeEnd;
     }
 

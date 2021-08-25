@@ -5,8 +5,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.room.TypeConverter;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Converters {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -21,13 +21,15 @@ public class Converters {
         return date == null ? null : date.toEpochDay();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static Time timeFromTimestamp(Long value){
-        return value == null ? null : new Time(value);
+    public static LocalTime timeFromTimestamp(Long value){
+        return value == null ? null : LocalTime.ofNanoOfDay(value);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static Long timeToTimestamp(Time time){
-        return time == null ? null : time.getTime();
+    public static Long timeToTimestamp(LocalTime time){
+        return time == null ? null : time.toNanoOfDay();
     }
 }
