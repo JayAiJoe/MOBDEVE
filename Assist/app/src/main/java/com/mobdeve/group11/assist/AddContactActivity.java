@@ -64,42 +64,50 @@ public class AddContactActivity extends AppCompatActivity  {
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewContactListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //photo
-                String fName = etFName.getText().toString();
-                String lName = etLName.getText().toString();
-                String pNum = etPNum.getText().toString();
-                String guardian = etGuardian.getText().toString();
-                ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvGroups.getText().toString().split(",")));
+        /*
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            String name = etName.getText().toString();
 
-                if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
-
-                    Intent intent = new Intent();
-                    //add photo to database
-                    intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
-                    intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
-                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
-                    intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
-                    //add as member to the groups in database
-
-                    setResult(Activity.RESULT_OK,intent);
-                    finish();
-                }
-                else{
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+            if (name.length() > 0) {
+                intent.putExtra(GroupInfo.NAME.name(), name);
+                setResult(Activity.RESULT_OK, intent);
             }
+            else{
+                setResult(RESULT_CANCELED, intent);
+            }
+            finish();
         });
+         */
+
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+
+            String fName = etFName.getText().toString();
+            String lName = etLName.getText().toString();
+            String pNum = etPNum.getText().toString();
+            String guardian = etGuardian.getText().toString();
+
+            if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
+
+                intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
+                intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
+                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
+                intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
+                setResult(Activity.RESULT_OK,intent);
+            }
+            else{
+                setResult(RESULT_CANCELED, intent);
+            }
+            finish();
+        });
+
 
     }
 
@@ -213,7 +221,7 @@ public class AddContactActivity extends AppCompatActivity  {
     public void onResume() {
         super.onResume();
         this.initComponents();
-        this.initGroupsDropDown();
+        //this.initGroupsDropDown();
     }
 
 }

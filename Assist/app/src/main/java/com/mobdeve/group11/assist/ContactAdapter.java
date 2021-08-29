@@ -13,32 +13,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.mobdeve.group11.assist.database.Contact;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_LETTER = 1, TYPE_MEMBER = 2;
 
-    private ArrayList<Contact> dataContacts;
+    private List<Contact> dataContacts = new ArrayList<>();;
     private Activity activity;
 
-    public ContactAdapter(ArrayList<Contact> dataContacts, Activity activity) {
-        this.dataContacts = dataContacts;
+    public ContactAdapter( Activity activity) {
         this.activity = activity;
     }
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = 0;
-        if (dataContacts.get(position).getType() == TYPE_LETTER) {
-            viewType = TYPE_LETTER;
-        } else if (dataContacts.get(position).getType() == TYPE_MEMBER) {
-            viewType = TYPE_MEMBER;
-        }
-
-        return viewType;
+        return TYPE_MEMBER;
     }
 
     @NonNull
@@ -69,20 +64,20 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Contact currentContact = this.dataContacts.get(position);
         if (this.getItemViewType(position) == TYPE_LETTER){
             ViewHolderLetter viewHolderLetter = (ViewHolderLetter) holder;
-            viewHolderLetter.tvAlphabet.setText(currentContact.getLName().charAt(0)+" ");
+            viewHolderLetter.tvAlphabet.setText(currentContact.getLastName().charAt(0)+" ");
         }
         else{
             ViewHolderMember viewHolderMember = (ViewHolderMember) holder;
-            viewHolderMember.tvName.setText(currentContact.getFName()+" "+currentContact.getLName());
+            viewHolderMember.tvName.setText(currentContact.getFirstName()+" "+currentContact.getLastName());
 
             viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ContactActivity.class);
                     //photo
-                    intent.putExtra(ContactInfo.FIRST_NAME.name(),currentContact.getFName());
-                    intent.putExtra(ContactInfo.LAST_NAME.name(),currentContact.getLName());
-                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(),currentContact.getPNumber());
+                    intent.putExtra(ContactInfo.FIRST_NAME.name(),currentContact.getFirstName());
+                    intent.putExtra(ContactInfo.LAST_NAME.name(),currentContact.getLastName());
+                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(),currentContact.getContactNumber());
                     intent.putExtra(ContactInfo.GUARDIAN.name(),currentContact.getGuardian());
                     //groups
 
@@ -115,6 +110,11 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public ConstraintLayout getContainer(){return this.clContainer;}
+    }
+
+    public void setContacts(List<Contact> c){
+        this.dataContacts = c;
+        notifyDataSetChanged();
     }
 
 }

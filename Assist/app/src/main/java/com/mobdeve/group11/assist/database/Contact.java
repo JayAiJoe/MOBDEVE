@@ -20,12 +20,13 @@ public class Contact {
     private String lastName;
 
     @ColumnInfo
-    private int contactNumber;
+    private String contactNumber;
 
     @ColumnInfo
     private String guardian;
 
-    public Contact(String firstName, String lastName, int contactNumber, String guardian){
+    public Contact(String firstName, String lastName, String contactNumber, String guardian){
+        this.id = null;
         this.firstName = firstName;
         this.lastName = lastName;
         this.contactNumber = contactNumber;
@@ -44,7 +45,7 @@ public class Contact {
         return lastName;
     }
 
-    public int getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
@@ -60,7 +61,7 @@ public class Contact {
         this.lastName = lastName;
     }
 
-    public void setContactNumber(int contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 

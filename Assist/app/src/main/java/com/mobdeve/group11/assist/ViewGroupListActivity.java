@@ -37,8 +37,6 @@ public class ViewGroupListActivity extends AppCompatActivity {
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberGroups;
 
-    List<ContactGroup> groupList;
-
     private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -65,6 +63,7 @@ public class ViewGroupListActivity extends AppCompatActivity {
         return list;
     }
 
+    /*
     //add alphabets
     //1-alphabet
     //2-name
@@ -94,6 +93,8 @@ public class ViewGroupListActivity extends AppCompatActivity {
         customList.add(list.get(i));
         return customList;
     }
+
+     */
 
 
     @Override

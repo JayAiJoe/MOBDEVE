@@ -4,130 +4,130 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DataHelper {
-    public static ArrayList<Contact> initializeContacts() {
-        ArrayList<Contact> data = new ArrayList<>();
+    public static ArrayList<UIContact> initializeContacts() {
+        ArrayList<UIContact> data = new ArrayList<>();
 
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Patricia",
                 "Ang",
                 "09987654123",
                 "Pat Ang"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Patricia",
                 "Ang",
                 "09987654123",
                 "Pat Ang"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Patricia",
                 "Ang",
                 "09987654123",
                 "Pat Ang"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Patricia",
                 "Ang",
                 "09987654123",
                 "Pat Ang"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Rogene",
                 "Bueno",
                 "09981254123",
                 "Roge Bueno"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Sandra Angela",
                 "Berjamin",
                 "09199854552",
                 "Sharon Berjamin"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Sharon",
                 "Berjamin",
                 "09985554123",
                 "Sandra Berjamin"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Jose Ignacio",
                 "Locsin",
                 "09933654123",
                 "Jay-ai Locsin"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Angeli",
                 "Mata",
                 "09190038255",
                 "Grace Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
                 "Angeli Mata"));
-        data.add(new Contact(
+        data.add(new UIContact(
                 "Dianne",
                 "Mata",
                 "09497134683",
@@ -139,14 +139,14 @@ public class DataHelper {
     public static ArrayList<Group> initializeGroups() {
         ArrayList<Group> data = new ArrayList<>();
         DataHelper helper = new DataHelper();
-        ArrayList<Contact> people = helper.initializeContacts();
-        ArrayList<Contact> g1 = new ArrayList<Contact> (Arrays.asList (people.get(0), people.get(1)));
-        ArrayList<Contact> g2 = new ArrayList<Contact> (Arrays.asList (people.get(0), people.get(1), people.get(2)));
-        ArrayList<Contact> g3 = new ArrayList<Contact> (Arrays.asList (people.get(3), people.get(4)));
-        ArrayList<Contact> g4 = new ArrayList<Contact> (Arrays.asList (people.get(5), people.get(4), people.get(3)));
-        ArrayList<Contact> g5 = new ArrayList<Contact> (Arrays.asList (people.get(0), people.get(1), people.get(2), people.get(3), people.get(4)));
-        ArrayList<Contact> g6 = new ArrayList<Contact> (Arrays.asList (people.get(6), people.get(5), people.get(4)));
-        ArrayList<Contact> g7 = new ArrayList<Contact> (Arrays.asList (people.get(3), people.get(2)));
+        ArrayList<UIContact> people = helper.initializeContacts();
+        ArrayList<UIContact> g1 = new ArrayList<UIContact> (Arrays.asList (people.get(0), people.get(1)));
+        ArrayList<UIContact> g2 = new ArrayList<UIContact> (Arrays.asList (people.get(0), people.get(1), people.get(2)));
+        ArrayList<UIContact> g3 = new ArrayList<UIContact> (Arrays.asList (people.get(3), people.get(4)));
+        ArrayList<UIContact> g4 = new ArrayList<UIContact> (Arrays.asList (people.get(5), people.get(4), people.get(3)));
+        ArrayList<UIContact> g5 = new ArrayList<UIContact> (Arrays.asList (people.get(0), people.get(1), people.get(2), people.get(3), people.get(4)));
+        ArrayList<UIContact> g6 = new ArrayList<UIContact> (Arrays.asList (people.get(6), people.get(5), people.get(4)));
+        ArrayList<UIContact> g7 = new ArrayList<UIContact> (Arrays.asList (people.get(3), people.get(2)));
 
 
         data.add(new Group(

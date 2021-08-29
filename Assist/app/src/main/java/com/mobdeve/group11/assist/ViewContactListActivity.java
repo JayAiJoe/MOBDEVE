@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,12 +14,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ContactGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class ViewContactListActivity extends AppCompatActivity {
+
+    public static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+
+    private AssistViewModel viewModel;
 
     private ArrayList<Contact> dataContacts = new ArrayList<Contact>();;
     private RecyclerView rvContacts;
@@ -38,11 +48,13 @@ public class ViewContactListActivity extends AppCompatActivity {
                     String pNum = intent.getStringExtra(ContactInfo.PHONE_NUMBER.name());
                     String guardian = intent.getStringExtra(ContactInfo.GUARDIAN.name());
 
-                    dataContacts.add(0, new Contact(fName, lName, pNum, guardian));
+                    //dataContacts.add(0, new Contact(fName, lName, pNum, guardian));
+                    viewModel.addContact(new Contact(fName, lName, pNum, guardian));
                 }
             }
     );
 
+    /*
     //sorted in alphabetical order
     private ArrayList<Contact> sortList(ArrayList<Contact> list) {
         Collections.sort(list, new Comparator<Contact>() {
@@ -59,10 +71,12 @@ public class ViewContactListActivity extends AppCompatActivity {
         });
         return list;
     }
+     */
 
     //add alphabets
     //1-alphabet
     //2-name
+    /*
     ArrayList<Contact> addAlphabets(ArrayList<Contact> list) {
         int i = 0;
         ArrayList<Contact> customList = new ArrayList<Contact>();
@@ -89,12 +103,25 @@ public class ViewContactListActivity extends AppCompatActivity {
         customList.add(list.get(i));
         return customList;
     }
+     */
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        this.rvContacts = findViewById(R.id.rv_view_clist);
+        this.rvContacts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        this.contactAdapter = new ContactAdapter(ViewContactListActivity.this);
+        this.rvContacts.setAdapter(this.contactAdapter);
+
+        viewModel.getAllContacts().observe(this, contacts -> {
+            this.contactAdapter.setContacts(contacts);
+        });
     }
 
     private void initComponents(){
@@ -106,7 +133,7 @@ public class ViewContactListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewContactListActivity.this, AddContactActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_CONTACT_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -119,7 +146,22 @@ public class ViewContactListActivity extends AppCompatActivity {
         });
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_CONTACT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Contact c = new Contact(data.getStringExtra(ContactInfo.FIRST_NAME.name()),
+                    data.getStringExtra(ContactInfo.LAST_NAME.name()),
+                    data.getStringExtra(ContactInfo.PHONE_NUMBER.name()),
+                    data.getStringExtra(ContactInfo.GUARDIAN.name()));
+            viewModel.addContact(c);
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void initRecyclerView(){
+        /*
         DataHelper helper = new DataHelper();
         if (this.dataContacts.size() == 0){
             this.dataContacts = helper.initializeContacts();
@@ -138,11 +180,12 @@ public class ViewContactListActivity extends AppCompatActivity {
 
         this.contactAdapter = new ContactAdapter(contacts, ViewContactListActivity.this);
         this.rvContacts.setAdapter(this.contactAdapter);
+         */
     }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        this.initRecyclerView();
+        //this.initRecyclerView();
     }
 }

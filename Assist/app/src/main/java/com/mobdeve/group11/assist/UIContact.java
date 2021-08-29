@@ -2,11 +2,11 @@ package com.mobdeve.group11.assist;
 
 import java.util.ArrayList;
 
-public class Contact {
+public class UIContact {
     private String fName, lName, pNumber, guardian;
     private Integer type;
 
-    public Contact (String fName, String lName, String pNumber, String guardian){
+    public UIContact (String fName, String lName, String pNumber, String guardian){
         this.fName = fName;
         this.lName = lName;
         this.pNumber = pNumber;
@@ -14,7 +14,7 @@ public class Contact {
         this.type = 2;
     }
 
-    public Contact(){
+    public UIContact(){
         this.fName = "fName";
         this.lName = "lName";
         this.pNumber = "pNumber";

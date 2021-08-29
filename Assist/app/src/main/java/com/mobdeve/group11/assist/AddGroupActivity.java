@@ -31,8 +31,6 @@ import java.util.Comparator;
 
 public class AddGroupActivity extends AppCompatActivity {
 
-    private AssistViewModel viewModel;
-
     private ImageView ivPic, ivCancel, ivDone;
     private TextView tvHead, tvPic, tvMembers;
     private EditText etName;
@@ -84,7 +82,7 @@ public class AddGroupActivity extends AppCompatActivity {
 
     private void initGroupsDropDown() {
         this.helper = new DataHelper();
-        ArrayList<Contact> data = helper.initializeContacts();
+        ArrayList<UIContact> data = helper.initializeContacts();
         data = this.sortList(data);
         ArrayList<String> dataMembers = new ArrayList<>();
         for(int ctr=0; ctr < data.size(); ctr++){
@@ -180,10 +178,10 @@ public class AddGroupActivity extends AppCompatActivity {
     }
 
     //sorted in alphabetical order
-    private ArrayList<Contact> sortList(ArrayList<Contact> list) {
-        Collections.sort(list, new Comparator<Contact>() {
+    private ArrayList<UIContact> sortList(ArrayList<UIContact> list) {
+        Collections.sort(list, new Comparator<UIContact>() {
             @Override
-            public int compare(Contact c1, Contact c2) {
+            public int compare(UIContact c1, UIContact c2) {
                 int ctr = c1.getLName().compareTo(c2.getLName());
                 if (ctr != 0){
                     return ctr;

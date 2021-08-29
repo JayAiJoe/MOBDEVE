@@ -5,11 +5,11 @@ import java.util.Arrays;
 
 public class Group {
     private String name;
-    private ArrayList<Contact> members;
+    private ArrayList<UIContact> members;
     private Integer type;
 
 
-    public Group (String name, ArrayList<Contact> members){
+    public Group (String name, ArrayList<UIContact> members){
         this.name = name;
         this.members = members;
         this.type = 2;
@@ -18,12 +18,12 @@ public class Group {
     public Group (){
         this.name = "temp";
         this.type = 1;
-        ArrayList<Contact> g = new ArrayList<Contact> (Arrays.asList (new Contact("Angeli", "Mata", "09190038255", "Dianne Mata"), new Contact("Sandra", "Berjamin", "09199854552", "Angela Berjamin")));
+        ArrayList<UIContact> g = new ArrayList<UIContact> (Arrays.asList (new UIContact("Angeli", "Mata", "09190038255", "Dianne Mata"), new UIContact("Sandra", "Berjamin", "09199854552", "Angela Berjamin")));
         this.members = g;
     }
 
     public String getName(){return name;}
-    public ArrayList<Contact> getMembers(){return members;}
+    public ArrayList<UIContact> getMembers(){return members;}
     public void setName(String name){ this.name = name;}
     public Integer getType(){return type;}
     public void setType(int type){this.type = type;}
