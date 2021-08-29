@@ -11,14 +11,18 @@ public class AssistViewModel extends AndroidViewModel {
 
     private AssistRepository mRepository;
 
+    private final LiveData<List<ContactGroup>> mAllGroups;
+
     public AssistViewModel(Application application) {
         super(application);
         mRepository = new AssistRepository(application);
+
+        mAllGroups = mRepository.getAllGroups();
     }
 
     public LiveData<List<Contact>> getAllContacts() { return mRepository.getAllContacts(); }
 
-    public LiveData<List<ContactGroup>> getAllGroups() { return mRepository.getAllGroups(); }
+    public LiveData<List<ContactGroup>> getAllGroups() { return mAllGroups; }
 
     public LiveData<List<Event>> getAllEvents() { return mRepository.getAllEvents(); }
 

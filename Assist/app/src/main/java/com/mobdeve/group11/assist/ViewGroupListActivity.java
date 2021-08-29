@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,12 +14,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.ContactGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ViewGroupListActivity extends AppCompatActivity {
+
+    public static final int NEW_GROUP_ACTIVITY_REQUEST_CODE = 1;
+
+    private AssistViewModel viewModel;
 
     private ArrayList<Group> dataGroups = new ArrayList<Group>();
     private RecyclerView rvGroups;
@@ -26,6 +36,8 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberGroups;
+
+    List<ContactGroup> groupList;
 
     private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -88,6 +100,19 @@ public class ViewGroupListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups_list);
+
+        rvGroups = findViewById(R.id.rv_glist);
+        groupAdapter = new GroupAdapter(ViewGroupListActivity.this);
+        rvGroups.setAdapter(this.groupAdapter);
+        rvGroups.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+
+        //**** define the viewModel
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        viewModel.getAllGroups().observe(this, groups -> {
+            this.groupAdapter.setGroups(groups);
+        });
     }
 
     private void initComponents(){
@@ -99,7 +124,7 @@ public class ViewGroupListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewGroupListActivity.this, AddGroupActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_GROUP_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -112,30 +137,35 @@ public class ViewGroupListActivity extends AppCompatActivity {
         });
     }
 
-    private void initRecyclerView(){
-        DataHelper helper = new DataHelper();
-        if (this.dataGroups.size() == 0){
-            this.dataGroups = helper.initializeGroups();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_GROUP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            ContactGroup g = new ContactGroup(data.getStringExtra(GroupInfo.NAME.name()));
+            viewModel.addGroup(g);
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
         }
+    }
 
-        int count = dataGroups.size();
-        this.tvNumberGroups.setText(count+" Groups");
+    private void initRecyclerView(){
+        //int count = groupList.size();
+        //this.tvNumberGroups.setText(count+" Groups");
 
-        ArrayList<Group> groups = new ArrayList<Group>();
+        //groups = addAlphabets(dataGroups);
 
-        this.dataGroups = sortList(dataGroups);
-        groups = addAlphabets(dataGroups);
-
+        /*
         this.rvGroups = findViewById(R.id.rv_glist);
         this.rvGroups.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        this.groupAdapter = new GroupAdapter(groups, ViewGroupListActivity.this);
+        this.groupAdapter = new GroupAdapter(groupList, ViewGroupListActivity.this);
         this.rvGroups.setAdapter(this.groupAdapter);
+         */
     }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        this.initRecyclerView();
+        //this.initRecyclerView();
     }
 }

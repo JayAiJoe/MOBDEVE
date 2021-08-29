@@ -90,11 +90,6 @@ public class AddEventActivity extends AppCompatActivity {
 
         setDateAndTimes();
 
-
-
-
-
-
         this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
         this.tvHead.setText("Add Event");
 
@@ -137,6 +132,11 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.setButtons();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -217,7 +217,7 @@ public class AddEventActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddEventActivity.this);
 
                 //sample choices
-                boolean[] checkedGroups = {false, false, false, false}; //remove hard code later
+                boolean[] checkedGroups = {false, false, false, false, false}; //remove hard code later
                 final List<ContactGroup> selectedGroups = new ArrayList<ContactGroup>();
 
                 builder.setTitle("Select groups");

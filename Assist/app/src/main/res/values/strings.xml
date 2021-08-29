@@ -21,6 +21,8 @@
     <string name="sample2">Grade 6 - Courtesy</string>
     <string name="add_event">Add Event</string>
 
+    <string name="not_saved">Error: Item not saved</string>
+
     <string-array name="sample_groups">
         <item>@string/sample1</item>
         <item>@string/sample2</item>

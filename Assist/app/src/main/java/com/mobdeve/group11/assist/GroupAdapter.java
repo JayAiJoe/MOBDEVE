@@ -13,32 +13,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.mobdeve.group11.assist.database.ContactGroup;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_L = 1, TYPE_M = 2;
 
-    private ArrayList<Group> dataGroups;
+    private List<ContactGroup> dataGroups = new ArrayList<>();
     private Activity activity;
 
-    public GroupAdapter(ArrayList<Group> dataGroups, Activity activity) {
-        this.dataGroups = dataGroups;
+    public GroupAdapter( Activity activity) {
         this.activity = activity;
     }
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = 0;
-        if (dataGroups.get(position).getType() == TYPE_L) {
-            viewType = TYPE_L;
-        } else if (dataGroups.get(position).getType() == TYPE_M) {
-            viewType = TYPE_M;
-        }
-
-        return viewType;
+        return TYPE_M;
     }
 
     @NonNull
@@ -66,7 +61,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position){
-        Group currentGroup = this.dataGroups.get(position);
+        ContactGroup currentGroup = this.dataGroups.get(position);
         if (this.getItemViewType(position) == TYPE_L){
             ViewHolderLetter viewHolderLetter = (ViewHolderLetter) holder;
             viewHolderLetter.tvAlphabet.setText(currentGroup.getName().charAt(0)+" ");
@@ -90,7 +85,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     @Override
-    public int getItemCount(){return this.dataGroups.size();}
+    public int getItemCount(){return dataGroups.size();}
 
     public class ViewHolderLetter extends RecyclerView.ViewHolder{
         private TextView tvAlphabet;
@@ -114,4 +109,8 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public ConstraintLayout getContainer(){return this.clContainer;}
     }
 
+    public void setGroups(List<ContactGroup> lcg){
+        this.dataGroups = lcg;
+        notifyDataSetChanged();
+    }
 }

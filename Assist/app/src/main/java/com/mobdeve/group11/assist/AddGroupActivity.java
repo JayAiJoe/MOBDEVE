@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.ContactGroup;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class AddGroupActivity extends AppCompatActivity {
+
+    private AssistViewModel viewModel;
+
     private ImageView ivPic, ivCancel, ivDone;
     private TextView tvHead, tvPic, tvMembers;
     private EditText etName;
@@ -55,34 +60,26 @@ public class AddGroupActivity extends AppCompatActivity {
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewGroupListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = etName.getText().toString();
-                ArrayList<String> sMembers = new ArrayList<String>(Arrays.asList(tvMembers.getText().toString().split(",")));
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            String name = etName.getText().toString();
 
-                if (name.length() > 0) {
-                    Intent intent = new Intent();
-                    intent.putExtra(GroupInfo.NAME.name(), name);
-
-                    //add members
-
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                }
-                else {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+            if (name.length() > 0) {
+                intent.putExtra(GroupInfo.NAME.name(), name);
+                setResult(Activity.RESULT_OK, intent);
             }
+            else{
+                setResult(RESULT_CANCELED, intent);
+            }
+            finish();
         });
+
     }
 
     private void initGroupsDropDown() {
