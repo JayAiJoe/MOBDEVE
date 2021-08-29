@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static final int TYPE_LETTER = 1, TYPE_MEMBER = 2;
+    private static final int TYPE_LETTER = 1, TYPE_MEMBER = 2, VIEW_REQUEST = 1;
 
     private List<Contact> dataContacts = new ArrayList<>();;
     private Activity activity;
@@ -74,14 +74,10 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), ContactActivity.class);
-                    //photo
-                    intent.putExtra(ContactInfo.FIRST_NAME.name(),currentContact.getFirstName());
-                    intent.putExtra(ContactInfo.LAST_NAME.name(),currentContact.getLastName());
-                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(),currentContact.getContactNumber());
-                    intent.putExtra(ContactInfo.GUARDIAN.name(),currentContact.getGuardian());
-                    //groups
 
-                    activity.startActivityForResult(intent, 1);
+                    intent.putExtra(ContactInfo.ID.name(),currentContact.getId());
+
+                    activity.startActivityForResult(intent, VIEW_REQUEST);
                 }
             });
         }

@@ -57,11 +57,7 @@ public class GroupActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 Intent intent = new Intent(v.getContext(), EditGroupActivity.class);
-
-                //add photo to database
                 intent.putExtra(GroupInfo.NAME.name(), group.getName());
-                //add as group to the members in database
-
                 activity.startActivityForResult(intent, EDIT_REQUEST);
             }
         });
@@ -83,8 +79,6 @@ public class GroupActivity extends AppCompatActivity{
         if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
             group.setName(data.getStringExtra(GroupInfo.NAME.name()));
             viewModel.updateGroup(group);
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -36,8 +36,9 @@ public class EditGroupActivity extends AppCompatActivity {
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewGroupListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -51,7 +52,7 @@ public class EditGroupActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK, intent);
             }
             else{
-                setResult(RESULT_CANCELED, intent);
+                setResult(Activity.RESULT_CANCELED, intent);
             }
             finish();
         });

@@ -82,24 +82,16 @@
         android:text="Please take note of the following for your exam tomorrow:"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_edit_template_delete"
+        app:layout_constraintBottom_toTopOf="@+id/gl_bottom_edit_template"
         app:layout_constraintEnd_toEndOf="@+id/gl_edit_template_right"
         app:layout_constraintStart_toStartOf="@+id/gl_edit_template_left"
         app:layout_constraintTop_toBottomOf="@+id/et_edit_template_subject" />
 
-    <Button
-        android:id="@+id/btn_edit_template_delete"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_bottom_edit_template"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#9C1111"
-        android:fontFamily="@font/amiko_semibold"
-        android:text="Delete Template"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/gl_edit_template_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_edit_template_left" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="670dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

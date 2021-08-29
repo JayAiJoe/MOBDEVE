@@ -20,7 +20,6 @@ public class EditContactActivity extends AppCompatActivity {
     private ImageView ivCancel, ivDone, ivPic;
     private TextView tvPic, tvGroups, tvHead;
     private EditText etFName, etLName, etPNum, etGuardian;
-    private Button btnDelete;
 
     private Activity activity = EditContactActivity.this;
 
@@ -33,55 +32,40 @@ public class EditContactActivity extends AppCompatActivity {
     private void initComponents(){
         this.ivCancel = findViewById(R.id.iv_toolbar_edit_left);
         this.ivDone = findViewById(R.id.iv_toolbar_edit_right);
-        this.btnDelete = findViewById(R.id.btn_edit_contact_delete);
 
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewContactListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //photo
-                String fName = etFName.getText().toString();
-                String lName = etLName.getText().toString();
-                String pNum = etPNum.getText().toString();
-                String guardian = etGuardian.getText().toString();
-                //ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvGroups.getText().toString().split(",")));
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
 
-                if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
+            String fName = etFName.getText().toString();
+            String lName = etLName.getText().toString();
+            String pNum = etPNum.getText().toString();
+            String guardian = etGuardian.getText().toString();
 
-                    Intent intent = new Intent(view.getContext(), ViewContactListActivity.class);
-                    //add photo to database
-                    intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
-                    intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
-                    intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
-                    intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
-                    //add as member to the groups in database
-
-                    activity.startActivityForResult(intent, 1);
-                }
-                else{
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+            if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
+                intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
+                intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
+                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
+                intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
+                setResult(Activity.RESULT_OK, intent);
             }
+            else{
+                Toast t = Toast.makeText(getApplicationContext(),
+                        "You have not yet entered in all of the required fields!",
+                        Toast.LENGTH_LONG);
+                t.show();
+            }
+            finish();
         });
 
-        this.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //delete from database
-                Intent intent = new Intent(v.getContext(), ViewContactListActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initInfo(){

@@ -1,6 +1,7 @@
 package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,10 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ContactGroup;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ContactActivity extends AppCompatActivity {
+
+    public static final int EDIT_REQUEST = 1;
 
     private ImageView ivBack, ivEdit, ivPic;
     private TextView tvName, tvPNum, tvGuardian, tvGroups, tvHead;
@@ -23,10 +30,16 @@ public class ContactActivity extends AppCompatActivity {
     private String fName, lName, pNum, guardian;
     private Activity activity = ContactActivity.this;
 
+    private AssistViewModel viewModel;
+
+    private Contact contact = new Contact("","","","");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
     private void initComponents(){
@@ -48,14 +61,12 @@ public class ContactActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), EditContactActivity.class);
 
-                //add photo to database
-                intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
-                intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
-                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
-                intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
-                //add as member to the groups in database
+                intent.putExtra(ContactInfo.FIRST_NAME.name(), contact.getFirstName());
+                intent.putExtra(ContactInfo.LAST_NAME.name(), contact.getLastName());
+                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), contact.getContactNumber());
+                intent.putExtra(ContactInfo.GUARDIAN.name(), contact.getGuardian());
 
-                activity.startActivityForResult(intent, 1);
+                activity.startActivityForResult(intent, EDIT_REQUEST);
             }
         });
 
@@ -63,8 +74,10 @@ public class ContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //delete from database
-                Intent intent = new Intent(v.getContext(), ViewContactListActivity.class);
-                startActivity(intent);
+                viewModel.deleteContact(contact);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
     }
@@ -86,13 +99,30 @@ public class ContactActivity extends AppCompatActivity {
         this.guardian = intent.getStringExtra(ContactInfo.GUARDIAN.name());
         //ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvGroups.getText().toString().split(",")));
 
-        //photo
-        this.tvName.setText(fName+" "+lName);
-        this.tvPNum.setText(pNum);
-        this.tvGuardian.setText(guardian);
         //groups
 
         this.tvHead.setText("Contacts");
+
+        viewModel.getContactById(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, curr_contact -> {
+            this.contact = curr_contact;
+            if(curr_contact != null){
+                this.tvName.setText(contact.getFirstName()+" "+contact.getLastName());
+                this.tvPNum.setText(contact.getContactNumber());
+                this.tvGuardian.setText(contact.getGuardian());
+            }
+        });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
+            contact.setFirstName(data.getStringExtra(ContactInfo.FIRST_NAME.name()));
+            contact.setLastName(data.getStringExtra(ContactInfo.LAST_NAME.name()));
+            contact.setContactNumber(data.getStringExtra(ContactInfo.PHONE_NUMBER.name()));
+            contact.setGuardian(data.getStringExtra(ContactInfo.GUARDIAN.name()));
+            viewModel.updateContact(contact);
+        }
     }
 
     public void onResume() {

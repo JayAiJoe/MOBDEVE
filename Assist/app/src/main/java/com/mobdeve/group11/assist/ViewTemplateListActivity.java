@@ -146,8 +146,6 @@ public class ViewTemplateListActivity extends AppCompatActivity {
                     data.getStringExtra(TemplateInfo.SUBJECT.name()),
                     data.getStringExtra(TemplateInfo.NOTES.name()));
             viewModel.addTemplate(t);
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
         }
     }
 

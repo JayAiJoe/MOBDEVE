@@ -19,7 +19,6 @@ public class EditTemplateActivity extends AppCompatActivity {
     private ImageView ivCancel, ivDone;
     private TextView tvHead;
     private EditText etTitle, etSub, etNotes;
-    private Button btnDelete;
 
     private Activity activity = EditTemplateActivity.this;
 
@@ -32,49 +31,37 @@ public class EditTemplateActivity extends AppCompatActivity {
     private void initComponents() {
         this.ivCancel = findViewById(R.id.iv_toolbar_edit_left);
         this.ivDone = findViewById(R.id.iv_toolbar_edit_right);
-        this.btnDelete = findViewById(R.id.btn_edit_template_delete);
 
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewTemplateListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title = etTitle.getText().toString();
-                String sub = etSub.getText().toString();
-                String notes = etNotes.getText().toString();
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            String title = etTitle.getText().toString();
+            String sub = etSub.getText().toString();
+            String notes = etNotes.getText().toString();
 
-                if (title.length() > 0 && sub.length() > 0 && notes.length() > 0){
-                    Intent intent = new Intent(v.getContext(), ViewTemplateListActivity.class);
-
-                    intent.putExtra(TemplateInfo.TITLE.name(), title);
-                    intent.putExtra(TemplateInfo.SUBJECT.name(), sub);
-                    intent.putExtra(TemplateInfo.NOTES.name(), notes);
-
-                    activity.startActivityForResult(intent, 1);
-                }
-                else {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+            if (title.length() > 0 && sub.length() > 0 && notes.length() > 0){
+                intent.putExtra(TemplateInfo.TITLE.name(), title);
+                intent.putExtra(TemplateInfo.SUBJECT.name(), sub);
+                intent.putExtra(TemplateInfo.NOTES.name(), notes);
+                setResult(Activity.RESULT_OK, intent);
             }
+            else {
+                Toast t = Toast.makeText(getApplicationContext(),
+                        "You have not yet entered in all of the required fields!",
+                        Toast.LENGTH_LONG);
+                t.show();
+            }
+            finish();
         });
 
-        this.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //delete from database
-                Intent intent = new Intent(v.getContext(), ViewTemplateListActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

@@ -155,8 +155,6 @@ public class ViewContactListActivity extends AppCompatActivity {
                     data.getStringExtra(ContactInfo.PHONE_NUMBER.name()),
                     data.getStringExtra(ContactInfo.GUARDIAN.name()));
             viewModel.addContact(c);
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
         }
     }
 

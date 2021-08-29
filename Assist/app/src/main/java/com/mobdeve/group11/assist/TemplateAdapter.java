@@ -72,13 +72,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), TemplateActivity.class);
-                    //photo
-                    intent.putExtra(TemplateInfo.TITLE.name(),currentTemplate.getTitle());
-                    intent.putExtra(TemplateInfo.SUBJECT.name(),currentTemplate.getSubject());
-                    intent.putExtra(TemplateInfo.NOTES.name(),currentTemplate.getContent());
-
-                    //groups
-
+                    intent.putExtra(TemplateInfo.ID.name(),currentTemplate.getId());
                     activity.startActivityForResult(intent, 1);
                 }
             });
