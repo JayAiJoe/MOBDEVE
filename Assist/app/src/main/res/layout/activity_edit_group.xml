@@ -84,20 +84,4 @@
         app:layout_constraintStart_toStartOf="@+id/gl_edit_group_left"
         app:layout_constraintTop_toBottomOf="@+id/et_edit_group_gname" />
 
-    <Button
-        android:id="@+id/btn_edit_group_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#9C1111"
-
-        android:fontFamily="@font/amiko_semibold"
-        android:text="Delete Group"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/gl_edit_group_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_edit_group_left" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

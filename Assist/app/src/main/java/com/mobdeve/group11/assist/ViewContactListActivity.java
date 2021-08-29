@@ -120,7 +120,7 @@ public class ViewContactListActivity extends AppCompatActivity {
         this.rvContacts.setAdapter(this.contactAdapter);
 
         viewModel.getAllContacts().observe(this, contacts -> {
-            this.contactAdapter.setContacts(contacts);
+            this.contactAdapter.setDataContacts(contacts);
         });
     }
 

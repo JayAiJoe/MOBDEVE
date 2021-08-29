@@ -1,6 +1,7 @@
 package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,21 +12,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.ContactGroup;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GroupActivity extends AppCompatActivity{
+
+    public static final int EDIT_REQUEST = 1;
+
+    private AssistViewModel viewModel;
+
     private ImageView ivBack, ivEdit, ivPic;
     private TextView tvName, tvMembers, tvHead;
     private Button btnDelete;
 
-    private String name;
+    private ContactGroup group = new ContactGroup("");
     private Activity activity = GroupActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
     private void initComponents() {
@@ -36,8 +47,9 @@ public class GroupActivity extends AppCompatActivity{
         this.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ViewGroupListActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
         this.ivEdit.setOnClickListener(new View.OnClickListener() {
@@ -47,21 +59,33 @@ public class GroupActivity extends AppCompatActivity{
                 Intent intent = new Intent(v.getContext(), EditGroupActivity.class);
 
                 //add photo to database
-                intent.putExtra(GroupInfo.NAME.name(), name);
+                intent.putExtra(GroupInfo.NAME.name(), group.getName());
                 //add as group to the members in database
 
-                activity.startActivityForResult(intent, 1);
+                activity.startActivityForResult(intent, EDIT_REQUEST);
             }
         });
 
         this.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //delete from database
-                Intent intent = new Intent(v.getContext(), ViewGroupListActivity.class);
-                startActivity(intent);
+                viewModel.deleteGroup(group);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
+            group.setName(data.getStringExtra(GroupInfo.NAME.name()));
+            viewModel.updateGroup(group);
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initInfo(){
@@ -71,15 +95,13 @@ public class GroupActivity extends AppCompatActivity{
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
 
         Intent intent = getIntent();
+        viewModel.getGroupById(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, curr_group -> {
+            this.group = curr_group;
+            if(curr_group != null)
+                this.tvName.setText(group.getName());
+        });
 
-        this.name = intent.getStringExtra(GroupInfo.NAME.name());
-        //ArrayList<String> sMembers = new ArrayList<String>(Arrays.asList(tvMembers.getText().toString().split(",")));
-
-        //pic
-        this.tvName.setText(name);
-        //members
-
-        this.tvHead.setText("Groups");
+        this.tvHead.setText("Group");
     }
 
     public void onResume() {

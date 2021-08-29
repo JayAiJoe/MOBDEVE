@@ -112,7 +112,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ConstraintLayout getContainer(){return this.clContainer;}
     }
 
-    public void setContacts(List<Contact> c){
+    public void setDataContacts(List<Contact> c){
         this.dataContacts = c;
         notifyDataSetChanged();
     }

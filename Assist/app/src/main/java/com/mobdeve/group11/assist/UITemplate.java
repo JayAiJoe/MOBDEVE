@@ -1,16 +1,16 @@
 package com.mobdeve.group11.assist;
 
-public class Template {
+public class UITemplate {
     private String title, subtitle, notes;
     private Integer type;
 
-    public Template (String title, String subtitle, String notes) {
+    public UITemplate(String title, String subtitle, String notes) {
         this.title = title;
         this.subtitle = subtitle;
         this.notes = notes;
         this.type = 2;
     }
-    public Template () {
+    public UITemplate() {
         this.title = "title";
         this.subtitle = "subtitle";
         this.notes = "notes";

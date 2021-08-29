@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private static final int TYPE_L = 1, TYPE_M = 2;
+    private static final int TYPE_L = 1, TYPE_M = 2, VIEW_REQUEST = 1;
 
     private List<ContactGroup> dataGroups = new ArrayList<>();
     private Activity activity;
@@ -75,10 +75,10 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), GroupActivity.class);
                     //photo
-                    intent.putExtra(GroupInfo.NAME.name(),currentGroup.getName());
+                    intent.putExtra(GroupInfo.ID.name(),currentGroup.getId());
                     //members
 
-                    activity.startActivityForResult(intent, 1);
+                    activity.startActivityForResult(intent, VIEW_REQUEST);
                 }
             });
         }
@@ -109,8 +109,9 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public ConstraintLayout getContainer(){return this.clContainer;}
     }
 
-    public void setGroups(List<ContactGroup> lcg){
+    public void setDataGroups(List<ContactGroup> lcg){
         this.dataGroups = lcg;
         notifyDataSetChanged();
     }
+
 }

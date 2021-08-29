@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Template;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,33 +25,22 @@ import java.util.Comparator;
 
 public class ViewTemplateListActivity extends AppCompatActivity {
 
-    private ArrayList<Template> dataTemplates = new ArrayList<Template>();
+    public static final int NEW_TEMPLATE_ACTIVITY_REQUEST_CODE = 1;
+
+    private AssistViewModel viewModel;
+
+    private ArrayList<UITemplate> dataTemplates = new ArrayList<UITemplate>();
     private RecyclerView rvTemplates;
     private TemplateAdapter templateAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberTemplates;
 
-    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    Intent intent = result.getData();
-                    String title = intent.getStringExtra(TemplateInfo.TITLE.name());
-                    String sub = intent.getStringExtra(TemplateInfo.SUBJECT.name());
-                    String notes = intent.getStringExtra(TemplateInfo.NOTES.name());
-
-                    dataTemplates.add(0, new Template(title, sub, notes));
-                }
-            }
-    );
-
     //sorted in alphabetical order
-    private ArrayList<Template> sortList(ArrayList<Template> list) {
-        Collections.sort(list, new Comparator<Template>() {
+    private ArrayList<UITemplate> sortList(ArrayList<UITemplate> list) {
+        Collections.sort(list, new Comparator<UITemplate>() {
             @Override
-            public int compare(Template t1, Template t2) {
+            public int compare(UITemplate t1, UITemplate t2) {
                 int ctr = t1.getTitle().compareTo(t2.getTitle());
                 return ctr;
             }
@@ -54,18 +48,19 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         return list;
     }
 
+    /*
     //add alphabets
     //1-alphabet
     //2-name
-    ArrayList<Template> addAlphabets(ArrayList<Template> list) {
+    ArrayList<UITemplate> addAlphabets(ArrayList<UITemplate> list) {
         int i = 0;
-        ArrayList<Template> customList = new ArrayList<Template>();
-        Template t1 = new Template();
+        ArrayList<UITemplate> customList = new ArrayList<UITemplate>();
+        UITemplate t1 = new UITemplate();
         t1.setTitle(String.valueOf(list.get(0).getTitle().charAt(0)));
         t1.setType(1);
         customList.add(t1);
         for (i = 0; i < list.size() - 1; i++) {
-            Template t2 = new Template();
+            UITemplate t2 = new UITemplate();
             char name1 = list.get(i).getTitle().charAt(0);
             char name2 = list.get(i + 1).getTitle().charAt(0);
             if (name1 == name2) {
@@ -83,12 +78,24 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         customList.add(list.get(i));
         return customList;
     }
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template_list);
+
+        this.rvTemplates = findViewById(R.id.rv_tlist);
+        this.templateAdapter = new TemplateAdapter(ViewTemplateListActivity.this);
+        this.rvTemplates.setAdapter(this.templateAdapter);
+        this.rvTemplates.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        //**** define the viewModel
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        viewModel.getAllTemplates().observe(this, templates -> {
+            this.templateAdapter.setDataTemplates(templates);
+        });
     }
 
     private void initComponents(){
@@ -100,7 +107,7 @@ public class ViewTemplateListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewTemplateListActivity.this, AddTemplateActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_TEMPLATE_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -113,6 +120,7 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         });
     }
 
+    /*
     private void initRecyclerView(){
         DataHelper helper = new DataHelper();
         if (this.dataTemplates.size() == 0){
@@ -122,21 +130,30 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         int count = dataTemplates.size();
         this.tvNumberTemplates.setText(count+" Templates");
 
-        ArrayList<Template> templates = new ArrayList<Template>();
+        ArrayList<UITemplate> templates = new ArrayList<UITemplate>();
 
-        this.dataTemplates = sortList(dataTemplates);
-        templates = addAlphabets(dataTemplates);
+        //templates = addAlphabets(dataTemplates);
 
-        this.rvTemplates = findViewById(R.id.rv_tlist);
-        this.rvTemplates.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
 
-        this.templateAdapter = new TemplateAdapter(templates, ViewTemplateListActivity.this);
-        this.rvTemplates.setAdapter(this.templateAdapter);
+     */
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == NEW_TEMPLATE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Template t = new Template(data.getStringExtra(TemplateInfo.TITLE.name()),
+                    data.getStringExtra(TemplateInfo.SUBJECT.name()),
+                    data.getStringExtra(TemplateInfo.NOTES.name()));
+            viewModel.addTemplate(t);
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        this.initRecyclerView();
+        //this.initRecyclerView();
     }
 }

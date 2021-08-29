@@ -12,33 +12,26 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.mobdeve.group11.assist.database.Template;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_LE = 1, TYPE_ME = 2;
 
-    private ArrayList<Template> dataTemplates;
+    private List<Template> dataTemplates = new ArrayList<>();
     private Activity activity;
 
-    public TemplateAdapter(ArrayList<Template> dataTemplates, Activity activity) {
-        this.dataTemplates = dataTemplates;
+    public TemplateAdapter( Activity activity) {
         this.activity = activity;
     }
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = 0;
-        if (dataTemplates.get(position).getType() == TYPE_LE) {
-            viewType = TYPE_LE;
-        } else if (dataTemplates.get(position).getType() == TYPE_ME) {
-            viewType = TYPE_ME;
-        }
-
-        return viewType;
+        return TYPE_ME;
     }
 
     @NonNull
@@ -82,7 +75,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     //photo
                     intent.putExtra(TemplateInfo.TITLE.name(),currentTemplate.getTitle());
                     intent.putExtra(TemplateInfo.SUBJECT.name(),currentTemplate.getSubject());
-                    intent.putExtra(TemplateInfo.NOTES.name(),currentTemplate.getNotes());
+                    intent.putExtra(TemplateInfo.NOTES.name(),currentTemplate.getContent());
 
                     //groups
 
@@ -115,6 +108,11 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public ConstraintLayout getContainer(){return this.clContainer;}
+    }
+
+    public void setDataTemplates(List<Template> t){
+        this.dataTemplates = t;
+        notifyDataSetChanged();
     }
 
 }

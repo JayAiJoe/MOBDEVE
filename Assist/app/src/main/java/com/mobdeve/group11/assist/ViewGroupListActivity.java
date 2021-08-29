@@ -28,6 +28,8 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     public static final int NEW_GROUP_ACTIVITY_REQUEST_CODE = 1;
 
+
+
     private AssistViewModel viewModel;
 
     private ArrayList<Group> dataGroups = new ArrayList<Group>();
@@ -36,20 +38,6 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberGroups;
-
-    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    Intent intent = result.getData();
-                    String name = intent.getStringExtra(GroupInfo.NAME.name());
-                    //ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvMembers.getText().toString().split(",")));
-
-                    //dataGroups.add(0, new Group(name));
-                }
-            }
-    );
 
     //sorted in alphabetical order
     private ArrayList<Group> sortList(ArrayList<Group> list) {
@@ -112,7 +100,7 @@ public class ViewGroupListActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
         viewModel.getAllGroups().observe(this, groups -> {
-            this.groupAdapter.setGroups(groups);
+            this.groupAdapter.setDataGroups(groups);
         });
     }
 
@@ -144,8 +132,6 @@ public class ViewGroupListActivity extends AppCompatActivity {
         if (requestCode == NEW_GROUP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             ContactGroup g = new ContactGroup(data.getStringExtra(GroupInfo.NAME.name()));
             viewModel.addGroup(g);
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.not_saved, Toast.LENGTH_LONG).show();
         }
     }
 

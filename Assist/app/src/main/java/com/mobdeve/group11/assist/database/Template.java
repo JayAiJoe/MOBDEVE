@@ -24,6 +24,7 @@ public class Template {
 
     public Template(String title, String subject, String content)
     {
+        this.id = null;
         this.title = title;
         this.subject = subject;
         this.content = content;

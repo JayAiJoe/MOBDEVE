@@ -174,34 +174,34 @@ public class DataHelper {
         return data;
     }
 
-    public static ArrayList<Template> initializeTemplates() {
-        ArrayList<Template> data = new ArrayList<> ();
+    public static ArrayList<UITemplate> initializeTemplates() {
+        ArrayList<UITemplate> data = new ArrayList<> ();
 
-        data.add(new Template(
+        data.add(new UITemplate(
                 "All Souls + All Saints Days Announcement",
                 "Announcement",
                 "hello walang pasok"));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Music HW Due Reminder",
                 "Reminder",
                 "please pass your homework due tomorrow"));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Music Club Orientation Announcement",
                 "Announcement",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Bio HW Due Reminder",
                 "Reminder",
                 "please pass your homework due tomorrow"));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Bio Exam #1 Template",
                 "Exam",
                 "Exam tomorrow"));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Bio Lecture Template",
                 "Lecture",
                 ""));
-        data.add(new Template(
+        data.add(new UITemplate(
                 "Leave of Absence Announcement",
                 "LOA",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));

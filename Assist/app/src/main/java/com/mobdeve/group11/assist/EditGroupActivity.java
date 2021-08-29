@@ -20,7 +20,6 @@ public class EditGroupActivity extends AppCompatActivity {
     private ImageView ivCancel, ivDone, ivPic;
     private TextView tvPic, tvMembers, tvHead;
     private EditText etName;
-    private Button btnDelete;
 
     private Activity activity = EditGroupActivity.this;
 
@@ -33,7 +32,6 @@ public class EditGroupActivity extends AppCompatActivity {
     private void initComponents() {
         this.ivCancel = findViewById(R.id.iv_toolbar_edit_left);
         this.ivDone = findViewById(R.id.iv_toolbar_edit_right);
-        this.btnDelete = findViewById(R.id.btn_edit_group_delete);
 
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,35 +41,20 @@ public class EditGroupActivity extends AppCompatActivity {
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = etName.getText().toString();
 
-                if (name.length() > 0) {
-                    Intent intent = new Intent(view.getContext(), ViewGroupListActivity.class);
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            String name = etName.getText().toString();
 
-                    intent.putExtra(GroupInfo.NAME.name(), name);
-
-                    activity.startActivityForResult(intent, 1);
-                }
-                else {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+            if (name.length() > 0) {
+                intent.putExtra(GroupInfo.NAME.name(), name);
+                setResult(Activity.RESULT_OK, intent);
             }
-        });
-        this.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //delete from database
-                Intent intent = new Intent(v.getContext(), ViewGroupListActivity.class);
-                startActivity(intent);
+            else{
+                setResult(RESULT_CANCELED, intent);
             }
+            finish();
         });
-
     }
 
     private void initInfo() {

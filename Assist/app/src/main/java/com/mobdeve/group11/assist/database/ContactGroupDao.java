@@ -21,7 +21,7 @@ public interface ContactGroupDao {
     @Delete
     public void deleteContactGroup(ContactGroup contactGroup);
 
-    @Query("SELECT * FROM contact_groups_table")
+    @Query("SELECT * FROM contact_groups_table ORDER BY name ASC")
     public LiveData<List<ContactGroup>> loadAllContactGroups();
 
     @Query("SELECT * FROM contact_groups_table WHERE id =:id")
@@ -33,6 +33,6 @@ public interface ContactGroupDao {
     @Query("DELETE FROM contact_groups_table")
     public void deleteAllContactGroups();
 
-    @Query("SELECT * FROM contact_groups_table WHERE id IN (:ids)")
+    @Query("SELECT * FROM contact_groups_table WHERE id IN (:ids) ORDER BY name ASC")
     public LiveData<List<ContactGroup>> findManyContactGroupsById(List<Integer> ids);
 }
