@@ -27,4 +27,8 @@ public interface EventDao {
 
     @Query("SELECT * FROM events_table WHERE id =:id")
     public LiveData<Event> findEventById(Integer id);
+
+    @Query("SELECT * FROM events_table WHERE date(date)=date(:d) ORDER BY timeStart")
+    public LiveData<List<Event>> loadEventsOfTheDay(LocalDate d);
+
 }

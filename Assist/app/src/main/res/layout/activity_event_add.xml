@@ -119,7 +119,7 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/amiko_semibold"
         android:hint="@string/notif_time"
-        android:inputType="text"
+        android:inputType="number"
         android:padding="3dp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintHorizontal_bias="0.0"

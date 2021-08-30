@@ -21,7 +21,7 @@ public interface ContactDao {
     @Delete
     public void deleteContact(Contact contact);
 
-    @Query("SELECT * FROM contacts_table")
+    @Query("SELECT * FROM contacts_table ORDER BY lastName, firstName")
     public LiveData<List<Contact>> loadAllContacts();
 
     @Query("SELECT * FROM contacts_table WHERE id =:id")
@@ -30,6 +30,6 @@ public interface ContactDao {
     @Query("SELECT * FROM contacts_table WHERE firstName=:firstName AND lastName=:lastName")
     public LiveData<Contact> findContactByName(String firstName, String lastName);
 
-    @Query("SELECT * FROM contacts_table WHERE id IN (:ids)")
+    @Query("SELECT * FROM contacts_table WHERE id IN (:ids) ORDER BY lastName, firstName")
     public LiveData<List<Contact>> findManyContactsById(List<Integer> ids);
 }

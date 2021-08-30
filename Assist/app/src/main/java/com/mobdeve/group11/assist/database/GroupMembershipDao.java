@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface GroupMembershipDao {
 
     @Query("SELECT groupId FROM group_memberships_table WHERE contactId=:id")
     public LiveData<List<Integer>> findMembershipsByContactId(Integer id);
+
+    @Query("DELETE FROM group_memberships_table WHERE groupId=:id")
+    public Integer deleteAllMembershipsOfGroup(Integer id);
+
 }

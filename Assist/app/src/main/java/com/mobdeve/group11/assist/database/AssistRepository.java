@@ -4,7 +4,13 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 class AssistRepository {
 
@@ -19,6 +25,8 @@ class AssistRepository {
     private LiveData<List<ContactGroup>> allContactGroups;
     private LiveData<List<Event>> allEvents;
     private LiveData<List<Template>> allTemplates;
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);;
 
     AssistRepository(Application application) {
         AssistDatabase db = AssistDatabase.getDatabase(application);
@@ -76,6 +84,8 @@ class AssistRepository {
 
     LiveData<List<ContactGroup>> getManyGroupsById(List<Integer> ids) { return contactGroupDao.findManyContactGroupsById(ids); }
 
+    LiveData<List<Event>> loadEventsOfTheDay(LocalDate d) { return eventDao.loadEventsOfTheDay(d);}
+
     //async db update functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
@@ -87,6 +97,36 @@ class AssistRepository {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactGroupDao.insertContactGroup(contactGroup);
         });
+    }
+
+    Integer deleteAllMembershipsOfGroup(Integer id) {
+        Callable<Integer> insertCallable = () -> groupMembershipDao.deleteAllMembershipsOfGroup(id);
+        Integer safe = 1;
+
+        Future<Integer> future = executorService.submit(insertCallable);
+        try {
+            safe = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return safe;
+    }
+
+    long addGroupGetId(ContactGroup contactGroup) {
+        Callable<Long> insertCallable = () -> contactGroupDao.insertContactGroup(contactGroup);
+        long rowId = 0;
+
+        Future<Long> future = executorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
     }
 
     void addEvent(Event event) {

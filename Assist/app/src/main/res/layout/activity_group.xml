@@ -49,27 +49,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <TextView
-        android:id="@+id/tv_view_group_members"
-        style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:drawablePadding="16dp"
-        android:fontFamily="@font/amiko_semibold"
-        android:hint="Groups"
-        android:padding="12dp"
-        android:text="Groups"
-        android:textColor="@color/gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_view_group_left"
-        app:layout_constraintTop_toBottomOf="@+id/tv_view_group_name" />
-
     <Button
         android:id="@+id/btn_view_group_delete"
         android:layout_width="wrap_content"
@@ -85,5 +64,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
         app:layout_constraintStart_toStartOf="@+id/gl_view_group_left" />
+
+    <ListView
+        android:id="@+id/lv_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_view_group_delete"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_group_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_group_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

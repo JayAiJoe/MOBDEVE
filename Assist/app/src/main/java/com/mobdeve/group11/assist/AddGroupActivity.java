@@ -1,6 +1,7 @@
 package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,18 +10,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
 
 import java.lang.reflect.Array;
@@ -28,21 +32,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class AddGroupActivity extends AppCompatActivity {
 
     private ImageView ivPic, ivCancel, ivDone;
     private TextView tvHead, tvPic, tvMembers;
     private EditText etName;
+    private ListView lvMembers;
 
     private boolean[] selectedMembers;
     private ArrayList<Integer> memberList = new ArrayList<>();
     private DataHelper helper;
 
+
+    private AssistViewModel viewModel;
+    private List<Contact> contactList;
+    private boolean[] checkedContacts = new boolean[0];
+    private final List<Contact> selectedContacts = new ArrayList<Contact>();
+    private ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
+
+        this.tvMembers = findViewById(R.id.tv_add_group_members);
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        //****add observers to always get updated data
+        viewModel.getAllContacts().observe(this, contacts -> {
+            contactList = contacts;
+            checkedContacts = new boolean[contactList.size()];
+        });
+
+
     }
 
     private void initComponents() {
@@ -51,6 +75,7 @@ public class AddGroupActivity extends AppCompatActivity {
         this.ivPic = findViewById(R.id.iv_add_group_picture);
         this.tvPic = findViewById(R.id.tv_add_group_add_pic);
         this.etName = findViewById(R.id.et_add_group_gname);
+        this.lvMembers = findViewById(R.id.lv_add_group);
 
         this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
         this.tvHead.setText("Add Group");
@@ -70,6 +95,7 @@ public class AddGroupActivity extends AppCompatActivity {
 
             if (name.length() > 0) {
                 intent.putExtra(GroupInfo.NAME.name(), name);
+                intent.putExtra(GroupInfo.MEMBERS.name(), getIds(selectedContacts));
                 setResult(Activity.RESULT_OK, intent);
             }
             else{
@@ -77,6 +103,9 @@ public class AddGroupActivity extends AppCompatActivity {
             }
             finish();
         });
+
+        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedContacts))));
+        lvMembers.setAdapter(adapter);
 
     }
 
@@ -177,6 +206,51 @@ public class AddGroupActivity extends AppCompatActivity {
 
     }
 
+    private void setButtons(){
+        tvMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(AddGroupActivity.this);
+
+                builder.setTitle("Select members");
+
+                builder.setMultiChoiceItems(getNames(contactList), checkedContacts,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                if (isChecked) {
+                                    selectedContacts.add(contactList.get(which));
+                                } else {
+                                    selectedContacts.remove(contactList.get(which));
+                                }
+                            }
+                        });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //displayGroups(getNames(selectedGroups), cgAddGroups);
+                        adapter.clear();
+                        String[] names = getNames(selectedContacts);
+                        Arrays.sort(names);
+                        adapter.addAll(names);
+                    }
+                });
+
+                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do something
+                    }
+                });
+
+                androidx.appcompat.app.AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
+    }
+
     //sorted in alphabetical order
     private ArrayList<UIContact> sortList(ArrayList<UIContact> list) {
         Collections.sort(list, new Comparator<UIContact>() {
@@ -194,11 +268,30 @@ public class AddGroupActivity extends AppCompatActivity {
         return list;
     }
 
+    private String[] getNames(List<Contact> cList){
+        String[] strArray = new String[cList.size()];
+        for(int i=0; i<cList.size();i++)
+        {
+            strArray[i] = cList.get(i).getFirstName() + " " + cList.get(i).getLastName();
+        }
+        return strArray;
+    }
+
+    private ArrayList<Integer> getIds(List<Contact> cList){
+        ArrayList<Integer> idArray = new ArrayList<Integer>();
+        for(int i=0; i<cList.size();i++)
+        {
+            idArray.add(cList.get(i).getId());
+        }
+        return idArray;
+    }
+
+
     public void onResume() {
         super.onResume();
         this.initComponents();
+        setButtons();
     }
-
 
 }
 

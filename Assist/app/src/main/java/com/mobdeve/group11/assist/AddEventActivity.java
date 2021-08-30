@@ -96,42 +96,40 @@ public class AddEventActivity extends AppCompatActivity {
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });
 
-        this.ivDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
 
-                String name = etName.getText().toString();
-                String date = tvDate.getText().toString();
-                String sTime = tvSTime.getText().toString();
-                String eTime = tvETime.getText().toString();
-                String template = etTemplate.getText().toString();
-                String remind = etRemind.getText().toString();
-                //group
+            String name = etName.getText().toString();
+            Integer template = 1; // etTemplate.getText().toString();
+            int remind = Integer.parseInt(etRemind.getText().toString());
 
-                if (name.length() > 0 && date.length() > 0 && sTime.length() > 0 && eTime.length() > 0 && template.length() > 0 && remind.length() > 0){
+            if (name.length() > 0  && remind >= 0 && template != null){
 
-                    Intent intent = new Intent(view.getContext(),ViewEventActivity.class);
-                    intent.putExtra(EventInfo.NAME.name(), name);
-                    intent.putExtra(EventInfo.DATE.name(), date);
-                    intent.putExtra(EventInfo.START_TIME.name(), sTime);
-                    intent.putExtra(EventInfo.END_TIME.name(), eTime);
-                    intent.putExtra(EventInfo.TEMPLATE.name(), template);
-                    intent.putExtra(EventInfo.REMINDER.name(), remind);
+                intent.putExtra(EventInfo.NAME.name(), name);
+                intent.putExtra(EventInfo.DATE.name(), selectedDate.toString());
+                intent.putExtra(EventInfo.START_TIME.name(), startTime.toString());
+                intent.putExtra(EventInfo.END_TIME.name(), endTime.toString());
+                intent.putExtra(EventInfo.TEMPLATE.name(), template);
+                intent.putExtra(EventInfo.REMINDER.name(), remind);
 
-                    activity.startActivityForResult(intent, 1);
-                }
-                else{
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
-                            Toast.LENGTH_LONG);
-                    t.show();
-                }
+                setResult(Activity.RESULT_OK, intent);
             }
+            else{
+                Toast t = Toast.makeText(getApplicationContext(),
+                        "You have not yet entered in all of the required fields!",
+                        Toast.LENGTH_LONG);
+                t.show();
+            }
+            finish();
         });
+
+
     }
 
     public void onResume() {

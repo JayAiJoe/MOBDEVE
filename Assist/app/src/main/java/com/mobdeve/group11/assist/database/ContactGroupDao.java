@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface ContactGroupDao {
 
     @Insert
-    public void insertContactGroup(ContactGroup contactGroup);
+    public long insertContactGroup(ContactGroup contactGroup);
 
     @Update
     public void updateContactGroup(ContactGroup contactGroup);
@@ -35,4 +36,5 @@ public interface ContactGroupDao {
 
     @Query("SELECT * FROM contact_groups_table WHERE id IN (:ids) ORDER BY name ASC")
     public LiveData<List<ContactGroup>> findManyContactGroupsById(List<Integer> ids);
+
 }

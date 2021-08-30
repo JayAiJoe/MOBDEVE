@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.GroupMembership;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,8 +28,6 @@ import java.util.List;
 public class ViewGroupListActivity extends AppCompatActivity {
 
     public static final int NEW_GROUP_ACTIVITY_REQUEST_CODE = 1;
-
-
 
     private AssistViewModel viewModel;
 
@@ -130,29 +129,18 @@ public class ViewGroupListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_GROUP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            ContactGroup g = new ContactGroup(data.getStringExtra(GroupInfo.NAME.name()));
-            viewModel.addGroup(g);
+            String name = data.getStringExtra(GroupInfo.NAME.name());
+            Integer gId = (int) viewModel.addGroupGetId(new ContactGroup(name));
+            ArrayList<Integer> cIds = data.getIntegerArrayListExtra(GroupInfo.MEMBERS.name());
+
+            for(int i=0; i< cIds.size(); i++){
+                viewModel.addMembership(new GroupMembership(cIds.get(i), gId));
+            }
         }
-    }
-
-    private void initRecyclerView(){
-        //int count = groupList.size();
-        //this.tvNumberGroups.setText(count+" Groups");
-
-        //groups = addAlphabets(dataGroups);
-
-        /*
-        this.rvGroups = findViewById(R.id.rv_glist);
-        this.rvGroups.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        this.groupAdapter = new GroupAdapter(groupList, ViewGroupListActivity.this);
-        this.rvGroups.setAdapter(this.groupAdapter);
-         */
     }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        //this.initRecyclerView();
     }
 }

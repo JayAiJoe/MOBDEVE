@@ -15,7 +15,7 @@ public class Event {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo
-    Integer id=0;
+    Integer id;
 
     @ColumnInfo
     private String title;
@@ -36,6 +36,7 @@ public class Event {
     private int reminder;
 
     public Event(String title, LocalDate date, LocalTime timeStart, LocalTime timeEnd, Integer templateId, int reminder){
+        this.id = null;
         this.title = title;
         this.date = date;
         this.timeStart = timeStart;

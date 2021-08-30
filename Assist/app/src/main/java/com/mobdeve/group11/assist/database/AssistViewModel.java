@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class AssistViewModel extends AndroidViewModel {
@@ -48,9 +49,13 @@ public class AssistViewModel extends AndroidViewModel {
 
     public LiveData<List<ContactGroup>> getManyCGroupsById(List<Integer> ids) { return mRepository.getManyGroupsById(ids); }
 
+    public LiveData<List<Event>> getEventsByDay(LocalDate d) { return mRepository.loadEventsOfTheDay(d); }
+
     public void addContact(Contact contact) { mRepository.addContact(contact); }
 
     public void addGroup(ContactGroup contactGroup) { mRepository.addGroup(contactGroup); }
+
+    public long addGroupGetId(ContactGroup contactGroup) { return mRepository.addGroupGetId(contactGroup); }
 
     public void addEvent(Event event) { mRepository.addEvent(event); }
 
@@ -79,4 +84,8 @@ public class AssistViewModel extends AndroidViewModel {
     public void deleteMembership(GroupMembership groupMembership) { mRepository.deleteMembership(groupMembership); }
 
     public void deleteTemplate(Template template) { mRepository.deleteTemplate(template); }
+
+    public Integer deleteAllMembershipsOfGroup(Integer id) { return mRepository.deleteAllMembershipsOfGroup(id); }
+
+
 }
