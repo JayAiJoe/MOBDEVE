@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="text_with_icon" parent="Theme.AppCompat.NoActionBar">
+    <style name="text_with_icon" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:drawablePadding">5dp</item>
         <item name="android:width">15dp</item>
         <item name="android:height">15dp</item>
