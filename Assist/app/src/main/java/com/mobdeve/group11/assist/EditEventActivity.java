@@ -45,7 +45,7 @@ public class EditEventActivity extends AppCompatActivity {
 
     private ImageView ivCancel, ivDone;
     private EditText etName, etTemplate, etRemind;
-    private TextView tvDate, tvSTime, tvETime, tvHead;
+    private TextView tvDate, tvSTime, tvETime, tvHead, tvAddGroups;
     private Activity activity = EditEventActivity.this;
     private ListView lvGroups;
     private Button btnEditGroups;
@@ -93,8 +93,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     private void setButtons(){
-        btnEditGroups = findViewById(R.id.btn_temp_edit_groups);
-        btnEditGroups.setOnClickListener(new View.OnClickListener() {
+        tvAddGroups = findViewById(R.id.tv_add_groups);
+        tvAddGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(EditEventActivity.this);
@@ -258,7 +258,7 @@ public class EditEventActivity extends AppCompatActivity {
 
         Integer id = getIntent().getIntExtra(EventInfo.ID.name(), 1);
         adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedGroups))));
-        lvGroups = findViewById(R.id.lv_edit_event);
+        lvGroups = findViewById(R.id.lv_add_event);
         lvGroups.setAdapter(adapter);
 
         viewModel.getEventById(id).observe(this, event->{

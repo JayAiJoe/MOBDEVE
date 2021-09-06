@@ -133,29 +133,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_edit_event_groups"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_event_reminder">
-
-        <AutoCompleteTextView
-            android:id="@+id/ac_edit_event_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/amiko_semibold"
-            android:inputType="none"
-            android:text="Groups"
-            android:textColor="@color/gray"
-            android:textSize="18sp" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_add_to"
@@ -171,22 +148,34 @@
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_event_date" />
 
-    <Button
-        android:id="@+id/btn_temp_add_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/groups"
-        app:layout_constraintStart_toStartOf="@+id/til_edit_event_groups"
-        app:layout_constraintTop_toBottomOf="@+id/til_edit_event_groups" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cg_temp_add_group"
+    <TextView
+        android:id="@+id/tv_add_event_groups"
+        style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/amiko_semibold"
+        android:hint="Members"
+        android:padding="12dp"
+        android:text="Groups"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
         app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/btn_temp_add_group">
+        app:layout_constraintTop_toBottomOf="@+id/et_add_event_reminder" />
 
-    </com.google.android.material.chip.ChipGroup>
+    <ListView
+        android:id="@+id/lv_add_event"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gl_add_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_add_event_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_event_groups" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

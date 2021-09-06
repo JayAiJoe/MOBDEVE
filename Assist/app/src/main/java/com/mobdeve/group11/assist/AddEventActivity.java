@@ -15,10 +15,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -46,8 +48,9 @@ public class AddEventActivity extends AppCompatActivity {
 
     private ImageView ivCancel, ivDone;
     private EditText etName, etTemplate, etRemind;
-    private TextView tvHead, tvSTime, tvETime,  tvGroups, tvDate;//for groups edit
+    private TextView tvHead, tvSTime, tvETime, tvGroups, tvDate;
     private Activity activity = AddEventActivity.this;
+    private ListView lvGroups;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private LocalDate selectedDate;
@@ -58,11 +61,9 @@ public class AddEventActivity extends AppCompatActivity {
     private LocalTime endTime;
 
     private final List<ContactGroup> selectedGroups = new ArrayList<ContactGroup>();
-
-    Button btnAddGroups;
-    ChipGroup cgAddGroups;
-
-    List<ContactGroup> groupList;
+    private List<ContactGroup> groupList;
+    private boolean[] checkedGroups = new boolean[0];
+    private ArrayAdapter<String> adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -70,8 +71,7 @@ public class AddEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_add);
 
-        cgAddGroups = findViewById(R.id.cg_temp_add_group);
-        btnAddGroups = findViewById(R.id.btn_temp_add_group);
+        tvGroups = findViewById(R.id.tv_add_event_groups);
 
         setButtons();
 
@@ -217,7 +217,13 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void setButtons(){
-        btnAddGroups.setOnClickListener(new View.OnClickListener() {
+
+        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedGroups))));
+        lvGroups = findViewById(R.id.lv_add_event);
+        lvGroups.setAdapter(adapter);
+
+
+        tvGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddEventActivity.this);
@@ -243,7 +249,10 @@ public class AddEventActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        displayGroups(getNames(selectedGroups), cgAddGroups);
+                        adapter.clear();
+                        String[] names = getNames(selectedGroups);
+                        Arrays.sort(names);
+                        adapter.addAll(names);
                     }
                 });
 
@@ -261,15 +270,6 @@ public class AddEventActivity extends AppCompatActivity {
         });
     }
 
-    private void displayGroups(String[] groups , ChipGroup pChipGroup) {
-        pChipGroup.removeAllViewsInLayout();
-        Arrays.sort(groups, Collections.reverseOrder());
-        for(int i=0; i<groups.length; i++){
-            Chip lChip = new Chip(this);
-            lChip.setText(groups[i]);
-            pChipGroup.addView(lChip, pChipGroup.getChildCount() - 1);
-        }
-    }
 
     //****helper function to get the string names only
     private String[] getNames(List<ContactGroup> gList){
