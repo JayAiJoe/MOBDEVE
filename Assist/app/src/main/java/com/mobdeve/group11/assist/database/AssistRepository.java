@@ -135,10 +135,40 @@ class AssistRepository {
         });
     }
 
+    long addEventGetId(Event event) {
+        Callable<Long> insertCallable = () -> eventDao.insertEvent(event);
+        long rowId = 0;
+
+        Future<Long> future = executorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
+    }
+
     void addGrouping(EventGrouping eventGrouping) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             eventGroupingDao.insertEventGrouping(eventGrouping);
         });
+    }
+
+    Integer deleteAllGroupingsInEvent(Integer id) {
+        Callable<Integer> insertCallable = () -> eventGroupingDao.deleteAllGroupingsInEvent(id);
+        Integer safe = 1;
+
+        Future<Integer> future = executorService.submit(insertCallable);
+        try {
+            safe = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return safe;
     }
 
     void addMembership(GroupMembership groupMembership) {

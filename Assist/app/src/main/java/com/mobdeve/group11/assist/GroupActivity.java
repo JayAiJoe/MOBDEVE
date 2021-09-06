@@ -125,13 +125,6 @@ public class GroupActivity extends AppCompatActivity{
 
         });
 
-
-
-
-
-
-
-
         this.tvHead.setText("Group");
     }
 

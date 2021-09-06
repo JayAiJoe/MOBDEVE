@@ -26,7 +26,11 @@ import android.widget.Toast;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.Event;
+import com.mobdeve.group11.assist.database.EventGrouping;
+import com.mobdeve.group11.assist.database.GroupMembership;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,6 +56,8 @@ public class AddEventActivity extends AppCompatActivity {
     private TimePickerDialog.OnTimeSetListener endSetListener;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    private final List<ContactGroup> selectedGroups = new ArrayList<ContactGroup>();
 
     Button btnAddGroups;
     ChipGroup cgAddGroups;
@@ -111,12 +117,14 @@ public class AddEventActivity extends AppCompatActivity {
 
             if (name.length() > 0  && remind >= 0 && template != null){
 
-                intent.putExtra(EventInfo.NAME.name(), name);
-                intent.putExtra(EventInfo.DATE.name(), selectedDate.toString());
-                intent.putExtra(EventInfo.START_TIME.name(), startTime.toString());
-                intent.putExtra(EventInfo.END_TIME.name(), endTime.toString());
-                intent.putExtra(EventInfo.TEMPLATE.name(), template);
-                intent.putExtra(EventInfo.REMINDER.name(), remind);
+                Event e = new Event(name, selectedDate, startTime, endTime, template, remind);
+                Integer eId = (int) viewModel.addEventGetId(e);
+
+                ArrayList<Integer> gIds = getIds(selectedGroups);
+
+                for(int i = 0; i<selectedGroups.size(); i++){
+                    viewModel.addGrouping(new EventGrouping(gIds.get(i), eId));
+                }
 
                 setResult(Activity.RESULT_OK, intent);
             }
@@ -140,7 +148,7 @@ public class AddEventActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setDateAndTimes(){
 
-        selectedDate = LocalDate.now(); // change to actual selected date
+        selectedDate = CalendarUtils.selectedDate;// change to actual selected date
         tvDate.setText(selectedDate.getMonth() + " " + selectedDate.getDayOfMonth() + ", " + selectedDate.getYear());
 
         tvDate.setOnClickListener(new View.OnClickListener() {
@@ -215,8 +223,8 @@ public class AddEventActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddEventActivity.this);
 
                 //sample choices
-                boolean[] checkedGroups = {false, false, false, false, false}; //remove hard code later
-                final List<ContactGroup> selectedGroups = new ArrayList<ContactGroup>();
+                boolean[] checkedGroups = new boolean[groupList.size()];
+
 
                 builder.setTitle("Select groups");
 
@@ -271,5 +279,14 @@ public class AddEventActivity extends AppCompatActivity {
             strArray[i] = gList.get(i).getName();
         }
         return strArray;
+    }
+
+    private ArrayList<Integer> getIds(List<ContactGroup> cList){
+        ArrayList<Integer> idArray = new ArrayList<Integer>();
+        for(int i=0; i<cList.size();i++)
+        {
+            idArray.add(cList.get(i).getId());
+        }
+        return idArray;
     }
 }

@@ -59,6 +59,8 @@ public class AssistViewModel extends AndroidViewModel {
 
     public void addEvent(Event event) { mRepository.addEvent(event); }
 
+    public long addEventGetId(Event event) { return mRepository.addEventGetId(event); }
+
     public void addGrouping(EventGrouping eventGrouping) { mRepository.addGrouping(eventGrouping); }
 
     public void addMembership(GroupMembership groupMembership) { mRepository.addMembership(groupMembership); }
@@ -86,6 +88,8 @@ public class AssistViewModel extends AndroidViewModel {
     public void deleteTemplate(Template template) { mRepository.deleteTemplate(template); }
 
     public Integer deleteAllMembershipsOfGroup(Integer id) { return mRepository.deleteAllMembershipsOfGroup(id); }
+
+    public Integer deleteAllGroupingsInEvent(Integer id) { return mRepository.deleteAllGroupingsInEvent(id); }
 
 
 }

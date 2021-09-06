@@ -183,7 +183,6 @@ public class EditGroupActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //displayGroups(getNames(selectedGroups), cgAddGroups);
                         adapter.clear();
                         String[] names = getNames(selectedContacts);
                         Arrays.sort(names);

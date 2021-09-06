@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.ContactGroup;
@@ -37,6 +39,8 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
 
     private EventAdapter eventAdapter;
 
+    private Context context;
+
     //private Button btnAddEvent;
 
     @Override
@@ -44,15 +48,29 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_day);
 
+        context = this;
+
+
+        rvEvents = findViewById(R.id.rv_day_events);
+        eventAdapter = new EventAdapter(this);
+        rvEvents.setAdapter(eventAdapter);
+        rvEvents.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
         //**** define the viewModel
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+
+        viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(this, events -> {
+            if(events != null)
+                this.eventAdapter.setDataEvents(events);
+        });
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvDay = findViewById(R.id.rv_calendar_day);
         tvMonthYear = findViewById(R.id.tv_calendar_day);
-        rvEvents = findViewById(R.id.rv_day_events);
+
         //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
 
         ivBackMonth = findViewById(R.id.iv_toolbar_date_left);
@@ -78,6 +96,17 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
                 startActivityForResult(intent, NEW_EVENT_ACTIVITY_REQUEST_CODE);
             }
         });
+
+        rvDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(CalendarDayActivity.this, events -> {
+                    if(events != null)
+                        eventAdapter.setDataEvents(events);
+                });
+
+            }
+        });
     }
 
 
@@ -93,12 +122,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
 
 
     private void setEventsView(){
-        eventAdapter = new EventAdapter(this);
-        rvEvents.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvEvents.setAdapter(eventAdapter);
-
-
-        viewModel.getAllEvents().observe(this, events -> {
+        viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(this, events -> {
             if(events != null)
                 this.eventAdapter.setDataEvents(events);
         });
@@ -108,12 +132,14 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     public void prevWeek(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
         setWeekView();
+        setEventsView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void nextWeek(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
         setWeekView();
+        setEventsView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -121,33 +147,14 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
         setWeekView();
-
-        //display events of the day
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_EVENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Event e = new Event(data.getStringExtra(EventInfo.NAME.name()),
-                    LocalDate.parse(data.getStringExtra(EventInfo.DATE.name())),
-                    LocalTime.parse(data.getStringExtra(EventInfo.START_TIME.name())),
-                    LocalTime.parse(data.getStringExtra(EventInfo.END_TIME.name())),
-                    data.getIntExtra(EventInfo.TEMPLATE.name(), 0),
-                    data.getIntExtra(EventInfo.REMINDER.name(), 0));
-            viewModel.addEvent(e);
-        }
+        setEventsView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume() {
         super.onResume();
         initWidgets();
-        CalendarUtils.selectedDate = LocalDate.now(); //change to selected date from month view
         setWeekView();
-        setEventsView();
     }
 
 }

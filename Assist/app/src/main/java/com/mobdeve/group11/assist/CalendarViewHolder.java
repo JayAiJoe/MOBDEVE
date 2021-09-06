@@ -18,6 +18,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     private final View clDayCell;
     private final TextView tvDay;
     private final CalendarAdapter.OnItemListener onItemListener;
+    private LocalDate date;
 
     public CalendarViewHolder(@NonNull @NotNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days) {
         super(itemView);
@@ -34,9 +35,12 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
 
     public View getCell() { return clDayCell;}
 
+    public  void setDate(LocalDate d) { this.date = d;}
+
     @Override
     public void onClick(View v) {
         onItemListener.onItemClick(getAdapterPosition(),days.get(getAdapterPosition()));
+        CalendarUtils.selectedDate = this.date;
     }
 
 }

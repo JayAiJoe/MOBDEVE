@@ -14,7 +14,7 @@ import java.util.List;
 public interface EventDao {
 
     @Insert
-    public void insertEvent(Event event);
+    public long insertEvent(Event event);
 
     @Update
     public void updateEvent(Event event);

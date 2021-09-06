@@ -23,4 +23,7 @@ public interface EventGroupingDao {
     @Query("SELECT eventId FROM event_groupings_table WHERE groupId=:id")
     public LiveData<List<Integer>> findGroupingsByGroupId(Integer id);
 
+    @Query("DELETE FROM event_groupings_table WHERE eventId=:id")
+    public Integer deleteAllGroupingsInEvent(Integer id);
+
 }

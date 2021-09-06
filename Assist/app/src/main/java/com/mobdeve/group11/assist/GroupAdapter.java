@@ -74,10 +74,7 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), GroupActivity.class);
-                    //photo
                     intent.putExtra(GroupInfo.ID.name(),currentGroup.getId());
-                    //members
-
                     activity.startActivityForResult(intent, VIEW_REQUEST);
                 }
             });

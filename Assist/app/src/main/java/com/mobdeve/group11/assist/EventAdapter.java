@@ -63,7 +63,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                Intent intent = new Intent(view.getContext(), ViewEventActivity.class);
                 intent.putExtra(EventInfo.ID.name(),currentEvent.getId());
                 activity.startActivityForResult(intent, VIEW_REQUEST);
                 }
@@ -72,11 +72,12 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setDataEvents(List<Event> e) {
         this.dataEvents = e;
+        notifyDataSetChanged();
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dataEvents.size();
     }
 }

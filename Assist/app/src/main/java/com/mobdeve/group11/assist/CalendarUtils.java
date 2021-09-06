@@ -10,9 +10,10 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CalendarUtils {
 
-    public static LocalDate selectedDate;
+    public static LocalDate selectedDate = LocalDate.now();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {

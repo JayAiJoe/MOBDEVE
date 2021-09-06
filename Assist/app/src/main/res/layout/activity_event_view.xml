@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/red">
 
+    <Button
+        android:id="@+id/btn_view_event_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+
+        android:backgroundTint="#9C1111"
+        android:fontFamily="@font/amiko_semibold"
+        android:text="Delete Event"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:icon="@drawable/deleteicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left" />
+
     <include
         android:id="@+id/include9"
         layout="@layout/toolbar_view" />
@@ -86,30 +102,6 @@
         app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_view_event_name" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_edit_event_groups"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/tv_view_reminder">>
-
-        <AutoCompleteTextView
-            android:id="@+id/ac_edit_event_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/amiko_semibold"
-            android:inputType="none"
-            android:text="Groups"
-            android:textColor="@color/gray"
-            android:textSize="18sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_view_event_left"
         android:layout_width="wrap_content"
@@ -124,14 +116,17 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cg_temp_view_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ListView
+        android:id="@+id/lv_event_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_view_event_delete"
         app:layout_constraintEnd_toStartOf="@+id/gl_view_event_right"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/gl_view_event_left"
-        app:layout_constraintTop_toBottomOf="@+id/til_edit_event_groups">
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_reminder">
 
-    </com.google.android.material.chip.ChipGroup>
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

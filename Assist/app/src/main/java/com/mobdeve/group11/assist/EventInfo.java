@@ -7,5 +7,6 @@ public enum EventInfo {
     START_TIME,
     END_TIME,
     TEMPLATE,
-    REMINDER
+    REMINDER,
+    GROUPS
 }

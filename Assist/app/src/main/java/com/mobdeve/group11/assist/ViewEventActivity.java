@@ -1,38 +1,52 @@
 package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.Event;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ViewEventActivity extends AppCompatActivity {
+
+    public static final int EDIT_REQUEST = 1;
+
+    private AssistViewModel viewModel;
 
     private ImageView ivBackDay, ivEdit;
     private TextView tvName, tvDate, tvTime, tvTemplate, tvRemind, tvGroups, tvHead;
     private Activity activity = ViewEventActivity.this;
+    private  Button btnDelete;
+    private ListView lvGroups;
 
-    ChipGroup cgViewGroups;
+    private List<ContactGroup> groupList = new ArrayList<ContactGroup>();
+    private List<Integer> ids = new ArrayList<Integer>();
+    private ArrayAdapter<String> adapter;
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_view);
 
-        cgViewGroups = findViewById(R.id.cg_temp_view_group);
-
-        //get and display groups
-        String[] groupsArray = getResources().getStringArray(R.array.sample_groups); //sample only
-        displayGroups(groupsArray, cgViewGroups);
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
         initInfo();
 
@@ -45,42 +59,49 @@ public class ViewEventActivity extends AppCompatActivity {
         this.tvTemplate = findViewById(R.id.tv_view_template);
         this.tvRemind = findViewById(R.id.tv_view_reminder);
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
-        //groups
+        this.lvGroups = findViewById(R.id.lv_event_view);
 
         Intent intent = getIntent();
+        Integer eId = intent.getIntExtra(GroupInfo.ID.name(), 1);
 
-        String name = intent.getStringExtra(EventInfo.NAME.name());
-        String date = intent.getStringExtra(EventInfo.DATE.name());
-        String sTime = intent.getStringExtra(EventInfo.START_TIME.name());
-        String eTime = intent.getStringExtra(EventInfo.END_TIME.name());
-        String template = intent.getStringExtra(EventInfo.TEMPLATE.name());
-        String remind = intent.getStringExtra(EventInfo.REMINDER.name());
-        //groups
+        viewModel.getEventById(eId).observe(this, curr_event -> {
+            this.event = curr_event;
+            if(event != null){
+                this.tvName.setText(event.getTitle());
+                this.tvDate.setText(event.getDate().getMonth() + " " + event.getDate().getDayOfMonth() + ", " + event.getDate().getYear());
+                this.tvTime.setText(event.getTimeStart().toString()+" - "+event.getTimeEnd().toString());
+                this.tvTemplate.setText("" + event.getTemplateId());
+                this.tvRemind.setText("" + event.getReminder());
 
-        this.tvName.setText(name);
-        this.tvDate.setText(date);
-        this.tvTime.setText(sTime+" - "+eTime);
-        this.tvTemplate.setText(template);
-        this.tvRemind.setText(remind);
+                //??
+                this.tvHead.setText("Event");
+            }
+        });
 
-        this.tvHead.setText("August 11");
+        viewModel.getGroupIdsInEvent(eId).observe(this, ids -> {
+            this.ids = ids;
+            viewModel.getManyCGroupsById(ids).observe(this, groups -> {
+                this.groupList = groups;
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                lvGroups.setAdapter(adapter);
+            });
 
+        });
+
+
+    }
+
+    private void initComponents(){
         ivBackDay = findViewById(R.id.iv_toolbar_view_left);
         ivEdit = findViewById(R.id.iv_toolbar_view_right);
+        btnDelete = findViewById(R.id.btn_view_event_delete);
 
         ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditEventActivity.class);
 
-                intent.putExtra(EventInfo.NAME.name(), name);
-                intent.putExtra(EventInfo.DATE.name(), date);
-                intent.putExtra(EventInfo.START_TIME.name(), sTime);
-                intent.putExtra(EventInfo.END_TIME.name(), eTime);
-                intent.putExtra(EventInfo.TEMPLATE.name(), template);
-                intent.putExtra(EventInfo.REMINDER.name(), remind);
-                //groups
-
+                intent.putExtra(EventInfo.ID.name(), event.getId());
                 activity.startActivityForResult(intent, 1);
             }
         });
@@ -88,17 +109,37 @@ public class ViewEventActivity extends AppCompatActivity {
         this.ivBackDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CalendarDayActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
+
+        this.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.deleteEvent(event);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
+
     }
 
-    private void displayGroups(String[] groups , ChipGroup pChipGroup) {
-        for(int i=0; i<groups.length; i++){
-            Chip lChip = new Chip(this);
-            lChip.setText(groups[i]);
-            pChipGroup.addView(lChip, pChipGroup.getChildCount() - 1);
-        }
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
     }
+
+    private String[] getNames(List<ContactGroup> gList){
+        String[] strArray = new String[gList.size()];
+        for(int i=0; i<gList.size();i++)
+        {
+            strArray[i] = gList.get(i).getName();
+        }
+        return strArray;
+    }
+
 }
