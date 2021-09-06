@@ -35,9 +35,9 @@ public class AddContactActivity extends AppCompatActivity  {
     private TextView tvPic, tvGroups, tvHead;
     private EditText etFName, etLName, etPNum, etGuardian;
 
-    private boolean[] selectedGroups;
+    /*private boolean[] selectedGroups;
     private ArrayList<Integer> groupList = new ArrayList<>();
-    private DataHelper helper;
+    private DataHelper helper;*/
 
     private String Document_img1="";
 
@@ -107,7 +107,7 @@ public class AddContactActivity extends AppCompatActivity  {
         });
     }
 
-    private void initGroupsDropDown(){
+    /*private void initGroupsDropDown(){
         this.helper = new DataHelper ();
         ArrayList <Group> data = helper.initializeGroups();
         data = this.sortList(data);
@@ -151,7 +151,7 @@ public class AddContactActivity extends AppCompatActivity  {
                             groupList.remove(which);
 
                             /*selectedGroups[which] = false;
-                            ((AlertDialog) dialog).getListView().setItemChecked(which, false);*/
+                            ((AlertDialog) dialog).getListView().setItemChecked(which, false);
                         }
                     }
                 });
@@ -204,7 +204,7 @@ public class AddContactActivity extends AppCompatActivity  {
                 builder.show();
             }
         });
-    }
+    }*/
 
     //sort alphabetically
     private ArrayList<Group> sortList(ArrayList<Group> list) {

@@ -101,27 +101,6 @@
         app:layout_constraintStart_toEndOf="@+id/iv_view_contact_guardian_icon"
         app:layout_constraintTop_toBottomOf="@+id/iv_view_contact_phone_icon" />
 
-    <TextView
-        android:id="@+id/tv_view_contact_groups"
-        style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:drawablePadding="16dp"
-        android:fontFamily="@font/amiko_semibold"
-        android:hint="Groups"
-        android:padding="12dp"
-        android:text="Groups"
-        android:textColor="@color/gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
-        app:layout_constraintTop_toBottomOf="@+id/tv_view_contact_guardian" />
-
     <Button
         android:id="@+id/btn_view_contact_delete"
         android:layout_width="wrap_content"
@@ -137,5 +116,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
         app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left" />
+
+    <ListView
+        android:id="@+id/lv_edit_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_groups_title" />
+
+    <TextView
+        android:id="@+id/tv_groups_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/amiko_semibold"
+        android:text="Groups:"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_view_contact_guardian" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class ContactActivity extends AppCompatActivity {
     private ImageView ivBack, ivEdit, ivPic;
     private TextView tvName, tvPNum, tvGuardian, tvGroups, tvHead;
     private Button btnDelete;
+    private ListView lvGroups;
 
     private String fName, lName, pNum, guardian;
     private Activity activity = ContactActivity.this;
@@ -87,7 +89,6 @@ public class ContactActivity extends AppCompatActivity {
         this.tvName = findViewById(R.id.tv_view_contact_name);
         this.tvPNum = findViewById(R.id.tv_view_contact_number);
         this.tvGuardian = findViewById(R.id.tv_view_contact_guardian);
-        this.tvGroups = findViewById(R.id.tv_view_contact_groups);
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
 
         Intent intent = getIntent();

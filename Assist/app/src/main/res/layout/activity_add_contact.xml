@@ -125,25 +125,4 @@
         app:layout_constraintStart_toStartOf="@+id/gl_add_contact_left"
         app:layout_constraintTop_toBottomOf="@+id/et_add_contact_number" />
 
-    <TextView
-        android:id="@+id/tv_add_contact_groups"
-        style="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:drawable/editbox_background"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:drawablePadding="16dp"
-        android:fontFamily="@font/amiko_semibold"
-        android:hint="Groups"
-        android:padding="12dp"
-        android:text="Groups"
-        android:textColor="@color/gray"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/gl_add_contact_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_add_contact_left"
-        app:layout_constraintTop_toBottomOf="@+id/et_add_contact_guardian" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
