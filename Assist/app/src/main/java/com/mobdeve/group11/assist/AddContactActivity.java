@@ -149,6 +149,9 @@ public class AddContactActivity extends AppCompatActivity  {
                         else{
                             //remove position from grouplist
                             groupList.remove(which);
+
+                            /*selectedGroups[which] = false;
+                            ((AlertDialog) dialog).getListView().setItemChecked(which, false);*/
                         }
                     }
                 });
