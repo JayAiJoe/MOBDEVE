@@ -1,11 +1,13 @@
 package com.mobdeve.group11.assist;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,6 +43,7 @@ public class ViewEventActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private Event event;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initInfo(){
         this.tvName = findViewById(R.id.tv_view_event_name);
         this.tvDate = findViewById(R.id.tv_view_date);
@@ -70,10 +74,14 @@ public class ViewEventActivity extends AppCompatActivity {
                 this.tvName.setText(event.getTitle());
                 this.tvDate.setText(event.getDate().getMonth() + " " + event.getDate().getDayOfMonth() + ", " + event.getDate().getYear());
                 this.tvTime.setText(event.getTimeStart().toString()+" - "+event.getTimeEnd().toString());
-                this.tvTemplate.setText("" + event.getTemplateId());
-                this.tvRemind.setText("" + event.getReminder());
 
-                //??
+                viewModel.getTemplateById(event.getTemplateId()).observe(ViewEventActivity.this, template -> {
+                    tvTemplate.setText(template.getTitle());
+                });
+
+
+                this.tvRemind.setText(AppUtils.getReminderText(event.getReminder()));
+
                 this.tvHead.setText("Event");
             }
         });
@@ -82,7 +90,7 @@ public class ViewEventActivity extends AppCompatActivity {
             this.ids = ids;
             viewModel.getManyCGroupsById(ids).observe(this, groups -> {
                 this.groupList = groups;
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(groupList))));
                 lvGroups.setAdapter(adapter);
             });
 
@@ -127,19 +135,11 @@ public class ViewEventActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume() {
         super.onResume();
         this.initInfo();
         this.initComponents();
-    }
-
-    private String[] getNames(List<ContactGroup> gList){
-        String[] strArray = new String[gList.size()];
-        for(int i=0; i<gList.size();i++)
-        {
-            strArray[i] = gList.get(i).getName();
-        }
-        return strArray;
     }
 
 }

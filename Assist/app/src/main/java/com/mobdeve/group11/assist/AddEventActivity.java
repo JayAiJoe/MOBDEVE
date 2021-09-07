@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -33,6 +34,7 @@ import com.mobdeve.group11.assist.database.ContactGroup;
 import com.mobdeve.group11.assist.database.Event;
 import com.mobdeve.group11.assist.database.EventGrouping;
 import com.mobdeve.group11.assist.database.GroupMembership;
+import com.mobdeve.group11.assist.database.Template;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -47,8 +49,8 @@ public class AddEventActivity extends AppCompatActivity {
     private AssistViewModel viewModel;
 
     private ImageView ivCancel, ivDone;
-    private EditText etName, etTemplate, etRemind;
-    private TextView tvHead, tvSTime, tvETime, tvGroups, tvDate;
+    private EditText etName;
+    private TextView tvHead, tvSTime, tvETime, tvGroups, tvDate, tvTemplate, tvReminder;
     private Activity activity = AddEventActivity.this;
     private ListView lvGroups;
 
@@ -65,84 +67,56 @@ public class AddEventActivity extends AppCompatActivity {
     private boolean[] checkedGroups = new boolean[0];
     private ArrayAdapter<String> adapter;
 
+    private List<Template> templateList;
+    private int checkedTemplate = -1;
+    private int templateIndex = -1;
+
+    private int reminderIndex = 0; //default
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_add);
 
-        tvGroups = findViewById(R.id.tv_add_event_groups);
-
-        setButtons();
-
-        //**** define the viewModel
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
-        //****add observers to always get updated data
         viewModel.getAllGroups().observe(this, groups -> {
-            groupList = groups; //groups are updated
+            groupList = groups;
         });
 
-        ivCancel = findViewById(R.id.iv_toolbar_edit_left);
-        ivDone = findViewById(R.id.iv_toolbar_edit_right);
+        viewModel.getAllTemplates().observe(this, templates -> {
+            templateList = templates;
+        });
 
-        etName = findViewById(R.id.et_add_event_name);
-        tvDate = findViewById(R.id.tv_add_event_date);
-        tvSTime = findViewById(R.id.tv_add_event_start_time);
-        tvETime = findViewById(R.id.tv_add_event_end_time);
-        etTemplate = findViewById(R.id.et_add_event_template);
-        etRemind = findViewById(R.id.et_add_event_reminder);
-        //group
+        initComponents();
+        setButtons();
 
         setDateAndTimes();
-
-        this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
-        this.tvHead.setText("Add Event");
-
-        this.ivCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
-                finish();
-            }
-        });
-
-        this.ivDone.setOnClickListener(view -> {
-            Intent intent = new Intent();
-
-            String name = etName.getText().toString();
-            Integer template = 1; // etTemplate.getText().toString();
-            int remind = Integer.parseInt(etRemind.getText().toString());
-
-            if (name.length() > 0  && remind >= 0 && template != null){
-
-                Event e = new Event(name, selectedDate, startTime, endTime, template, remind);
-                Integer eId = (int) viewModel.addEventGetId(e);
-
-                ArrayList<Integer> gIds = getIds(selectedGroups);
-
-                for(int i = 0; i<selectedGroups.size(); i++){
-                    viewModel.addGrouping(new EventGrouping(gIds.get(i), eId));
-                }
-
-                setResult(Activity.RESULT_OK, intent);
-            }
-            else{
-                Toast t = Toast.makeText(getApplicationContext(),
-                        "You have not yet entered in all of the required fields!",
-                        Toast.LENGTH_LONG);
-                t.show();
-            }
-            finish();
-        });
-
 
     }
 
     public void onResume() {
         super.onResume();
-        this.setButtons();
+        //this.setButtons();
+    }
+
+    private void initComponents(){
+        ivCancel = findViewById(R.id.iv_toolbar_edit_left);
+        ivDone = findViewById(R.id.iv_toolbar_edit_right);
+        tvGroups = findViewById(R.id.tv_add_event_groups);
+
+        etName = findViewById(R.id.et_add_event_name);
+        tvDate = findViewById(R.id.tv_add_event_date);
+        tvSTime = findViewById(R.id.tv_add_event_start_time);
+        tvETime = findViewById(R.id.tv_add_event_end_time);
+        tvTemplate = findViewById(R.id.tv_add_event_template);
+        tvReminder = findViewById(R.id.tv_add_event_reminder);
+
+        tvReminder.setText(AppUtils.getReminderText(reminderIndex));
+
+        tvHead = findViewById(R.id.tv_toolbar_edit_title);
+        tvHead.setText("Add Event");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -218,7 +192,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     private void setButtons(){
 
-        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedGroups))));
+        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(selectedGroups))));
         lvGroups = findViewById(R.id.lv_add_event);
         lvGroups.setAdapter(adapter);
 
@@ -234,7 +208,7 @@ public class AddEventActivity extends AppCompatActivity {
 
                 builder.setTitle("Select groups");
 
-                builder.setMultiChoiceItems(getNames(groupList), checkedGroups,
+                builder.setMultiChoiceItems(AppUtils.getGroupNames(groupList), checkedGroups,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -250,7 +224,7 @@ public class AddEventActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.clear();
-                        String[] names = getNames(selectedGroups);
+                        String[] names = AppUtils.getGroupNames(selectedGroups);
                         Arrays.sort(names);
                         adapter.addAll(names);
                     }
@@ -268,25 +242,100 @@ public class AddEventActivity extends AppCompatActivity {
 
             }
         });
-    }
+
+        this.ivCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
+
+        this.ivDone.setOnClickListener(view -> {
+            Intent intent = new Intent();
+
+            String name = etName.getText().toString();
+
+            if (name.length() > 0  && checkedTemplate != -1 && reminderIndex != -1){
+
+                Event e = new Event(name, selectedDate, startTime, endTime, checkedTemplate, reminderIndex);
+                Integer eId = (int) viewModel.addEventGetId(e);
+
+                ArrayList<Integer> gIds = AppUtils.getGroupIds(selectedGroups);
+
+                for(int i = 0; i<selectedGroups.size(); i++){
+                    viewModel.addGrouping(new EventGrouping(gIds.get(i), eId));
+                }
+
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+            }
+            else{
+                Toast t = Toast.makeText(getApplicationContext(),
+                        "You have not yet entered in all of the required fields!",
+                        Toast.LENGTH_LONG);
+                t.show();
+            }
+
+        });
+
+        tvTemplate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddEventActivity.this);
+                alertDialog.setTitle("Select a template");
+
+                final String[] listItems = AppUtils.getTemplateTitles(templateList);
+
+                alertDialog.setSingleChoiceItems(listItems, templateIndex, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        templateIndex = which;
+                        checkedTemplate = templateList.get(which).getId();
+                        tvTemplate.setText(listItems[which]);
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                });
+
+                AlertDialog customAlertDialog = alertDialog.create();
+                customAlertDialog.show();
+            }
+        });
+
+        tvReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddEventActivity.this);
+                alertDialog.setTitle("Select announcement time");
 
 
-    //****helper function to get the string names only
-    private String[] getNames(List<ContactGroup> gList){
-        String[] strArray = new String[gList.size()];
-        for(int i=0; i<gList.size();i++)
-        {
-            strArray[i] = gList.get(i).getName();
-        }
-        return strArray;
-    }
+                alertDialog.setSingleChoiceItems(AppUtils.getReminderChoices(), reminderIndex, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reminderIndex = which;
+                        tvReminder.setText(AppUtils.getReminderText(which));
+                        dialog.dismiss();
+                    }
+                });
 
-    private ArrayList<Integer> getIds(List<ContactGroup> cList){
-        ArrayList<Integer> idArray = new ArrayList<Integer>();
-        for(int i=0; i<cList.size();i++)
-        {
-            idArray.add(cList.get(i).getId());
-        }
-        return idArray;
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                });
+
+                AlertDialog customAlertDialog = alertDialog.create();
+                customAlertDialog.show();
+            }
+        });
+
+
     }
 }

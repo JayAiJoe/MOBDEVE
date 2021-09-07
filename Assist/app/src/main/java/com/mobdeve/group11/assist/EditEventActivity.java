@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -33,6 +34,7 @@ import com.mobdeve.group11.assist.database.ContactGroup;
 import com.mobdeve.group11.assist.database.Event;
 import com.mobdeve.group11.assist.database.EventGrouping;
 import com.mobdeve.group11.assist.database.GroupMembership;
+import com.mobdeve.group11.assist.database.Template;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -44,11 +46,10 @@ import java.util.List;
 public class EditEventActivity extends AppCompatActivity {
 
     private ImageView ivCancel, ivDone;
-    private EditText etName, etTemplate, etRemind;
-    private TextView tvDate, tvSTime, tvETime, tvHead, tvAddGroups;
+    private EditText etName;
+    private TextView tvDate, tvSTime, tvETime, tvHead, tvAddGroups, tvTemplate, tvReminder;
     private Activity activity = EditEventActivity.this;
     private ListView lvGroups;
-    private Button btnEditGroups;
 
     private AssistViewModel viewModel;
     private Event event;
@@ -66,6 +67,11 @@ public class EditEventActivity extends AppCompatActivity {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    private List<Template> templateList;
+    private int checkedTemplate = -1;
+    private int templateIndex = -1;
+
+    private int reminderIndex = -1;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -78,8 +84,8 @@ public class EditEventActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.et_edit_event_date);
         tvSTime = findViewById(R.id.et_edit_event_start_time);
         tvETime = findViewById(R.id.et_edit_event_end_time);
-        etTemplate = findViewById(R.id.et_edit_event_template);
-        etRemind = findViewById(R.id.et_edit_event_reminder);
+        tvTemplate = findViewById(R.id.tv_edit_event_template);
+        tvReminder = findViewById(R.id.tv_edit_event_reminder);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
@@ -101,7 +107,7 @@ public class EditEventActivity extends AppCompatActivity {
 
                 builder.setTitle("Select groups");
 
-                builder.setMultiChoiceItems(getNames(groupList), checkedGroups,
+                builder.setMultiChoiceItems(AppUtils.getGroupNames(groupList), checkedGroups,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -117,7 +123,7 @@ public class EditEventActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.clear();
-                        String[] names = getNames(selectedGroups);
+                        String[] names = AppUtils.getGroupNames(selectedGroups);
                         Arrays.sort(names);
                         adapter.addAll(names);
                     }
@@ -148,18 +154,18 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (etName.getText().toString().length() > 0){ //improve checking
+                if (etName.getText().toString().length() > 0 && checkedTemplate != -1 && reminderIndex != -1){
 
                     event.setTitle(etName.getText().toString());
                     event.setDate(selectedDate);
                     event.setTimeStart(startTime);
                     event.setTimeEnd(endTime);
-                    event.setTemplateId(Integer.parseInt(etTemplate.getText().toString()));
-                    event.setReminder(Integer.parseInt(etRemind.getText().toString()));
+                    event.setTemplateId(checkedTemplate);
+                    event.setReminder(reminderIndex);
 
                     viewModel.deleteAllGroupingsInEvent(event.getId());
 
-                    ArrayList<Integer> gIds = getIds(selectedGroups);
+                    ArrayList<Integer> gIds = AppUtils.getGroupIds(selectedGroups);
                     for(int i=0; i< gIds.size(); i++){
                         viewModel.addGrouping(new EventGrouping(gIds.get(i), event.getId()));
                     }
@@ -176,6 +182,62 @@ public class EditEventActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG);
                     t.show();
                 }
+            }
+        });
+
+        tvTemplate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditEventActivity.this);
+                alertDialog.setTitle("Select a template");
+
+                final String[] listItems = AppUtils.getTemplateTitles(templateList);
+
+                alertDialog.setSingleChoiceItems(listItems, templateIndex, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        templateIndex = which;
+                        checkedTemplate = templateList.get(which).getId();
+                        tvTemplate.setText(listItems[which]);
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                });
+
+                AlertDialog customAlertDialog = alertDialog.create();
+                customAlertDialog.show();
+            }
+        });
+
+        tvReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditEventActivity.this);
+                alertDialog.setTitle("Select announcement time");
+
+
+                alertDialog.setSingleChoiceItems(AppUtils.getReminderChoices(), reminderIndex, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reminderIndex = which;
+                        tvReminder.setText(AppUtils.getReminderText(which));
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                });
+
+                AlertDialog customAlertDialog = alertDialog.create();
+                customAlertDialog.show();
             }
         });
 
@@ -257,8 +319,8 @@ public class EditEventActivity extends AppCompatActivity {
     private void initInfo(){
 
         Integer id = getIntent().getIntExtra(EventInfo.ID.name(), 1);
-        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedGroups))));
-        lvGroups = findViewById(R.id.lv_add_event);
+        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(selectedGroups))));
+        lvGroups = findViewById(R.id.lv_edit_event);
         lvGroups.setAdapter(adapter);
 
         viewModel.getEventById(id).observe(this, event->{
@@ -268,8 +330,14 @@ public class EditEventActivity extends AppCompatActivity {
                 tvDate.setText(event.getDate().toString());
                 tvSTime.setText(event.getTimeStart().toString());
                 tvETime.setText(event.getTimeEnd().toString());
-                etTemplate.setText("" + event.getTemplateId());
-                etRemind.setText("" + event.getReminder());
+
+                viewModel.getTemplateById(event.getTemplateId()).observe(EditEventActivity.this, template -> {
+                    tvTemplate.setText(template.getTitle());
+                });
+
+                checkedTemplate = event.getTemplateId();
+
+                tvReminder.setText(AppUtils.getReminderText(event.getReminder()));
 
                 setDateAndTimes();
             }
@@ -287,29 +355,15 @@ public class EditEventActivity extends AppCompatActivity {
                     }
                 }
                 adapter.clear();
-                String[] names = getNames(selectedGroups);
+                String[] names = AppUtils.getGroupNames(selectedGroups);
                 Arrays.sort(names);
                 adapter.addAll(names);
             });
         });
-    }
 
-    private String[] getNames(List<ContactGroup> gList){
-        String[] strArray = new String[gList.size()];
-        for(int i=0; i<gList.size();i++)
-        {
-            strArray[i] = gList.get(i).getName();
-        }
-        return strArray;
-    }
-
-    private ArrayList<Integer> getIds(List<ContactGroup> gList){
-        ArrayList<Integer> idArray = new ArrayList<Integer>();
-        for(int i=0; i<gList.size();i++)
-        {
-            idArray.add(gList.get(i).getId());
-        }
-        return idArray;
+        viewModel.getAllTemplates().observe(this, templates -> {
+            templateList = templates;
+        });
     }
 
 }

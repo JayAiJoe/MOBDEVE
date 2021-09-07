@@ -83,7 +83,7 @@ public class EditGroupActivity extends AppCompatActivity {
                 }
 
                 adapter.clear();
-                String[] names = getNames(selectedContacts);
+                String[] names = AppUtils.getContactNames(selectedContacts);
                 Arrays.sort(names);
                 adapter.addAll(names);
             });
@@ -113,7 +113,7 @@ public class EditGroupActivity extends AppCompatActivity {
 
             if (name.length() > 0) {
                 intent.putExtra(GroupInfo.NAME.name(), name);
-                intent.putExtra(GroupInfo.MEMBERS.name(), getIds(selectedContacts));
+                intent.putExtra(GroupInfo.MEMBERS.name(), AppUtils.getContactIds(selectedContacts));
                 setResult(Activity.RESULT_OK, intent);
             }
             else{
@@ -122,7 +122,7 @@ public class EditGroupActivity extends AppCompatActivity {
             finish();
         });
 
-        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(selectedContacts))));
+        adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getContactNames(selectedContacts))));
         lvMembers.setAdapter(adapter);
 
         this.tvPic.setOnClickListener(new View.OnClickListener() {
@@ -131,15 +131,6 @@ public class EditGroupActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-    }
-
-    private String[] getNames(List<Contact> cList){
-        String[] strArray = new String[cList.size()];
-        for(int i=0; i<cList.size();i++)
-        {
-            strArray[i] = cList.get(i).getFirstName() + " " + cList.get(i).getLastName();
-        }
-        return strArray;
     }
 
     private void initInfo() {
@@ -168,7 +159,7 @@ public class EditGroupActivity extends AppCompatActivity {
 
                 builder.setTitle("Select members");
 
-                builder.setMultiChoiceItems(getNames(contactList), checkedContacts,
+                builder.setMultiChoiceItems(AppUtils.getContactNames(contactList), checkedContacts,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -184,7 +175,7 @@ public class EditGroupActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         adapter.clear();
-                        String[] names = getNames(selectedContacts);
+                        String[] names = AppUtils.getContactNames(selectedContacts);
                         Arrays.sort(names);
                         adapter.addAll(names);
                     }
@@ -204,14 +195,7 @@ public class EditGroupActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Integer> getIds(List<Contact> cList){
-        ArrayList<Integer> idArray = new ArrayList<Integer>();
-        for(int i=0; i<cList.size();i++)
-        {
-            idArray.add(cList.get(i).getId());
-        }
-        return idArray;
-    }
+
 
     public void onResume() {
         super.onResume();
@@ -268,7 +252,7 @@ public class EditGroupActivity extends AppCompatActivity {
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 thumbnail=getResizedBitmap(thumbnail, 400);
-                Log.w("path of image from gallery......******************.........", picturePath+"");
+                //Log.w("path of image from gallery......******************.........", picturePath+"");
                 ivPic.setImageBitmap(thumbnail);
                 BitMapToString(thumbnail);
             }
