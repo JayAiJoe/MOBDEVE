@@ -118,7 +118,7 @@
         app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left" />
 
     <ListView
-        android:id="@+id/lv_edit_group"
+        android:id="@+id/lv_groups"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -130,7 +130,6 @@
         android:id="@+id/tv_groups_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/amiko_semibold"
         android:text="Groups:"

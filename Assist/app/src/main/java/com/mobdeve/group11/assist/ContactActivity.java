@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,25 +17,30 @@ import android.widget.Toast;
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.GroupMembership;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
 
     public static final int EDIT_REQUEST = 1;
 
+    private AssistViewModel viewModel;
+
     private ImageView ivBack, ivEdit, ivPic;
-    private TextView tvName, tvPNum, tvGuardian, tvGroups, tvHead;
+    private TextView tvName, tvPNum, tvGuardian, tvHead;
     private Button btnDelete;
     private ListView lvGroups;
 
-    private String fName, lName, pNum, guardian;
+    private Contact contact = new Contact("","","","");
+    private List<Integer> ids = new ArrayList<Integer>();
     private Activity activity = ContactActivity.this;
 
-    private AssistViewModel viewModel;
+    private List<ContactGroup> groupList = new ArrayList<ContactGroup>();
+    private ArrayAdapter<String> adapter;
 
-    private Contact contact = new Contact("","","","");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +58,9 @@ public class ContactActivity extends AppCompatActivity {
         this.ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ViewContactListActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -90,28 +97,30 @@ public class ContactActivity extends AppCompatActivity {
         this.tvPNum = findViewById(R.id.tv_view_contact_number);
         this.tvGuardian = findViewById(R.id.tv_view_contact_guardian);
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
+        this.lvGroups = findViewById(R.id.lv_groups);
 
         Intent intent = getIntent();
-
-        //photo
-        this.fName = intent.getStringExtra(ContactInfo.FIRST_NAME.name());
-        this.lName = intent.getStringExtra(ContactInfo.LAST_NAME.name());
-        this.pNum = intent.getStringExtra(ContactInfo.PHONE_NUMBER.name());
-        this.guardian = intent.getStringExtra(ContactInfo.GUARDIAN.name());
-        //ArrayList<String> sGroups = new ArrayList<String>(Arrays.asList(tvGroups.getText().toString().split(",")));
-
-        //groups
-
-        this.tvHead.setText("Contacts");
-
-        viewModel.getContactById(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, curr_contact -> {
+        viewModel.getContactById(intent.getIntExtra(ContactInfo.ID.name(), 0)).observe(this, curr_contact -> {
             this.contact = curr_contact;
-            if(curr_contact != null){
-                this.tvName.setText(contact.getFirstName()+" "+contact.getLastName());
+            if(curr_contact != null) {
+                this.tvName.setText(contact.getFirstName() + " " + contact.getLastName());
                 this.tvPNum.setText(contact.getContactNumber());
                 this.tvGuardian.setText(contact.getGuardian());
             }
         });
+
+        viewModel.getGroupIdsOfContact(intent.getIntExtra(ContactInfo.ID.name(), 0)).observe(this, ids -> {
+            this.ids = ids;
+            viewModel.getManyCGroupsById(ids).observe(this, groups -> {
+                this.groupList = groups;
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                lvGroups.setAdapter(adapter);
+            });
+
+        });
+
+        this.tvHead.setText("Contacts");
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -124,6 +133,15 @@ public class ContactActivity extends AppCompatActivity {
             contact.setGuardian(data.getStringExtra(ContactInfo.GUARDIAN.name()));
             viewModel.updateContact(contact);
         }
+    }
+
+    private String[] getNames(List<ContactGroup> gList){
+        String[] strArray = new String[gList.size()];
+        for(int i=0; i<gList.size();i++)
+        {
+            strArray[i] = gList.get(i).getName();
+        }
+        return strArray;
     }
 
     public void onResume() {
