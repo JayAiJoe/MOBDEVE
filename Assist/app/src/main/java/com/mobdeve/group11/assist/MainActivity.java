@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button calendar, contacts, groups, templates;
+    private Button quick, calendar, contacts, groups, templates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +17,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+        this.quick = findViewById(R.id.btn_home_quick);
         this.calendar = findViewById(R.id.btn_home_calendar);
         this.contacts = findViewById(R.id.btn_home_contacts);
         this.groups = findViewById(R.id.btn_home_groups);
         this.templates = findViewById(R.id.btn_home_templates);
+
+        this.quick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), QuickTextActivity.class);
+                startActivity(intent);
+            }
+        });
 
         this.calendar.setOnClickListener(new View.OnClickListener() {
             @Override

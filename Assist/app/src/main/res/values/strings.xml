@@ -6,6 +6,7 @@
     <string name="templates">Templates</string>
     <string name="groups">Groups</string>
     <string name="checklists">Checklists</string>
+    <string name="quick">Quick SMS</string>
 
     <string name="checklist">Checklist</string>
     <string name="delete_event">Delete Event</string>

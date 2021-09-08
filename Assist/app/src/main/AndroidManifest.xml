@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application
         android:allowBackup="true"
@@ -15,31 +16,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Assist">
-        <activity android:name=".CalendarMonthActivity"/>
-        <activity android:name=".CalendarYearActivity"/>
-        <activity android:name=".CalendarDayActivity"/>
-        <activity android:name=".AddContactActivity"/>
-        <activity android:name=".AddEventActivity"/>
-        <activity android:name=".AddGroupActivity"/>
-        <activity android:name=".AddTemplateActivity"/>
+        <activity android:name=".QuickTextActivity"></activity>
+        <activity android:name=".CalendarMonthActivity" />
+        <activity android:name=".CalendarYearActivity" />
+        <activity android:name=".CalendarDayActivity" />
+        <activity android:name=".AddContactActivity" />
+        <activity android:name=".AddEventActivity" />
+        <activity android:name=".AddGroupActivity" />
+        <activity android:name=".AddTemplateActivity" />
         <activity android:name=".EditContactActivity" />
         <activity android:name=".EditEventActivity" />
         <activity android:name=".EditGroupActivity" />
         <activity android:name=".EditTemplateActivity" />
-        <activity android:name=".ViewContactListActivity"/>
-        <activity android:name=".ViewGroupListActivity"/>
-        <activity android:name=".ViewTemplateListActivity"/>
-        <activity android:name=".ContactActivity"/>
+        <activity android:name=".ViewContactListActivity" />
+        <activity android:name=".ViewGroupListActivity" />
+        <activity android:name=".ViewTemplateListActivity" />
+        <activity android:name=".ContactActivity" />
         <activity android:name=".ViewEventActivity" />
-        <activity android:name=".GroupActivity"/>
-        <activity android:name=".TemplateActivity"/>
+        <activity android:name=".GroupActivity" />
+        <activity android:name=".TemplateActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <meta-data
@@ -55,8 +56,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        android:requestLegacyExternalStorage="true">
     </application>
 
 </manifest>

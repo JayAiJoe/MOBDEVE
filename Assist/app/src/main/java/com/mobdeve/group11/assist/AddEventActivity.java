@@ -83,6 +83,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         viewModel.getAllGroups().observe(this, groups -> {
             groupList = groups;
+            checkedGroups = new boolean[groupList.size()];
         });
 
         viewModel.getAllTemplates().observe(this, templates -> {
@@ -98,7 +99,6 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-        //this.setButtons();
     }
 
     private void initComponents(){
@@ -201,9 +201,6 @@ public class AddEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddEventActivity.this);
-
-                //sample choices
-                boolean[] checkedGroups = new boolean[groupList.size()];
 
 
                 builder.setTitle("Select groups");
