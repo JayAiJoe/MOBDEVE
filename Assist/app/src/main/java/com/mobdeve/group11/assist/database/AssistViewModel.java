@@ -91,5 +91,4 @@ public class AssistViewModel extends AndroidViewModel {
 
     public Integer deleteAllGroupingsInEvent(Integer id) { return mRepository.deleteAllGroupingsInEvent(id); }
 
-
 }

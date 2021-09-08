@@ -32,4 +32,5 @@ public interface ContactDao {
 
     @Query("SELECT * FROM contacts_table WHERE id IN (:ids) ORDER BY lastName, firstName")
     public LiveData<List<Contact>> findManyContactsById(List<Integer> ids);
+
 }

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "templates_table")
 public class Template {
+    private Integer type;
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -28,6 +29,9 @@ public class Template {
         this.title = title;
         this.subject = subject;
         this.content = content;
+    }
+    public Template(){
+
     }
 
     @NonNull
@@ -58,4 +62,7 @@ public class Template {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public Integer getType(){return type;}
+    public void setType(int type){this.type = type;}
 }

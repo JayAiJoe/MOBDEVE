@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "contact_groups_table")
 public class ContactGroup {
+    private Integer type;
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -21,6 +22,9 @@ public class ContactGroup {
         this.name = name;
     }
 
+    public ContactGroup(){
+    }
+
     public Integer getId() {
         return id;
     }
@@ -32,4 +36,7 @@ public class ContactGroup {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Integer getType(){return type;}
+    public void setType(int type){this.type = type;}
 }

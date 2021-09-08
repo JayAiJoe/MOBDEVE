@@ -33,7 +33,15 @@ public class GroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_M;
+
+        int viewType = 0;
+        if (dataGroups.get(position).getType() == TYPE_L) {
+            viewType = TYPE_L;
+        } else if (dataGroups.get(position).getType() == TYPE_M) {
+            viewType = TYPE_M;
+        }
+
+        return viewType;
     }
 
     @NonNull

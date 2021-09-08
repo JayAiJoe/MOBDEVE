@@ -26,4 +26,5 @@ public interface TemplateDao {
 
     @Query("SELECT * FROM templates_table WHERE id=:id")
     public LiveData<Template> findTemplateById(Integer id);
+
 }

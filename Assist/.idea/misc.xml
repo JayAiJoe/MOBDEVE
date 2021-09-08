@@ -5,7 +5,11 @@
       <map>
         <entry key="app/src/main/res/layout/activity_add_contact.xml" value="0.2864583333333333" />
         <entry key="app/src/main/res/layout/activity_add_group.xml" value="0.2864583333333333" />
+        <entry key="app/src/main/res/layout/activity_contacts_list.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/activity_edit_group.xml" value="0.2930253623188406" />
+        <entry key="app/src/main/res/layout/activity_groups_list.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/layout/activity_template_list.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/layout/listview_item.xml" value="0.29322916666666665" />
         <entry key="app/src/main/res/xml/provider_paths.xml" value="0.2930253623188406" />
       </map>
     </option>

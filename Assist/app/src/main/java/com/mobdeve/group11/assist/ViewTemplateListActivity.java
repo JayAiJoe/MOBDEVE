@@ -17,11 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.ContactGroup;
 import com.mobdeve.group11.assist.database.Template;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ViewTemplateListActivity extends AppCompatActivity {
 
@@ -29,56 +31,48 @@ public class ViewTemplateListActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
 
-    private ArrayList<UITemplate> dataTemplates = new ArrayList<UITemplate>();
     private RecyclerView rvTemplates;
     private TemplateAdapter templateAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberTemplates;
 
-    //sorted in alphabetical order
-    private ArrayList<UITemplate> sortList(ArrayList<UITemplate> list) {
-        Collections.sort(list, new Comparator<UITemplate>() {
-            @Override
-            public int compare(UITemplate t1, UITemplate t2) {
-                int ctr = t1.getTitle().compareTo(t2.getTitle());
-                return ctr;
-            }
-        });
-        return list;
-    }
 
-    /*
     //add alphabets
     //1-alphabet
     //2-name
-    ArrayList<UITemplate> addAlphabets(ArrayList<UITemplate> list) {
-        int i = 0;
-        ArrayList<UITemplate> customList = new ArrayList<UITemplate>();
-        UITemplate t1 = new UITemplate();
-        t1.setTitle(String.valueOf(list.get(0).getTitle().charAt(0)));
-        t1.setType(1);
-        customList.add(t1);
-        for (i = 0; i < list.size() - 1; i++) {
-            UITemplate t2 = new UITemplate();
-            char name1 = list.get(i).getTitle().charAt(0);
-            char name2 = list.get(i + 1).getTitle().charAt(0);
-            if (name1 == name2) {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-            } else {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-                t2.setTitle(String.valueOf(name2));
-                t2.setType(1);
-                customList.add(t2);
+    List<Template> addAlphabets(List<Template> list) {
+        if (list.size() != 0) {
+            int i = 0;
+            List<Template> customList = new ArrayList<>();
+            Template t1 = new Template();
+            t1.setTitle(String.valueOf(list.get(0).getTitle().charAt(0)));
+            t1.setType(1);
+            customList.add(t1);
+            for (i = 0; i < list.size() - 1; i++) {
+                Template t2 = new Template();
+                char name1 = list.get(i).getTitle().charAt(0);
+                char name2 = list.get(i + 1).getTitle().charAt(0);
+                if (name1 == name2) {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                } else {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                    t2.setTitle(String.valueOf(name2));
+                    t2.setType(1);
+                    customList.add(t2);
+                }
             }
+            list.get(i).setType(2);
+            customList.add(list.get(i));
+            return customList;
         }
-        list.get(i).setType(2);
-        customList.add(list.get(i));
-        return customList;
+        else {
+            return list;
+        }
     }
-*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +88,16 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
         viewModel.getAllTemplates().observe(this, templates -> {
-            this.templateAdapter.setDataTemplates(templates);
+            this.templateAdapter.setDataTemplates(addAlphabets(templates));
+            this.tvNumberTemplates = findViewById(R.id.tv_tlist_total);
+            int count = templates.size();
+            this.tvNumberTemplates.setText(count+" Templates");
         });
     }
 
     private void initComponents(){
         this.ivAdd = findViewById(R.id.iv_toolbar_right);
         this.ivMenu = findViewById(R.id.iv_toolbar_left);
-        this.tvNumberTemplates = findViewById(R.id.tv_tlist_total);
 
         this.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override

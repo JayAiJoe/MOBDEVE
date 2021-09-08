@@ -206,17 +206,6 @@ public class AddContactActivity extends AppCompatActivity  {
         });
     }*/
 
-    //sort alphabetically
-    private ArrayList<Group> sortList(ArrayList<Group> list) {
-        Collections.sort(list, new Comparator<Group>() {
-            @Override
-            public int compare(Group c1, Group c2) {
-                return c1.getName().compareTo(c2.getName());
-            }
-        });
-        return list;
-    }
-
     public void onResume() {
         super.onResume();
         this.initComponents();

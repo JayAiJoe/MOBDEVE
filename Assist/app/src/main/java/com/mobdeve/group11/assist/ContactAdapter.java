@@ -33,7 +33,14 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_MEMBER;
+        int viewType = 0;
+        if (dataContacts.get(position).getType() == TYPE_LETTER) {
+            viewType = TYPE_LETTER;
+        } else if (dataContacts.get(position).getType() == TYPE_MEMBER) {
+            viewType = TYPE_MEMBER;
+        }
+
+        return viewType;
     }
 
     @NonNull

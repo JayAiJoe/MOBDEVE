@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
 import com.mobdeve.group11.assist.database.GroupMembership;
 
@@ -31,57 +32,50 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
 
-    private ArrayList<Group> dataGroups = new ArrayList<Group>();
     private RecyclerView rvGroups;
     private GroupAdapter groupAdapter;
 
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberGroups;
 
-    //sorted in alphabetical order
-    private ArrayList<Group> sortList(ArrayList<Group> list) {
-        Collections.sort(list, new Comparator<Group>() {
-            @Override
-            public int compare(Group g1, Group g2) {
-                int ctr = g1.getName().compareTo(g2.getName());
-                return ctr;
-            }
-        });
-        return list;
-    }
 
-    /*
     //add alphabets
     //1-alphabet
     //2-name
-    ArrayList<Group> addAlphabets(ArrayList<Group> list) {
-        int i = 0;
-        ArrayList<Group> customList = new ArrayList<Group>();
-        Group g1 = new Group();
-        g1.setName(String.valueOf(list.get(0).getName().charAt(0)));
-        g1.setType(1);
-        customList.add(g1);
-        for (i = 0; i < list.size() - 1; i++) {
-            Group g2 = new Group();
-            char name1 = list.get(i).getName().charAt(0);
-            char name2 = list.get(i + 1).getName().charAt(0);
-            if (name1 == name2) {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-            } else {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-                g2.setName(String.valueOf(name2));
-                g2.setType(1);
-                customList.add(g2);
+    List<ContactGroup> addAlphabets(List<ContactGroup> list) {
+        if (list.size() != 0){
+            int i = 0;
+            List<ContactGroup> customList = new ArrayList<>();
+            ContactGroup g1 = new ContactGroup();
+            g1.setName(String.valueOf(list.get(0).getName().charAt(0)));
+            g1.setType(1);
+            customList.add(g1);
+            for (i = 0; i < list.size() - 1; i++) {
+                ContactGroup g2 = new ContactGroup();
+                char name1 = list.get(i).getName().charAt(0);
+                char name2 = list.get(i + 1).getName().charAt(0);
+                if (name1 == name2) {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                } else {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                    g2.setName(String.valueOf(name2));
+                    g2.setType(1);
+                    customList.add(g2);
+                }
             }
+            list.get(i).setType(2);
+            customList.add(list.get(i));
+            return customList;
         }
-        list.get(i).setType(2);
-        customList.add(list.get(i));
-        return customList;
+        else {
+            return list;
+        }
+
     }
 
-     */
+
 
 
     @Override
@@ -99,14 +93,16 @@ public class ViewGroupListActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
         viewModel.getAllGroups().observe(this, groups -> {
-            this.groupAdapter.setDataGroups(groups);
+            this.groupAdapter.setDataGroups(addAlphabets(groups));
+            this.tvNumberGroups = findViewById(R.id.tv_glist_total);
+            int count = groups.size();
+            this.tvNumberGroups.setText(count+" Groups");
         });
     }
 
     private void initComponents(){
         this.ivAdd = findViewById(R.id.iv_toolbar_right);
         this.ivMenu = findViewById(R.id.iv_toolbar_left);
-        this.tvNumberGroups = findViewById(R.id.tv_glist_total);
 
         this.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -31,7 +31,14 @@ public class TemplateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        return TYPE_ME;
+        int viewType = 0;
+        if (dataTemplates.get(position).getType() == TYPE_LE) {
+            viewType = TYPE_LE;
+        } else if (dataTemplates.get(position).getType() == TYPE_ME) {
+            viewType = TYPE_ME;
+        }
+
+        return viewType;
     }
 
     @NonNull

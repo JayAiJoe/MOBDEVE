@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Contact.class, ContactGroup.class, Event.class, EventGrouping.class, GroupMembership.class, Template.class},
-        version = 2,
+        version = 4,
         exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AssistDatabase extends RoomDatabase {

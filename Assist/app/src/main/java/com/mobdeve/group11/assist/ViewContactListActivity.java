@@ -23,6 +23,7 @@ import com.mobdeve.group11.assist.database.ContactGroup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class ViewContactListActivity extends AppCompatActivity {
 
@@ -30,7 +31,6 @@ public class ViewContactListActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
 
-    private ArrayList<Contact> dataContacts = new ArrayList<Contact>();;
     private RecyclerView rvContacts;
     private ContactAdapter contactAdapter;
 
@@ -54,56 +54,42 @@ public class ViewContactListActivity extends AppCompatActivity {
             }
     );
 
-    /*
-    //sorted in alphabetical order
-    private ArrayList<Contact> sortList(ArrayList<Contact> list) {
-        Collections.sort(list, new Comparator<Contact>() {
-            @Override
-            public int compare(Contact c1, Contact c2) {
-                int ctr = c1.getLName().compareTo(c2.getLName());
-                if (ctr != 0){
-                    return ctr;
-                }
-                else {
-                    return c1.getFName().compareTo(c2.getFName());
-                }
-            }
-        });
-        return list;
-    }
-     */
-
     //add alphabets
     //1-alphabet
     //2-name
-    /*
-    ArrayList<Contact> addAlphabets(ArrayList<Contact> list) {
-        int i = 0;
-        ArrayList<Contact> customList = new ArrayList<Contact>();
-        Contact c1 = new Contact();
-        c1.setLName(String.valueOf(list.get(0).getLName().charAt(0)));
-        c1.setType(1);
-        customList.add(c1);
-        for (i = 0; i < list.size() - 1; i++) {
-            Contact c2 = new Contact();
-            char name1 = list.get(i).getLName().charAt(0);
-            char name2 = list.get(i + 1).getLName().charAt(0);
-            if (name1 == name2) {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-            } else {
-                list.get(i).setType(2);
-                customList.add(list.get(i));
-                c2.setLName(String.valueOf(name2));
-                c2.setType(1);
-                customList.add(c2);
+    List <Contact> addAlphabets(List<Contact> list) {
+        if (list.size() != 0){
+            int i = 0;
+            List<Contact> customList = new ArrayList<>();
+            Contact c1 = new Contact();
+            c1.setLastName(String.valueOf(list.get(0).getLastName().charAt(0)));
+            c1.setType(1);
+            customList.add(c1);
+            for (i = 0; i < list.size() - 1; i++) {
+                Contact c2 = new Contact();
+                char name1 = list.get(i).getLastName().charAt(0);
+                char name2 = list.get(i + 1).getLastName().charAt(0);
+                if (name1 == name2) {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                } else {
+                    list.get(i).setType(2);
+                    customList.add(list.get(i));
+                    c2.setLastName(String.valueOf(name2));
+                    c2.setType(1);
+                    customList.add(c2);
+                }
             }
+            list.get(i).setType(2);
+            customList.add(list.get(i));
+            return customList;
         }
-        list.get(i).setType(2);
-        customList.add(list.get(i));
-        return customList;
+
+        else {
+            return list;
+        }
     }
-     */
+
 
 
     @Override
@@ -120,14 +106,16 @@ public class ViewContactListActivity extends AppCompatActivity {
         this.rvContacts.setAdapter(this.contactAdapter);
 
         viewModel.getAllContacts().observe(this, contacts -> {
-            this.contactAdapter.setDataContacts(contacts);
+            this.contactAdapter.setDataContacts(addAlphabets(contacts));
+            this.tvNumberContacts = findViewById(R.id.tv_view_clist_total);
+            int count = contacts.size();
+            this.tvNumberContacts.setText(count+" Contacts");
         });
     }
 
     private void initComponents(){
         this.ivAdd = findViewById(R.id.iv_toolbar_right);
         this.ivMenu = findViewById(R.id.iv_toolbar_left);
-        this.tvNumberContacts = findViewById(R.id.tv_view_clist_total);
 
         this.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
