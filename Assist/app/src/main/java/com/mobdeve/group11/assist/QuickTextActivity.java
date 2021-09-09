@@ -115,19 +115,28 @@ public class QuickTextActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentMessage = etText.getText().toString().trim();
 
-                for(int i=0; i<selectedGroups.size(); i++){
-                    viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(QuickTextActivity.this, contacts -> {
-                        for(int j=0; j<contacts.size(); j++){
-                            viewModel.getContactById(contacts.get(j)).observe(QuickTextActivity.this, contact -> {
 
-                                //sendSMSMessage("09177003717");
-                                sendSMS(contact.getContactNumber(), currentMessage);
-                            });
-                        }
-                    });
-            }}
+                if (ContextCompat.checkSelfPermission(QuickTextActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(QuickTextActivity.this,new String[] { Manifest.permission.SEND_SMS}, 1);
+                }
+                else {
+                    currentMessage = etText.getText().toString().trim();
+
+                    for(int i=0; i<selectedGroups.size(); i++){
+                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(QuickTextActivity.this, contacts -> {
+                            for(int j=0; j<contacts.size(); j++){
+                                viewModel.getContactById(contacts.get(j)).observe(QuickTextActivity.this, contact -> {
+
+                                    //sendSMSMessage("09177003717");
+                                    sendSMS(contact.getContactNumber(), currentMessage);
+                                });
+                            }
+                        });
+                    }
+
+                }
+            }
         });
 
         ivBack.setOnClickListener(new View.OnClickListener() {
