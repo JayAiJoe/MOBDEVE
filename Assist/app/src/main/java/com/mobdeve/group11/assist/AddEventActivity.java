@@ -252,7 +252,7 @@ public class AddEventActivity extends AppCompatActivity {
         this.ivDone.setOnClickListener(view -> {
             Intent intent = new Intent();
 
-            String name = etName.getText().toString();
+            String name = etName.getText().toString().trim();
 
             if (name.length() > 0  && checkedTemplate != -1 && reminderIndex != -1){
 

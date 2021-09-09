@@ -2,6 +2,7 @@ package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,17 +25,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ThumbnailImage;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EditContactActivity extends AppCompatActivity {
 
+    private AssistViewModel viewModel;
+
     private ImageView ivCancel, ivDone, ivPic;
     private TextView tvPic, tvGroups, tvHead;
     private EditText etFName, etLName, etPNum, etGuardian;
 
     private Activity activity = EditContactActivity.this;
+
+    private Contact contact = new Contact("","","","");
+    private ThumbnailImage thumbnailImage;
 
     private String Document_img1="";
 
@@ -49,6 +59,8 @@ public class EditContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
     private void initComponents(){
@@ -68,17 +80,19 @@ public class EditContactActivity extends AppCompatActivity {
         this.ivDone.setOnClickListener(view -> {
             Intent intent = new Intent();
 
-            String fName = etFName.getText().toString();
-            String lName = etLName.getText().toString();
-            String pNum = etPNum.getText().toString();
-            String guardian = etGuardian.getText().toString();
+            String fName = etFName.getText().toString().trim();
+            String lName = etLName.getText().toString().trim();
+            String pNum = etPNum.getText().toString().trim();
+            String guardian = etGuardian.getText().toString().trim();
 
             if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
-                intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
-                intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
-                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
-                intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
+                contact.setFirstName(fName);
+                contact.setLastName(lName);
+                contact.setContactNumber(pNum);
+                contact.setGuardian(guardian);
+                viewModel.updateContact(contact);
                 setResult(Activity.RESULT_OK, intent);
+                finish();
             }
             else{
                 Toast t = Toast.makeText(getApplicationContext(),
@@ -86,7 +100,6 @@ public class EditContactActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG);
                 t.show();
             }
-            finish();
         });
 
         this.tvPic.setOnClickListener(new View.OnClickListener() {
@@ -107,13 +120,26 @@ public class EditContactActivity extends AppCompatActivity {
         this.etGuardian = findViewById(R.id.et_edit_contact_guardian);
         this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
 
-        if(getIntent().hasExtra(ContactInfo.FIRST_NAME.name()) && getIntent().hasExtra(ContactInfo.LAST_NAME.name()) &&
-                getIntent().hasExtra(ContactInfo.PHONE_NUMBER.name())) {
+        Integer cId = getIntent().getIntExtra(ContactInfo.ID.name(), 0);
+
+        if(cId != null) {
             //photo
-            this.etFName.setText(getIntent().getStringExtra(ContactInfo.FIRST_NAME.name()));
-            this.etLName.setText(getIntent().getStringExtra(ContactInfo.LAST_NAME.name()));
-            this.etPNum.setText(getIntent().getStringExtra(ContactInfo.PHONE_NUMBER.name()));
-            this.etGuardian.setText(getIntent().getStringExtra(ContactInfo.GUARDIAN.name()));
+            viewModel.getContactById(cId).observe(this, contact ->{
+                this.contact = contact;
+                this.etFName.setText(contact.getFirstName());
+                this.etLName.setText(contact.getLastName());
+                this.etPNum.setText(contact.getContactNumber());
+                this.etGuardian.setText(contact.getGuardian());
+            });
+
+            viewModel.getThumbnailByContactId(cId).observe(this, thumbnailImage -> {
+                if(thumbnailImage != null){
+                    this.ivPic.setImageBitmap(thumbnailImage.getImage());
+                    this.thumbnailImage = thumbnailImage;
+                    this.tvPic.setText("Change Photo");
+                }
+            });
+
             //groups
             this.tvHead.setText("Edit Contact");
         }else{
@@ -175,18 +201,18 @@ public class EditContactActivity extends AppCompatActivity {
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 thumbnail=getResizedBitmap(thumbnail, 400);
-                Log.w("path of image from gallery......******************.........", picturePath+"");
+                //Log.w("path of image from gallery......******************.........", picturePath+"");
                 ivPic.setImageBitmap(thumbnail);
-                BitMapToString(thumbnail);
+                tvPic.setText("Change Photo");
+                if(thumbnailImage != null){
+                    thumbnailImage.setImage(thumbnail);
+                    viewModel.updateThumbnail(thumbnailImage);
+                }
+                else{
+                    viewModel.addThumbnail(new ThumbnailImage(contact.getId(), thumbnail));
+                }
             }
         }
-    }
-    public String BitMapToString(Bitmap userImage1) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
-        return Document_img1;
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {

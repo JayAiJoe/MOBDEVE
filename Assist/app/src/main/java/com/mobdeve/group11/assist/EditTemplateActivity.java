@@ -43,9 +43,9 @@ public class EditTemplateActivity extends AppCompatActivity {
 
         this.ivDone.setOnClickListener(view -> {
             Intent intent = new Intent();
-            String title = etTitle.getText().toString();
-            String sub = etSub.getText().toString();
-            String notes = etNotes.getText().toString();
+            String title = etTitle.getText().toString().trim();
+            String sub = etSub.getText().toString().trim();
+            String notes = etNotes.getText().toString().trim();
 
             if (title.length() > 0 && sub.length() > 0 && notes.length() > 0){
                 intent.putExtra(TemplateInfo.TITLE.name(), title);

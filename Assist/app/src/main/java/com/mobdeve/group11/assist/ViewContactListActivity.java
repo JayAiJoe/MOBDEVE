@@ -138,11 +138,13 @@ public class ViewContactListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_CONTACT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            /*
             Contact c = new Contact(data.getStringExtra(ContactInfo.FIRST_NAME.name()),
                     data.getStringExtra(ContactInfo.LAST_NAME.name()),
                     data.getStringExtra(ContactInfo.PHONE_NUMBER.name()),
                     data.getStringExtra(ContactInfo.GUARDIAN.name()));
             viewModel.addContact(c);
+             */
         }
     }
 

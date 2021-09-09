@@ -51,7 +51,11 @@ public class AssistViewModel extends AndroidViewModel {
 
     public LiveData<List<Event>> getEventsByDay(LocalDate d) { return mRepository.loadEventsOfTheDay(d); }
 
+    public LiveData<ThumbnailImage> getThumbnailByContactId(Integer id) { return mRepository.getThumbnailByContactId(id); }
+
     public void addContact(Contact contact) { mRepository.addContact(contact); }
+
+    public long addContactGetId(Contact contact) { return mRepository.addContactGetId(contact); }
 
     public void addGroup(ContactGroup contactGroup) { mRepository.addGroup(contactGroup); }
 
@@ -67,6 +71,8 @@ public class AssistViewModel extends AndroidViewModel {
 
     public void addTemplate(Template template) { mRepository.addTemplate(template); }
 
+    public void addThumbnail(ThumbnailImage thumbnailImage) { mRepository.addThumbnail(thumbnailImage); }
+
     public void updateContact(Contact contact) { mRepository.updateContact(contact); }
 
     public void updateGroup(ContactGroup contactGroup) { mRepository.updateGroup(contactGroup); }
@@ -74,6 +80,8 @@ public class AssistViewModel extends AndroidViewModel {
     public void updateEvent(Event event) { mRepository.updateEvent(event); }
 
     public void updateTemplate(Template template) { mRepository.updateTemplate(template); }
+
+    public void updateThumbnail(ThumbnailImage thumbnailImage) { mRepository.updateThumbnail(thumbnailImage); }
 
     public void deleteContact(Contact contact) { mRepository.deleteContact(contact); }
 
@@ -90,5 +98,7 @@ public class AssistViewModel extends AndroidViewModel {
     public Integer deleteAllMembershipsOfGroup(Integer id) { return mRepository.deleteAllMembershipsOfGroup(id); }
 
     public Integer deleteAllGroupingsInEvent(Integer id) { return mRepository.deleteAllGroupingsInEvent(id); }
+
+    public void deleteThumbnail(ThumbnailImage thumbnailImage) { mRepository.deleteThumbnail(thumbnailImage); }
 
 }

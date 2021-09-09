@@ -47,9 +47,9 @@ public class AddTemplateActivity extends AppCompatActivity {
         this.ivDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = etTitle.getText().toString();
-                String sub = etSub.getText().toString();
-                String notes = etNotes.getText().toString();
+                String title = etTitle.getText().toString().trim();
+                String sub = etSub.getText().toString().trim();
+                String notes = etNotes.getText().toString().trim();
 
                 if (title.length() > 0 && sub.length() > 0 && notes.length() > 0) {
                     Intent intent = new Intent();

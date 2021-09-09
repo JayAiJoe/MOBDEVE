@@ -2,6 +2,7 @@ package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,6 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.ThumbnailImage;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +41,11 @@ public class AddContactActivity extends AppCompatActivity  {
     private TextView tvPic, tvGroups, tvHead;
     private EditText etFName, etLName, etPNum, etGuardian;
 
-    /*private boolean[] selectedGroups;
-    private ArrayList<Integer> groupList = new ArrayList<>();
-    private DataHelper helper;*/
+    private AssistViewModel viewModel;
 
     private String Document_img1="";
+
+    private Bitmap thumbnail;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -52,6 +58,8 @@ public class AddContactActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
     private void initComponents(){
@@ -80,23 +88,26 @@ public class AddContactActivity extends AppCompatActivity  {
         this.ivDone.setOnClickListener(view -> {
             Intent intent = new Intent();
 
-            String fName = etFName.getText().toString();
-            String lName = etLName.getText().toString();
-            String pNum = etPNum.getText().toString();
-            String guardian = etGuardian.getText().toString();
+            String fName = etFName.getText().toString().trim();
+            String lName = etLName.getText().toString().trim();
+            String pNum = etPNum.getText().toString().trim();
+            String guardian = etGuardian.getText().toString().trim();
 
             if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
 
-                intent.putExtra(ContactInfo.FIRST_NAME.name(), fName);
-                intent.putExtra(ContactInfo.LAST_NAME.name(), lName);
-                intent.putExtra(ContactInfo.PHONE_NUMBER.name(), pNum);
-                intent.putExtra(ContactInfo.GUARDIAN.name(), guardian);
+                Integer cId = (int) viewModel.addContactGetId(new Contact(fName,lName, pNum, guardian));
+
+
+                if(thumbnail != null && cId != null) {
+                    viewModel.addThumbnail(new ThumbnailImage(cId, thumbnail));
+                }
+
                 setResult(Activity.RESULT_OK,intent);
+                finish();
             }
             else{
-                setResult(RESULT_CANCELED, intent);
+                //toast
             }
-            finish();
         });
 
         this.tvPic.setOnClickListener(new View.OnClickListener() {
@@ -107,109 +118,11 @@ public class AddContactActivity extends AppCompatActivity  {
         });
     }
 
-    /*private void initGroupsDropDown(){
-        this.helper = new DataHelper ();
-        ArrayList <Group> data = helper.initializeGroups();
-        data = this.sortList(data);
-        ArrayList<String> dataGroups = new ArrayList<>();
-        for(int ctr=0; ctr < data.size(); ctr++){
-            dataGroups.add(ctr, data.get(ctr).getName());
-        }
-
-        String[] groups = new String[dataGroups.size()];
-        groups = dataGroups.toArray(groups);
-
-        this.tvGroups = findViewById(R.id.tv_add_contact_groups);
-        selectedGroups = new boolean[dataGroups.size()];
-
-        String[] finalGroups = groups;
-        tvGroups.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //initialize alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        AddContactActivity.this
-                );
-                //set title
-                builder.setTitle("Select Groups (Note: once clicked, cannot undo individually)");
-
-                //set dialog non cancelable
-                //builder.setCancelable(false);
-
-                builder.setMultiChoiceItems(finalGroups, selectedGroups, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        //check condition
-                        if (isChecked){
-                            //add position in groupList
-                            groupList.add(which);
-                            //sort groupList
-                            Collections.sort(groupList);
-                        }
-                        else{
-                            //remove position from grouplist
-                            groupList.remove(which);
-
-                            /*selectedGroups[which] = false;
-                            ((AlertDialog) dialog).getListView().setItemChecked(which, false);
-                        }
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //initialize string builder
-                        StringBuilder stringBuilder = new StringBuilder();
-                        //use for loop
-                        for (int j=0; j<groupList.size();j++){
-                            //concat array values
-                            stringBuilder.append(finalGroups[groupList.get(j)]);
-                            //check condition
-                            if (j != groupList.size()-1){
-                                //add comma
-                                stringBuilder.append(", ");
-                            }
-                        }
-
-                        //set text on text view
-                        tvGroups.setText(stringBuilder.toString());
-                    }
-                });
-
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dismiss dialog
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //use for loop
-                        for (int j=0; j< selectedGroups.length; j++){
-                            //remove all selection
-                            selectedGroups[j] = false;
-                            //clear grouplist
-                            groupList.clear();
-                            //clear textview value
-                            tvGroups.setText("");
-                        }
-                    }
-                });
-
-                //show dialog
-                builder.show();
-            }
-        });
-    }*/
+   
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        //this.initGroupsDropDown();
     }
 
     private void selectImage(){
@@ -258,21 +171,15 @@ public class AddContactActivity extends AppCompatActivity  {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                thumbnail = (BitmapFactory.decodeFile(picturePath));
                 thumbnail=getResizedBitmap(thumbnail, 400);
-                Log.w("path of image from gallery......******************.........", picturePath+"");
+                //Log.w("path of image from gallery......******************.........", picturePath+"");
                 ivPic.setImageBitmap(thumbnail);
-                BitMapToString(thumbnail);
+                tvPic.setText("Change Photo");
             }
         }
     }
-    public String BitMapToString(Bitmap userImage1) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
-        return Document_img1;
-    }
+
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();

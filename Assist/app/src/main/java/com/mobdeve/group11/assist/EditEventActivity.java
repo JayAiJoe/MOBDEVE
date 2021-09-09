@@ -156,7 +156,7 @@ public class EditEventActivity extends AppCompatActivity {
 
                 if (etName.getText().toString().length() > 0 && checkedTemplate != -1 && reminderIndex != -1){
 
-                    event.setTitle(etName.getText().toString());
+                    event.setTitle(etName.getText().toString().trim());
                     event.setDate(selectedDate);
                     event.setTimeStart(startTime);
                     event.setTimeEnd(endTime);

@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+
+
 class AssistRepository {
 
     private ContactDao contactDao;
@@ -20,6 +22,7 @@ class AssistRepository {
     private EventGroupingDao eventGroupingDao;
     private GroupMembershipDao groupMembershipDao;
     private TemplateDao templateDao;
+    private ThumbnailImageDao thumbnailImageDao;
 
     private LiveData<List<Contact>> allContacts;
     private LiveData<List<ContactGroup>> allContactGroups;
@@ -36,6 +39,7 @@ class AssistRepository {
         eventGroupingDao = db.eventGroupingDao();
         groupMembershipDao = db.groupMembershipDao();
         templateDao = db.templateDao();
+        thumbnailImageDao = db.thumbnailImageDao();
 
         allContacts = contactDao.loadAllContacts();
         allContactGroups = contactGroupDao.loadAllContactGroups();
@@ -86,11 +90,28 @@ class AssistRepository {
 
     LiveData<List<Event>> loadEventsOfTheDay(LocalDate d) { return eventDao.loadEventsOfTheDay(d);}
 
+    LiveData<ThumbnailImage> getThumbnailByContactId(Integer id) { return thumbnailImageDao.getImageByImageId(id); }
+
     //async db update functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactDao.insertContact(contact);
         });
+    }
+
+    long addContactGetId(Contact contact) {
+        Callable<Long> insertCallable = () -> contactDao.insertContact(contact);
+        long rowId = 0;
+
+        Future<Long> future = executorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
     }
 
     void addGroup(ContactGroup contactGroup) {
@@ -183,6 +204,12 @@ class AssistRepository {
         });
     }
 
+    void addThumbnail(ThumbnailImage thumbnailImage) {
+        AssistDatabase.databaseWriteExecutor.execute(() -> {
+            thumbnailImageDao.insertImage(thumbnailImage);
+        });
+    }
+
     void updateContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactDao.updateContact(contact);
@@ -204,6 +231,12 @@ class AssistRepository {
     void updateTemplate(Template template) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             templateDao.updateTemplate(template);
+        });
+    }
+
+    void updateThumbnail(ThumbnailImage thumbnailImage) {
+        AssistDatabase.databaseWriteExecutor.execute(() -> {
+            thumbnailImageDao.updateImage(thumbnailImage);
         });
     }
 
@@ -240,6 +273,12 @@ class AssistRepository {
     void deleteTemplate(Template template) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             templateDao.deleteTemplate(template);
+        });
+    }
+
+    void deleteThumbnail(ThumbnailImage image) {
+        AssistDatabase.databaseWriteExecutor.execute(() -> {
+            thumbnailImageDao.deleteImage(image);
         });
     }
 
