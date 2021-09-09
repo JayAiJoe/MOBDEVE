@@ -32,8 +32,8 @@ public class ViewEventActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
 
-    private ImageView ivBackDay, ivEdit;
-    private TextView tvName, tvDate, tvTime, tvTemplate, tvRemind, tvGroups, tvHead;
+    private ImageView ivBackDay, ivEdit, ivEmpty;
+    private TextView tvName, tvDate, tvTime, tvTemplate, tvRemind, tvGroups, tvHead, tvEmpty, tvGroupsTitle;
     private Activity activity = ViewEventActivity.this;
     private  Button btnDelete;
     private ListView lvGroups;
@@ -65,6 +65,10 @@ public class ViewEventActivity extends AppCompatActivity {
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
         this.lvGroups = findViewById(R.id.lv_event_view);
 
+        this.tvGroupsTitle = findViewById(R.id.tv_groups_event);
+        this.ivEmpty = findViewById(R.id.iv_view_event_empty);
+        this.tvEmpty = findViewById(R.id.tv_view_event_empty);
+
         Intent intent = getIntent();
         Integer eId = intent.getIntExtra(GroupInfo.ID.name(), 1);
 
@@ -90,8 +94,19 @@ public class ViewEventActivity extends AppCompatActivity {
             this.ids = ids;
             viewModel.getManyCGroupsById(ids).observe(this, groups -> {
                 this.groupList = groups;
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(groupList))));
-                lvGroups.setAdapter(adapter);
+                if (this.groupList.size() == 0) {
+                    ivEmpty.setVisibility(View.VISIBLE);
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    tvGroupsTitle.setVisibility(View.GONE);
+                }
+                else {
+                    adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(groupList))));
+                    lvGroups.setAdapter(adapter);
+                    ivEmpty.setVisibility(View.GONE);
+                    tvEmpty.setVisibility(View.GONE);
+                    tvGroupsTitle.setVisibility(View.VISIBLE);
+                }
+
             });
 
         });

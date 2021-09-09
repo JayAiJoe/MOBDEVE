@@ -31,8 +31,8 @@ public class ContactActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
 
-    private ImageView ivBack, ivEdit, ivPic;
-    private TextView tvName, tvPNum, tvGuardian, tvHead;
+    private ImageView ivBack, ivEdit, ivPic, ivEmpty;
+    private TextView tvName, tvPNum, tvGuardian, tvHead, tvEmpty, tvGroupsTitle;
     private Button btnDelete;
     private ListView lvGroups;
 
@@ -100,6 +100,10 @@ public class ContactActivity extends AppCompatActivity {
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
         this.lvGroups = findViewById(R.id.lv_groups);
 
+        this.tvGroupsTitle = findViewById(R.id.tv_groups_title);
+        this.ivEmpty = findViewById(R.id.iv_view_contact_empty);
+        this.tvEmpty = findViewById(R.id.tv_view_contact_empty);
+
         Intent intent = getIntent();
         Integer cId = intent.getIntExtra(ContactInfo.ID.name(), 0);
 
@@ -116,8 +120,19 @@ public class ContactActivity extends AppCompatActivity {
             this.ids = ids;
             viewModel.getManyCGroupsById(ids).observe(this, groups -> {
                 this.groupList = groups;
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
-                lvGroups.setAdapter(adapter);
+                if (this.groupList.size() == 0) {
+                    ivEmpty.setVisibility(View.VISIBLE);
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    tvGroupsTitle.setVisibility(View.GONE);
+                }
+                else {
+                    adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                    lvGroups.setAdapter(adapter);
+                    ivEmpty.setVisibility(View.GONE);
+                    tvEmpty.setVisibility(View.GONE);
+                    tvGroupsTitle.setVisibility(View.VISIBLE);
+                }
+
             });
 
         });

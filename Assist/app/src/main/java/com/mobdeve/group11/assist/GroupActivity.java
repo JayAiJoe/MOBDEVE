@@ -29,8 +29,8 @@ public class GroupActivity extends AppCompatActivity{
 
     private AssistViewModel viewModel;
 
-    private ImageView ivBack, ivEdit, ivPic;
-    private TextView tvName, tvHead;
+    private ImageView ivBack, ivEdit, ivPic, ivEmpty;
+    private TextView tvName, tvHead, tvEmpty, tvMembersTitle;
     private Button btnDelete;
     private ListView lvMembers;
 
@@ -108,6 +108,10 @@ public class GroupActivity extends AppCompatActivity{
         this.tvHead = findViewById(R.id.tv_toolbar_view_title);
         this.lvMembers = findViewById(R.id.lv_group);
 
+        this.tvMembersTitle = findViewById(R.id.tv_members_title);
+        this.ivEmpty = findViewById(R.id.iv_view_group_empty);
+        this.tvEmpty = findViewById(R.id.tv_view_group_empty);
+
         Intent intent = getIntent();
         viewModel.getGroupById(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, curr_group -> {
             this.group = curr_group;
@@ -119,8 +123,19 @@ public class GroupActivity extends AppCompatActivity{
             this.ids = ids;
             viewModel.getManyContactsById(ids).observe(this, contacts -> {
                 this.contactList = contacts;
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(contactList))));
-                lvMembers.setAdapter(adapter);
+                if (this.contactList.size() == 0) {
+                    ivEmpty.setVisibility(View.VISIBLE);
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    tvMembersTitle.setVisibility(View.GONE);
+                }
+                else {
+                    adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(contactList))));
+                    lvMembers.setAdapter(adapter);
+                    ivEmpty.setVisibility(View.GONE);
+                    tvEmpty.setVisibility(View.GONE);
+                    tvMembersTitle.setVisibility(View.VISIBLE);
+                }
+
             });
 
         });

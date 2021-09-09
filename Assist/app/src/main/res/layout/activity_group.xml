@@ -65,6 +65,31 @@
         app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
         app:layout_constraintStart_toStartOf="@+id/gl_view_group_left" />
 
+    <ImageView
+        android:id="@+id/iv_view_group_empty"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="100dp"
+        android:alpha="0.2"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/gl_view_group_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_view_group_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_members_title"
+        app:srcCompat="@drawable/empty" />
+
+    <TextView
+        android:id="@+id/tv_view_group_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Members"
+        android:fontFamily="@font/amiko_semibold"
+        android:textSize="20sp"
+        android:alpha="0.4"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/iv_view_group_empty"
+        app:layout_constraintStart_toStartOf="@+id/iv_view_group_empty"
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_group_empty" />
+
     <TextView
         android:id="@+id/tv_members_title"
         android:layout_width="wrap_content"
