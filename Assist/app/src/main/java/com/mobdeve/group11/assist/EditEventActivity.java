@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,7 +42,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class EditEventActivity extends AppCompatActivity {
@@ -367,6 +371,22 @@ public class EditEventActivity extends AppCompatActivity {
         viewModel.getAllTemplates().observe(this, templates -> {
             templateList = templates;
         });
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setAlarm() {
+        int num = (int)System.currentTimeMillis();
+        LocalDate date = event.getDate();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), startTime.getSecond());
+
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), num,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
     }
 
 }

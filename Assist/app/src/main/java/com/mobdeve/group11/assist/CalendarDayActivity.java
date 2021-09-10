@@ -78,13 +78,13 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
 
         //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
 
-        ivBackMonth = findViewById(R.id.iv_toolbar_date_left);
-        ivAdd = findViewById(R.id.iv_toolbar_date_right);
+        ivBackMonth = findViewById(R.id.iv_toolbar_left);
+        ivAdd = findViewById(R.id.iv_toolbar_right);
 
         /*String temp[] = CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate).split(" ");*/
 
-        tvHead = findViewById(R.id.tv_toolbar_date_title);
-        this.tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
+        //tvHead = findViewById(R.id.tv_toolbar_date_title);
+        //this.tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
 
         ivBackMonth.setOnClickListener(new View.OnClickListener() {
             @Override

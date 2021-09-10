@@ -8,7 +8,7 @@
 
 <include
     android:id="@+id/include4"
-    layout="@layout/toolbar_view" />
+    layout="@layout/toolbar_text" />
 
 <androidx.constraintlayout.widget.Guideline
     android:id="@+id/gl_view_quick_left"

@@ -132,12 +132,12 @@ public class ContactActivity extends AppCompatActivity {
                     tvGroupsTitle.setVisibility(View.GONE);
                 }
                 else {
-                    adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
-                    lvGroups.setAdapter(adapter);
                     ivEmpty.setVisibility(View.GONE);
                     tvEmpty.setVisibility(View.GONE);
                     tvGroupsTitle.setVisibility(View.VISIBLE);
                 }
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                lvGroups.setAdapter(adapter);
 
             });
 

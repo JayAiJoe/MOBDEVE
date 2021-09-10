@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/include9"
-        layout="@layout/toolbar_date" />
+        layout="@layout/toolbar" />
 
 
     <LinearLayout

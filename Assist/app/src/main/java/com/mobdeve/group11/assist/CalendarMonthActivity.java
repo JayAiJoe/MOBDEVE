@@ -42,11 +42,11 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     private void initWidgets(){
         rvMonth = findViewById(R.id.rv_calendar_month);
         tvMonthYear = findViewById(R.id.tv_calendar_month);
-        ivBackYear = findViewById(R.id.iv_toolbar_date_left);
-        ivAdd = findViewById(R.id.iv_toolbar_date_right);
-        tvHead = findViewById(R.id.tv_toolbar_date_title);
+        ivBackYear = findViewById(R.id.iv_toolbar_left);
+        ivAdd = findViewById(R.id.iv_toolbar_right);
+        //tvHead = findViewById(R.id.tv_toolbar_date_title);
 
-        this.tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
+        //this.tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
 
         ivBackYear.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -130,12 +130,12 @@ public class GroupActivity extends AppCompatActivity{
                     tvMembersTitle.setVisibility(View.GONE);
                 }
                 else {
-                    adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(contactList))));
-                    lvMembers.setAdapter(adapter);
                     ivEmpty.setVisibility(View.GONE);
                     tvEmpty.setVisibility(View.GONE);
                     tvMembersTitle.setVisibility(View.VISIBLE);
                 }
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(contactList))));
+                lvMembers.setAdapter(adapter);
 
             });
 
