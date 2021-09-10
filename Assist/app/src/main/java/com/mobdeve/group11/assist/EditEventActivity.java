@@ -71,7 +71,7 @@ public class EditEventActivity extends AppCompatActivity {
     private int checkedTemplate = -1;
     private int templateIndex = -1;
 
-    private int reminderIndex = -1;
+    private int reminderIndex = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -178,7 +178,7 @@ public class EditEventActivity extends AppCompatActivity {
                 }
                 else{
                     Toast t = Toast.makeText(getApplicationContext(),
-                            "You have not yet entered in all of the required fields!",
+                            "Missing fields",
                             Toast.LENGTH_LONG);
                     t.show();
                 }
@@ -330,12 +330,15 @@ public class EditEventActivity extends AppCompatActivity {
                 tvDate.setText(event.getDate().toString());
                 tvSTime.setText(event.getTimeStart().toString());
                 tvETime.setText(event.getTimeEnd().toString());
+                tvTemplate.setText("None");
 
                 viewModel.getTemplateById(event.getTemplateId()).observe(EditEventActivity.this, template -> {
-                    tvTemplate.setText(template.getTitle());
-                });
+                    if(template != null){
+                        tvTemplate.setText(template.getTitle());
+                        checkedTemplate = event.getTemplateId();
+                    }
 
-                checkedTemplate = event.getTemplateId();
+                });
 
                 tvReminder.setText(AppUtils.getReminderText(event.getReminder()));
 

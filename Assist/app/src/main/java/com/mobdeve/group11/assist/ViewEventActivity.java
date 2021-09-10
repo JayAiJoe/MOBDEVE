@@ -2,6 +2,7 @@ package com.mobdeve.group11.assist;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompatSideChannelService;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -78,9 +79,11 @@ public class ViewEventActivity extends AppCompatActivity {
                 this.tvName.setText(event.getTitle());
                 this.tvDate.setText(event.getDate().getMonth() + " " + event.getDate().getDayOfMonth() + ", " + event.getDate().getYear());
                 this.tvTime.setText(event.getTimeStart().toString()+" - "+event.getTimeEnd().toString());
+                this.tvTemplate.setText("None");
 
                 viewModel.getTemplateById(event.getTemplateId()).observe(ViewEventActivity.this, template -> {
-                    tvTemplate.setText(template.getTitle());
+                    if(template != null)
+                        tvTemplate.setText(template.getTitle());
                 });
 
 

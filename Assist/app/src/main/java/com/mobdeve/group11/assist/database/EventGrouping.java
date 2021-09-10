@@ -7,8 +7,8 @@ import androidx.room.ForeignKey;
 
 @Entity(tableName = "event_groupings_table",
         foreignKeys = {
-        @ForeignKey(entity = ContactGroup.class, parentColumns = "id", childColumns = "groupId"),
-        @ForeignKey(entity = Event.class, parentColumns = "id", childColumns = "eventId")},
+        @ForeignKey(entity = ContactGroup.class, parentColumns = "id", childColumns = "groupId", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = Event.class, parentColumns = "id", childColumns = "eventId", onDelete = ForeignKey.CASCADE)},
         primaryKeys = {"groupId", "eventId"})
 public class EventGrouping {
 
