@@ -2,9 +2,11 @@ package com.mobdeve.group11.assist;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,22 +15,30 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mobdeve.group11.assist.database.AssistViewModel;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class CalendarMonthActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
 
+
+
     private TextView tvMonthYear, tvHead;
     private RecyclerView rvMonth;
     private ImageView ivBackYear, ivAdd;
+    private Activity activity = CalendarMonthActivity.this;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_month);
+        CalendarUtils.selectedDate = LocalDate.now();
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvMonth = findViewById(R.id.rv_calendar_month);
         tvMonthYear = findViewById(R.id.tv_calendar_month);
@@ -36,16 +46,14 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
         ivAdd = findViewById(R.id.iv_toolbar_date_right);
         tvHead = findViewById(R.id.tv_toolbar_date_title);
 
-        /*String temp[] = CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate).split(" ");
-
-        tvHead = findViewById(R.id.tv_toolbar_date_title);*/
-        this.tvHead.setText("2021");
+        this.tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
 
         ivBackYear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CalendarMonthActivity.this, MainActivity.class); //main (gawin year once oks)
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -53,7 +61,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarMonthActivity.this, AddEventActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
     }
@@ -62,8 +70,9 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
+        tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
         ArrayList<LocalDate> daysInMonth = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate);
-        CalendarAdapter cma = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter cma = new CalendarAdapter(daysInMonth,this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
         rvMonth.setLayoutManager(lm);
         rvMonth.setAdapter(cma);
@@ -78,7 +87,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
 
             //go to calendar day view
             Intent intent = new Intent(CalendarMonthActivity.this, CalendarDayActivity.class);
-            startActivity(intent);
+            activity.startActivityForResult(intent, 1);
         }
     }
 
@@ -98,7 +107,6 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     public void onResume() {
         super.onResume();
         initWidgets();
-        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
     }
 }

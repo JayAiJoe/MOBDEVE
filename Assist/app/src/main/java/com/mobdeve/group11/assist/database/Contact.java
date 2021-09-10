@@ -26,12 +26,16 @@ public class Contact {
     @ColumnInfo
     private String guardian;
 
+    @ColumnInfo
+    private Integer thumbnailId;
+
     public Contact(String firstName, String lastName, String contactNumber, String guardian){
         this.id = null;
         this.firstName = firstName;
         this.lastName = lastName;
         this.contactNumber = contactNumber;
         this.guardian = guardian;
+        this.thumbnailId = -1;
     }
 
     public Contact() {
@@ -74,5 +78,10 @@ public class Contact {
     }
 
     public Integer getType(){return type;}
+
     public void setType(int type){this.type = type;}
+
+    public Integer getThumbnailId(){ return thumbnailId;}
+
+    public void setThumbnailId(Integer id){ this.thumbnailId = id;}
 }

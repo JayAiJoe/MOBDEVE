@@ -38,9 +38,6 @@ public class ViewTemplateListActivity extends AppCompatActivity {
     private TextView tvNumberTemplates;
 
 
-    //add alphabets
-    //1-alphabet
-    //2-name
     List<Template> addAlphabets(List<Template> list) {
         if (list.size() != 0) {
             int i = 0;
@@ -110,44 +107,16 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         this.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewTemplateListActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
     }
 
-    /*
-    private void initRecyclerView(){
-        DataHelper helper = new DataHelper();
-        if (this.dataTemplates.size() == 0){
-            this.dataTemplates = helper.initializeTemplates();
-        }
-
-        int count = dataTemplates.size();
-        this.tvNumberTemplates.setText(count+" Templates");
-
-        ArrayList<UITemplate> templates = new ArrayList<UITemplate>();
-
-        //templates = addAlphabets(dataTemplates);
-
-    }
-
-     */
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_TEMPLATE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Template t = new Template(data.getStringExtra(TemplateInfo.TITLE.name()),
-                    data.getStringExtra(TemplateInfo.SUBJECT.name()),
-                    data.getStringExtra(TemplateInfo.NOTES.name()));
-            viewModel.addTemplate(t);
-        }
-    }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        //this.initRecyclerView();
     }
 }

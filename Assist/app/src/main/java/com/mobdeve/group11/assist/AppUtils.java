@@ -6,6 +6,8 @@ import com.mobdeve.group11.assist.database.Template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AppUtils {
 
@@ -60,5 +62,12 @@ public class AppUtils {
             strArray[i] = cList.get(i).getFirstName() + " " + cList.get(i).getLastName();
         }
         return strArray;
+    }
+
+    public static boolean isValidPhoneNumber(String s)
+    {
+        Pattern p = Pattern.compile("^(09|\\+639)\\d{9}$");
+        Matcher m = p.matcher(s);
+        return (m.matches());
     }
 }

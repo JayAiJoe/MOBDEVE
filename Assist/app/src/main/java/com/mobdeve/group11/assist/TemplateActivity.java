@@ -59,9 +59,7 @@ public class TemplateActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(v.getContext(), EditTemplateActivity.class);
 
-                intent.putExtra(TemplateInfo.TITLE.name(), template.getTitle());
-                intent.putExtra(TemplateInfo.SUBJECT.name(), template.getSubject());
-                intent.putExtra(TemplateInfo.NOTES.name(), template.getContent());
+                intent.putExtra(TemplateInfo.ID.name(), template.getId());
 
                 activity.startActivityForResult(intent, EDIT_REQUEST);
             }
@@ -100,12 +98,6 @@ public class TemplateActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-            template.setTitle(data.getStringExtra(TemplateInfo.TITLE.name()));
-            template.setSubject(data.getStringExtra(TemplateInfo.SUBJECT.name()));
-            template.setContent(data.getStringExtra(TemplateInfo.NOTES.name()));
-            viewModel.updateTemplate(template);
-        }
     }
 
     public void onResume() {

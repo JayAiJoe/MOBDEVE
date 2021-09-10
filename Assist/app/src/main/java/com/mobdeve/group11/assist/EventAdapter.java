@@ -35,18 +35,19 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.recycler_list_temp, parent, false);
+        View view = inflater.inflate(R.layout.event_list_item, parent, false);
         EventAdapter.ViewHolderMember eventViewHolder = new EventAdapter.ViewHolderMember(view);
         return eventViewHolder;
     }
 
     public class ViewHolderMember extends RecyclerView.ViewHolder{
-        private TextView tvName;
+        private TextView tvTitle, tvTime;
         private ConstraintLayout clContainer;
 
         public ViewHolderMember (@NonNull View itemView){
             super(itemView);
-            this.tvName = itemView.findViewById(R.id.tv_list_name);
+            this.tvTitle = itemView.findViewById(R.id.tv_list_event_title);
+            this.tvTime = itemView.findViewById(R.id.tv_list_event_time);
             this.clContainer = itemView.findViewById(R.id.cl_list_container);
         }
 
@@ -58,7 +59,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Event currentEvent = this.dataEvents.get(position);
 
         EventAdapter.ViewHolderMember viewHolderMember = (EventAdapter.ViewHolderMember) holder;
-        viewHolderMember.tvName.setText(currentEvent.getTitle());
+        viewHolderMember.tvTitle.setText(currentEvent.getTitle());
+        viewHolderMember.tvTime.setText(currentEvent.getTimeStart().toString() + " - " + currentEvent.getTimeEnd().toString());
 
         viewHolderMember.getContainer().setOnClickListener(new View.OnClickListener() {
             @Override

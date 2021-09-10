@@ -31,4 +31,7 @@ public interface EventDao {
     @Query("SELECT * FROM events_table WHERE date(date)=date(:d) ORDER BY timeStart")
     public LiveData<List<Event>> loadEventsOfTheDay(LocalDate d);
 
+    @Query("SELECT COUNT(id) FROM events_table WHERE date(date)=date(:d)")
+    public LiveData<Integer> countEventsOfTheDay(LocalDate d);
+
 }

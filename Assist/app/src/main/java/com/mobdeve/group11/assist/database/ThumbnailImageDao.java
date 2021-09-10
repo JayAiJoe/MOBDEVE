@@ -12,7 +12,7 @@ import androidx.room.Update;
 @Dao
 public interface ThumbnailImageDao {
     @Insert
-    public void insertImage(ThumbnailImage image);
+    public long insertImage(ThumbnailImage image);
 
     @Update
     public void updateImage(ThumbnailImage image);

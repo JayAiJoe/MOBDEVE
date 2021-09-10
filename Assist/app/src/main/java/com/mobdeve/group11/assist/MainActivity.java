@@ -2,6 +2,7 @@ package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button quick, calendar, contacts, groups, templates;
+    private Activity activity = MainActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), QuickTextActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), CalendarMonthActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewContactListActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewGroupListActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewTemplateListActivity.class);
-                startActivity(intent);
+                activity.startActivityForResult(intent, 1);
             }
         });
     }

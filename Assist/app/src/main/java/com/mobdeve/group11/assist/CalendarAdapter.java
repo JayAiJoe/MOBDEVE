@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.mobdeve.group11.assist.database.AssistViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
+
 
     public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener){
         this.days = days;
@@ -50,6 +54,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             holder.getTvDay().setText(String.valueOf(date.getDayOfMonth()));
             if(date.equals(CalendarUtils.selectedDate))
                 holder.getCell().setBackgroundColor(Color.LTGRAY);
+
+
         }
 
     }

@@ -29,6 +29,9 @@ import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.Contact;
+import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.GroupMembership;
+import com.mobdeve.group11.assist.database.ThumbnailImage;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -50,7 +53,10 @@ public class EditGroupActivity extends AppCompatActivity {
 
     private Activity activity = EditGroupActivity.this;
 
-    private String Document_img1="";
+
+
+    private ContactGroup contactGroup;
+    private ThumbnailImage thumbnailImage;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -88,6 +94,7 @@ public class EditGroupActivity extends AppCompatActivity {
                 adapter.addAll(names);
             });
         });
+
     }
 
     private void initComponents() {
@@ -112,14 +119,23 @@ public class EditGroupActivity extends AppCompatActivity {
             String name = etName.getText().toString().trim();
 
             if (name.length() > 0) {
-                intent.putExtra(GroupInfo.NAME.name(), name);
-                intent.putExtra(GroupInfo.MEMBERS.name(), AppUtils.getContactIds(selectedContacts));
+                contactGroup.setName(name);
+                viewModel.deleteAllMembershipsOfGroup(contactGroup.getId());
+                ArrayList<Integer> cIds = AppUtils.getContactIds(selectedContacts);
+                for(int i=0; i< cIds.size(); i++){
+                    viewModel.addMembership(new GroupMembership(cIds.get(i), contactGroup.getId()));
+                }
+
+                viewModel.updateGroup(contactGroup);
                 setResult(Activity.RESULT_OK, intent);
+                finish();
             }
             else{
-                setResult(Activity.RESULT_CANCELED, intent);
+                Toast t = Toast.makeText(getApplicationContext(),
+                        "You have not yet entered in all of the required fields!",
+                        Toast.LENGTH_LONG);
+                t.show();
             }
-            finish();
         });
 
         adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getContactNames(selectedContacts))));
@@ -139,15 +155,25 @@ public class EditGroupActivity extends AppCompatActivity {
         this.etName = findViewById(R.id.et_edit_group_gname);
         this.tvHead = findViewById(R.id.tv_toolbar_edit_title);
 
-        if(getIntent().hasExtra(GroupInfo.NAME.name())) {
-            //photo
-            this.etName.setText(getIntent().getStringExtra(GroupInfo.NAME.name()));
+        viewModel.getGroupById(getIntent().getIntExtra(GroupInfo.ID.name(),0)).observe(this, group->{
+            if(group != null){
+                this.contactGroup = group;
+                this.etName.setText(group.getName());
+                this.tvHead.setText("Edit Group");
 
-            this.tvHead.setText("Edit Group");
+                viewModel.getThumbnailById(group.getThumbnailId()).observe(this, thumbnailImage -> {
+                    if(thumbnailImage != null){
+                        this.ivPic.setImageBitmap(thumbnailImage.getImage());
+                        this.thumbnailImage = thumbnailImage;
+                        this.tvPic.setText("Change Photo");
+                    }
+                });
+            }
+            else{
+                Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
+            }
 
-        }else{
-            Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     private void setButtons(){
@@ -254,16 +280,17 @@ public class EditGroupActivity extends AppCompatActivity {
                 thumbnail=getResizedBitmap(thumbnail, 400);
                 //Log.w("path of image from gallery......******************.........", picturePath+"");
                 ivPic.setImageBitmap(thumbnail);
-                BitMapToString(thumbnail);
+
+                if(thumbnailImage != null){
+                    thumbnailImage.setImage(thumbnail);
+                    viewModel.updateThumbnail(thumbnailImage);
+                }
+                else{
+                    contactGroup.setThumbnailId((int) viewModel.addThumbnailGetId(new ThumbnailImage(thumbnail)));
+                    viewModel.updateGroup(contactGroup);
+                }
             }
         }
-    }
-    public String BitMapToString(Bitmap userImage1) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
-        return Document_img1;
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {

@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Contact.class, ContactGroup.class, Event.class, EventGrouping.class, GroupMembership.class, Template.class, ThumbnailImage.class},
-        version = 5,
+        version = 6,
         exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AssistDatabase extends RoomDatabase {

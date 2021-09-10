@@ -1,6 +1,7 @@
 package com.mobdeve.group11.assist;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,10 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.mobdeve.group11.assist.database.AssistViewModel;
+import com.mobdeve.group11.assist.database.Template;
 
 import java.util.ArrayList;
 
 public class AddTemplateActivity extends AppCompatActivity {
+
+    private AssistViewModel viewModel;
+
     private ImageView ivCancel, ivDone;
     private EditText etTitle, etSub, etNotes;
     private TextView tvHead;
@@ -24,6 +30,8 @@ public class AddTemplateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_template);
+
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
     private void initComponents() {
@@ -39,8 +47,9 @@ public class AddTemplateActivity extends AppCompatActivity {
         this.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ViewTemplateListActivity.class);
-                view.getContext().startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -53,10 +62,7 @@ public class AddTemplateActivity extends AppCompatActivity {
 
                 if (title.length() > 0 && sub.length() > 0 && notes.length() > 0) {
                     Intent intent = new Intent();
-                    intent.putExtra(TemplateInfo.TITLE.name(), title);
-                    intent.putExtra(TemplateInfo.SUBJECT.name(), sub);
-                    intent.putExtra(TemplateInfo.NOTES.name(), notes);
-
+                    viewModel.addTemplate(new Template(title,sub, notes));
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }

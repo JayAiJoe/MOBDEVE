@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -41,8 +42,11 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
 
     private Context context;
 
+    private Activity activity = CalendarDayActivity.this;
+
     //private Button btnAddEvent;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvDay = findViewById(R.id.rv_calendar_day);
         tvMonthYear = findViewById(R.id.tv_calendar_day);
@@ -79,13 +84,14 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         /*String temp[] = CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate).split(" ");*/
 
         tvHead = findViewById(R.id.tv_toolbar_date_title);
-        this.tvHead.setText("August");
+        this.tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
 
         ivBackMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CalendarDayActivity.this, CalendarMonthActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -93,13 +99,15 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarDayActivity.this, AddEventActivity.class);
-                startActivityForResult(intent, NEW_EVENT_ACTIVITY_REQUEST_CODE);
+                activity.startActivityForResult(intent, NEW_EVENT_ACTIVITY_REQUEST_CODE);
             }
         });
 
         rvDay.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+                tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
                 viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(CalendarDayActivity.this, events -> {
                     if(events != null)
                         eventAdapter.setDataEvents(events);
@@ -113,6 +121,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setWeekView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
+        tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
         ArrayList<LocalDate> daysInWeek = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
         CalendarAdapter cma = new CalendarAdapter(daysInWeek, this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
@@ -121,6 +130,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setEventsView(){
         viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(this, events -> {
             if(events != null)

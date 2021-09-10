@@ -116,34 +116,43 @@ public class QuickTextActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                if (ContextCompat.checkSelfPermission(QuickTextActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(QuickTextActivity.this,new String[] { Manifest.permission.SEND_SMS}, 1);
-                }
-                else {
+                if(selectedGroups.size() > 0) {
                     currentMessage = etText.getText().toString().trim();
-
-                    for(int i=0; i<selectedGroups.size(); i++){
-                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(QuickTextActivity.this, contacts -> {
-                            for(int j=0; j<contacts.size(); j++){
-                                viewModel.getContactById(contacts.get(j)).observe(QuickTextActivity.this, contact -> {
-
-                                    //sendSMSMessage("09177003717");
-                                    sendSMS(contact.getContactNumber(), currentMessage);
+                    if(currentMessage.length() > 0) {
+                        if (ContextCompat.checkSelfPermission(QuickTextActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(QuickTextActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+                        }
+                        else {
+                            for (int i = 0; i < selectedGroups.size(); i++) {
+                                viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(QuickTextActivity.this, contacts -> {
+                                    for (int j = 0; j < contacts.size(); j++) {
+                                        viewModel.getContactById(contacts.get(j)).observe(QuickTextActivity.this, contact -> {
+                                            sendSMS(contact.getContactNumber(), currentMessage);
+                                        });
+                                    }
                                 });
                             }
-                        });
+                            etText.setText("");
+                            selectedGroups.clear();
+                        }
                     }
-
+                    else{
+                        Toast.makeText(getBaseContext(), "No text entered", Toast.LENGTH_SHORT).show();
+                    }
                 }
+                else{
+                    Toast.makeText(getBaseContext(), "No groups selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuickTextActivity.this, MainActivity.class); //main (gawin year once oks)
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
     }

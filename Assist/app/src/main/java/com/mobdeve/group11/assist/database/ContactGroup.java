@@ -17,9 +17,13 @@ public class ContactGroup {
     @ColumnInfo
     private String name;
 
+    @ColumnInfo
+    private Integer thumbnailId;
+
     public ContactGroup(String name){
         this.id = null;
         this.name = name;
+        this.thumbnailId = -1;
     }
 
     public ContactGroup(){
@@ -39,4 +43,8 @@ public class ContactGroup {
 
     public Integer getType(){return type;}
     public void setType(int type){this.type = type;}
+
+    public Integer getThumbnailId(){ return thumbnailId;}
+
+    public void setThumbnailId(Integer id){ this.thumbnailId = id;}
 }

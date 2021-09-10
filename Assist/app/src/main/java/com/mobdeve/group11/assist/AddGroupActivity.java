@@ -35,6 +35,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
+import com.mobdeve.group11.assist.database.GroupMembership;
+import com.mobdeve.group11.assist.database.ThumbnailImage;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
@@ -46,6 +48,8 @@ import java.util.List;
 
 public class AddGroupActivity extends AppCompatActivity {
 
+    private AssistViewModel viewModel;
+
     private ImageView ivPic, ivCancel, ivDone;
     private TextView tvHead, tvPic, tvMembers;
     private EditText etName;
@@ -56,13 +60,13 @@ public class AddGroupActivity extends AppCompatActivity {
     private DataHelper helper;
 
 
-    private AssistViewModel viewModel;
     private List<Contact> contactList;
     private boolean[] checkedContacts = new boolean[0];
     private final List<Contact> selectedContacts = new ArrayList<Contact>();
     private ArrayAdapter<String> adapter;
 
     private String Document_img1="";
+    private Bitmap thumbnail;
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -114,14 +118,26 @@ public class AddGroupActivity extends AppCompatActivity {
             String name = etName.getText().toString().trim();
 
             if (name.length() > 0) {
-                intent.putExtra(GroupInfo.NAME.name(), name);
-                intent.putExtra(GroupInfo.MEMBERS.name(), AppUtils.getContactIds(selectedContacts));
+
+                ContactGroup g = new ContactGroup(name);
+
+                if(thumbnail != null) {
+                    g.setThumbnailId((int) viewModel.addThumbnailGetId(new ThumbnailImage(thumbnail)));
+                }
+
+                Integer gId = (int) viewModel.addGroupGetId(g);
+                ArrayList<Integer> cIds = AppUtils.getContactIds(selectedContacts);
+                for(int i=0; i< cIds.size(); i++){
+                    viewModel.addMembership(new GroupMembership(cIds.get(i), gId));
+                }
+
                 setResult(Activity.RESULT_OK, intent);
+                finish();
             }
             else{
                 setResult(RESULT_CANCELED, intent);
             }
-            finish();
+
         });
 
         adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getContactNames(selectedContacts))));
@@ -135,102 +151,7 @@ public class AddGroupActivity extends AppCompatActivity {
         });
     }
 
-    private void initGroupsDropDown() {
-        this.helper = new DataHelper();
-        ArrayList<UIContact> data = helper.initializeContacts();
-        data = this.sortList(data);
-        ArrayList<String> dataMembers = new ArrayList<>();
-        for(int ctr=0; ctr < data.size(); ctr++){
-            dataMembers.add(ctr, data.get(ctr).getFName() + " " + data.get(ctr).getLName());
-        }
 
-        String[] members = new String[dataMembers.size()];
-        members = dataMembers.toArray(members);
-
-        this.tvMembers = findViewById(R.id.tv_add_group_members);
-        selectedMembers = new boolean[dataMembers.size()];
-
-        String[] finalMembers = members;
-        tvMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //initialize alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        AddGroupActivity.this
-                );
-                //set title
-                builder.setTitle("Select Members (Note: once clicked, cannot undo individually)");
-
-                //set dialog non cancelable
-                //builder.setCancelable(false);
-
-                builder.setMultiChoiceItems(finalMembers, selectedMembers, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        //check condition
-                        if (isChecked){
-                            //add position in memberList
-                            memberList.add(which);
-                            //sort memberList
-                            Collections.sort(memberList);
-                        }
-                        else{
-                            //remove position from memberList
-                            memberList.remove(which);
-                        }
-                    }
-                });
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //initialize string builder
-                        StringBuilder stringBuilder = new StringBuilder();
-                        //use for loop
-                        for (int j=0; j<memberList.size();j++){
-                            //concat array values
-                            stringBuilder.append(finalMembers[memberList.get(j)]);
-                            //check condition
-                            if (j != memberList.size()-1){
-                                //add comma
-                                stringBuilder.append(", ");
-                            }
-                        }
-
-                        //set text on text view
-                        tvMembers.setText(stringBuilder.toString());
-                    }
-                });
-
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dismiss dialog
-                        dialog.dismiss();
-                    }
-                });
-
-                builder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //use for loop
-                        for (int j=0; j< selectedMembers.length; j++){
-                            //remove all selection
-                            selectedMembers[j] = false;
-                            //clear grouplist
-                            memberList.clear();
-                            //clear textview value
-                            tvMembers.setText("");
-                        }
-                    }
-                });
-
-                //show dialog
-                builder.show();
-            }
-        });
-
-    }
 
     private void setButtons(){
         tvMembers.setOnClickListener(new View.OnClickListener() {
@@ -346,7 +267,7 @@ public class AddGroupActivity extends AppCompatActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                thumbnail = (BitmapFactory.decodeFile(picturePath));
                 thumbnail=getResizedBitmap(thumbnail, 400);
                 //Log.w("path of image from gallery......******************.........", picturePath+"");
                 ivPic.setImageBitmap(thumbnail);

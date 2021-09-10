@@ -113,6 +113,12 @@ public class ContactActivity extends AppCompatActivity {
                 this.tvName.setText(contact.getFirstName() + " " + contact.getLastName());
                 this.tvPNum.setText(contact.getContactNumber());
                 this.tvGuardian.setText(contact.getGuardian());
+
+                viewModel.getThumbnailById(curr_contact.getThumbnailId()).observe(this, thumbnail ->{
+                    this.thumbnail = thumbnail;
+                    if(thumbnail != null)
+                        this.ivPic.setImageBitmap(thumbnail.getImage());
+                });
             }
         });
 
@@ -135,12 +141,6 @@ public class ContactActivity extends AppCompatActivity {
 
             });
 
-        });
-
-        viewModel.getThumbnailByContactId(cId).observe(this, thumbnail ->{
-            this.thumbnail = thumbnail;
-            if(thumbnail != null)
-             this.ivPic.setImageBitmap(thumbnail.getImage());
         });
 
         this.tvHead.setText("Contacts");

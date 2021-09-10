@@ -46,7 +46,6 @@ public class EditContactActivity extends AppCompatActivity {
     private Contact contact = new Contact("","","","");
     private ThumbnailImage thumbnailImage;
 
-    private String Document_img1="";
 
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -86,18 +85,21 @@ public class EditContactActivity extends AppCompatActivity {
             String guardian = etGuardian.getText().toString().trim();
 
             if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
-                contact.setFirstName(fName);
-                contact.setLastName(lName);
-                contact.setContactNumber(pNum);
-                contact.setGuardian(guardian);
-                viewModel.updateContact(contact);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                if(AppUtils.isValidPhoneNumber(pNum)){
+                    contact.setFirstName(fName);
+                    contact.setLastName(lName);
+                    contact.setContactNumber(pNum);
+                    contact.setGuardian(guardian);
+                    viewModel.updateContact(contact);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(this, "Invalid contact number", Toast.LENGTH_SHORT).show();
+                }
             }
             else{
-                Toast t = Toast.makeText(getApplicationContext(),
-                        "You have not yet entered in all of the required fields!",
-                        Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(getApplicationContext(), "Missing fields", Toast.LENGTH_SHORT);
                 t.show();
             }
         });
@@ -130,15 +132,16 @@ public class EditContactActivity extends AppCompatActivity {
                 this.etLName.setText(contact.getLastName());
                 this.etPNum.setText(contact.getContactNumber());
                 this.etGuardian.setText(contact.getGuardian());
+
+                viewModel.getThumbnailById(contact.getThumbnailId()).observe(this, thumbnailImage -> {
+                    if(thumbnailImage != null){
+                        this.ivPic.setImageBitmap(thumbnailImage.getImage());
+                        this.thumbnailImage = thumbnailImage;
+                        this.tvPic.setText("Change Photo");
+                    }
+                });
             });
 
-            viewModel.getThumbnailByContactId(cId).observe(this, thumbnailImage -> {
-                if(thumbnailImage != null){
-                    this.ivPic.setImageBitmap(thumbnailImage.getImage());
-                    this.thumbnailImage = thumbnailImage;
-                    this.tvPic.setText("Change Photo");
-                }
-            });
 
             //groups
             this.tvHead.setText("Edit Contact");
@@ -209,7 +212,8 @@ public class EditContactActivity extends AppCompatActivity {
                     viewModel.updateThumbnail(thumbnailImage);
                 }
                 else{
-                    viewModel.addThumbnail(new ThumbnailImage(contact.getId(), thumbnail));
+                    contact.setThumbnailId((int) viewModel.addThumbnailGetId(new ThumbnailImage(thumbnail)));
+                    viewModel.updateContact(contact);
                 }
             }
         }

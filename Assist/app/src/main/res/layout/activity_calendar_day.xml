@@ -24,7 +24,7 @@
             android:background="#00FFFFFF"
             android:fontFamily="@font/amiko_bold"
             android:onClick="prevWeek"
-            android:text="prev"
+            android:text="@string/prev_arrow"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -48,7 +48,7 @@
             android:background="#00FFFFFF"
             android:fontFamily="@font/amiko_bold"
             android:onClick="nextWeek"
-            android:text="next"
+            android:text="@string/next_arrow"
             android:textColor="@color/blue"
             android:textSize="20sp"
             android:textStyle="bold" />

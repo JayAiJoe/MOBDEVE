@@ -10,20 +10,19 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 
-@Entity(tableName = "images_table",
-        foreignKeys = {@ForeignKey(entity = Contact.class, parentColumns = "id", childColumns = "id")},
-        primaryKeys = {"id"})
+@Entity(tableName = "images_table")
 public class ThumbnailImage {
 
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo
     @NonNull
-    private int id;
+    private Integer id;
 
     @ColumnInfo
     private Bitmap image;
 
-    public ThumbnailImage(Integer id, Bitmap image){
-        this.id = id;
+    public ThumbnailImage( Bitmap image){
+        this.id = null;
         this.image = image;
     }
 
@@ -34,6 +33,8 @@ public class ThumbnailImage {
 
     @NonNull
     public Bitmap  getImage() { return image; }
+
+    public void setId(Integer id){this.id = id;}
 
     public void setImage(Bitmap image){ this.image = image; }
 }

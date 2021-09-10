@@ -18,6 +18,7 @@ import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.Contact;
 import com.mobdeve.group11.assist.database.ContactGroup;
 import com.mobdeve.group11.assist.database.GroupMembership;
+import com.mobdeve.group11.assist.database.ThumbnailImage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ public class GroupActivity extends AppCompatActivity{
 
     private List<Contact> contactList = new ArrayList<Contact>();
     private ArrayAdapter<String> adapter;
+
+    private ThumbnailImage thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,6 @@ public class GroupActivity extends AppCompatActivity{
             public void onClick(View v) {
 
                 Intent intent = new Intent(v.getContext(), EditGroupActivity.class);
-                intent.putExtra(GroupInfo.NAME.name(), group.getName());
                 intent.putExtra(GroupInfo.ID.name(), group.getId());
                 activity.startActivityForResult(intent, EDIT_REQUEST);
             }
@@ -77,6 +79,9 @@ public class GroupActivity extends AppCompatActivity{
         this.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(thumbnail != null) {
+                    viewModel.deleteThumbnail(thumbnail);
+                }
                 viewModel.deleteGroup(group);
                 Intent intent = new Intent();
                 setResult(RESULT_CANCELED, intent);
@@ -88,18 +93,7 @@ public class GroupActivity extends AppCompatActivity{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-            group.setName(data.getStringExtra(GroupInfo.NAME.name()));
 
-            viewModel.deleteAllMembershipsOfGroup(group.getId());
-
-            ArrayList<Integer> cIds = data.getIntegerArrayListExtra(GroupInfo.MEMBERS.name());
-            for(int i=0; i< cIds.size(); i++){
-                viewModel.addMembership(new GroupMembership(cIds.get(i), group.getId()));
-            }
-
-            viewModel.updateGroup(group);
-        }
     }
 
     private void initInfo(){
@@ -115,8 +109,15 @@ public class GroupActivity extends AppCompatActivity{
         Intent intent = getIntent();
         viewModel.getGroupById(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, curr_group -> {
             this.group = curr_group;
-            if(curr_group != null)
+            if(curr_group != null){
                 this.tvName.setText(group.getName());
+                viewModel.getThumbnailById(curr_group.getThumbnailId()).observe(this, thumbnail ->{
+                    this.thumbnail = thumbnail;
+                    if(thumbnail != null)
+                        this.ivPic.setImageBitmap(thumbnail.getImage());
+                });
+            }
+
         });
 
         viewModel.getContactIdsInGroup(intent.getIntExtra(GroupInfo.ID.name(), 0)).observe(this, ids -> {

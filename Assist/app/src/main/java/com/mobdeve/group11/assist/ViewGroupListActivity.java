@@ -75,9 +75,6 @@ public class ViewGroupListActivity extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,24 +112,11 @@ public class ViewGroupListActivity extends AppCompatActivity {
         this.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewGroupListActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_GROUP_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            String name = data.getStringExtra(GroupInfo.NAME.name());
-            Integer gId = (int) viewModel.addGroupGetId(new ContactGroup(name));
-            ArrayList<Integer> cIds = data.getIntegerArrayListExtra(GroupInfo.MEMBERS.name());
-
-            for(int i=0; i< cIds.size(); i++){
-                viewModel.addMembership(new GroupMembership(cIds.get(i), gId));
-            }
-        }
     }
 
     public void onResume() {

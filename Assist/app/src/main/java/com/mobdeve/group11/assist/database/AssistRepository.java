@@ -90,7 +90,9 @@ class AssistRepository {
 
     LiveData<List<Event>> loadEventsOfTheDay(LocalDate d) { return eventDao.loadEventsOfTheDay(d);}
 
-    LiveData<ThumbnailImage> getThumbnailByContactId(Integer id) { return thumbnailImageDao.getImageByImageId(id); }
+    LiveData<ThumbnailImage> getThumbnailById(Integer id) { return thumbnailImageDao.getImageByImageId(id); }
+
+   LiveData<Integer> countEventsOfTheDay(LocalDate d){ return eventDao.countEventsOfTheDay(d); }
 
     //async db update functions
     void addContact(Contact contact) {
@@ -208,6 +210,21 @@ class AssistRepository {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             thumbnailImageDao.insertImage(thumbnailImage);
         });
+    }
+
+    long addThumbnailGetId(ThumbnailImage thumbnailImage) {
+        Callable<Long> insertCallable = () -> thumbnailImageDao.insertImage(thumbnailImage);
+        long rowId = 0;
+
+        Future<Long> future = executorService.submit(insertCallable);
+        try {
+            rowId = future.get();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return rowId;
     }
 
     void updateContact(Contact contact) {

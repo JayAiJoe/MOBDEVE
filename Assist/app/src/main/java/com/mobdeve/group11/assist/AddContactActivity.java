@@ -94,19 +94,21 @@ public class AddContactActivity extends AppCompatActivity  {
             String guardian = etGuardian.getText().toString().trim();
 
             if (fName.length() > 0 && lName.length() > 0 && pNum.length() > 0){
-
-                Integer cId = (int) viewModel.addContactGetId(new Contact(fName,lName, pNum, guardian));
-
-
-                if(thumbnail != null && cId != null) {
-                    viewModel.addThumbnail(new ThumbnailImage(cId, thumbnail));
+                if(AppUtils.isValidPhoneNumber(pNum)){
+                    Contact c = new Contact(fName,lName, pNum, guardian);
+                    if(thumbnail != null) {
+                        c.setThumbnailId((int) viewModel.addThumbnailGetId(new ThumbnailImage(thumbnail)));
+                    }
+                    viewModel.addContact(c);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
                 }
-
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+                else{
+                    Toast.makeText(this, "Invalid contact number", Toast.LENGTH_SHORT).show();
+                }
             }
             else{
-                //toast
+                Toast.makeText(this, "Missing fields", Toast.LENGTH_SHORT).show();
             }
         });
 

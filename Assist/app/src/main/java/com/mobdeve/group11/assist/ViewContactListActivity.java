@@ -37,22 +37,6 @@ public class ViewContactListActivity extends AppCompatActivity {
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberContacts;
 
-    private ActivityResultLauncher myActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    Intent intent = result.getData();
-                    String fName = intent.getStringExtra(ContactInfo.FIRST_NAME.name());
-                    String lName = intent.getStringExtra(ContactInfo.LAST_NAME.name());
-                    String pNum = intent.getStringExtra(ContactInfo.PHONE_NUMBER.name());
-                    String guardian = intent.getStringExtra(ContactInfo.GUARDIAN.name());
-
-                    //dataContacts.add(0, new Contact(fName, lName, pNum, guardian));
-                    viewModel.addContact(new Contact(fName, lName, pNum, guardian));
-                }
-            }
-    );
 
     //add alphabets
     //1-alphabet
@@ -128,52 +112,15 @@ public class ViewContactListActivity extends AppCompatActivity {
         this.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewContactListActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == NEW_CONTACT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            /*
-            Contact c = new Contact(data.getStringExtra(ContactInfo.FIRST_NAME.name()),
-                    data.getStringExtra(ContactInfo.LAST_NAME.name()),
-                    data.getStringExtra(ContactInfo.PHONE_NUMBER.name()),
-                    data.getStringExtra(ContactInfo.GUARDIAN.name()));
-            viewModel.addContact(c);
-             */
-        }
-    }
-
-    private void initRecyclerView(){
-        /*
-        DataHelper helper = new DataHelper();
-        if (this.dataContacts.size() == 0){
-            this.dataContacts = helper.initializeContacts();
-        }
-
-        int count = dataContacts.size();
-        this.tvNumberContacts.setText(count+" Contacts");
-
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-        this.dataContacts = sortList(dataContacts);
-        contacts = addAlphabets(dataContacts);
-
-        this.rvContacts = findViewById(R.id.rv_view_clist);
-        this.rvContacts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        this.contactAdapter = new ContactAdapter(contacts, ViewContactListActivity.this);
-        this.rvContacts.setAdapter(this.contactAdapter);
-         */
     }
 
     public void onResume() {
         super.onResume();
         this.initComponents();
-        //this.initRecyclerView();
     }
 }
