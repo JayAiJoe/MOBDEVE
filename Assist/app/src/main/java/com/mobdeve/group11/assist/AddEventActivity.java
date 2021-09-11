@@ -76,6 +76,8 @@ public class AddEventActivity extends AppCompatActivity {
 
     private int reminderIndex = 0; //default
 
+    private String message = "";
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,10 +271,26 @@ public class AddEventActivity extends AppCompatActivity {
                     viewModel.addGrouping(new EventGrouping(gIds.get(i), eId));
                 }
 
+                String.valueOf(viewModel.getTemplateById(checkedTemplate));
+                viewModel.getTemplateById(checkedTemplate).observe(AddEventActivity.this, template -> {
+                    message = template.getSubject() + "\n\n" + template.getContent();
+                });
+
+                //set alarm for message
+                for (int i = 0; i < selectedGroups.size(); i++) {
+                    viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
+                        for (int j = 0; j < contacts.size(); j++) {
+                            viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
+                                setAlarm(contact.getContactNumber(), message);
+                            });
+                        }
+                    });
+                }
+
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
-            else{
+            else {
                 Toast t = Toast.makeText(getApplicationContext(),
                         "You have not yet entered in all of the required fields!",
                         Toast.LENGTH_LONG);
@@ -341,19 +359,23 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setAlarm() {
-        int num = (int)System.currentTimeMillis();
+    public void setAlarm(String number, String message) {
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence("Number", number);
+        bundle.putCharSequence("Message", message);
+
+        int currentNum = (int)System.currentTimeMillis();
         LocalDate date = selectedDate;
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), startTime.getSecond());
 
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), num,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        intentAlarm.putExtras(bundle);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), currentNum,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
     }
-
 
 }

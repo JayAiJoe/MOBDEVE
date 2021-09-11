@@ -77,6 +77,8 @@ public class EditEventActivity extends AppCompatActivity {
 
     private int reminderIndex = 0;
 
+    private String message = "";
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -172,6 +174,22 @@ public class EditEventActivity extends AppCompatActivity {
                     ArrayList<Integer> gIds = AppUtils.getGroupIds(selectedGroups);
                     for(int i=0; i< gIds.size(); i++){
                         viewModel.addGrouping(new EventGrouping(gIds.get(i), event.getId()));
+                    }
+
+                    String.valueOf(viewModel.getTemplateById(checkedTemplate));
+                    viewModel.getTemplateById(checkedTemplate).observe(EditEventActivity.this, template -> {
+                        message = template.getSubject() + "\n\n" + template.getContent();
+                            });
+
+                    //set alarm for message
+                    for (int i = 0; i < selectedGroups.size(); i++) {
+                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                            for (int j = 0; j < contacts.size(); j++) {
+                                viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
+                                    setAlarm(contact.getContactNumber(), message);
+                                });
+                            }
+                        });
                     }
 
                     viewModel.updateEvent(event);
@@ -375,15 +393,20 @@ public class EditEventActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setAlarm() {
-        int num = (int)System.currentTimeMillis();
+    public void setAlarm(String number, String message) {
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence("Number", number);
+        bundle.putCharSequence("Message", message);
+
+        int currentNum = (int)System.currentTimeMillis();
         LocalDate date = event.getDate();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), startTime.getSecond());
 
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
-        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), num,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        intentAlarm.putExtras(bundle);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), currentNum,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
