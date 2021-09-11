@@ -3,8 +3,11 @@ package com.mobdeve.group11.assist;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -13,6 +16,7 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -78,6 +82,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     private String message = "";
     private Event event;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -277,17 +282,22 @@ public class AddEventActivity extends AppCompatActivity {
                     message = template.getSubject() + "\n\n" + template.getContent();
                 });
 
-                //set alarm for message
-                for (int i = 0; i < selectedGroups.size(); i++) {
-                    int a = i*1000;
-                    viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
-                        for (int j = 0; j < contacts.size(); j++) {
-                            int aid = j+a;
-                            viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
-                                setAlarm(contact.getContactNumber(), message, eId*100+aid);
-                            });
-                        }
-                    });
+                if (ContextCompat.checkSelfPermission(AddEventActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(AddEventActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
+                }
+                else{
+                    //set alarm for message
+                    for (int i = 0; i < selectedGroups.size(); i++) {
+                        int a = i*1000;
+                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
+                            for (int j = 0; j < contacts.size(); j++) {
+                                int aid = j+a;
+                                viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
+                                    setAlarm(contact.getContactNumber(), message, eId*100+aid);
+                                });
+                            }
+                        });
+                    }
                 }
 
                 setResult(Activity.RESULT_OK, intent);
