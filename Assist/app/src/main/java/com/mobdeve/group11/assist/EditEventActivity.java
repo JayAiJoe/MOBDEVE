@@ -398,15 +398,32 @@ public class EditEventActivity extends AppCompatActivity {
         bundle.putCharSequence("Number", number);
         bundle.putCharSequence("Message", message);
 
-        int currentNum = (int)System.currentTimeMillis();
         LocalDate date = event.getDate();
+        int num = (int)System.currentTimeMillis()  + (int)(Math.random()*10);
+
+        LocalTime remTime = startTime;
+        if (reminderIndex == 1) {
+            remTime.minusMinutes(10);
+        }
+        else if (reminderIndex == 2) {
+            remTime.minusMinutes(30);
+        }
+        else if (reminderIndex == 3) {
+            remTime.minusHours(1);
+        }
+        else if (reminderIndex == 4) {
+            remTime.minusHours(3);
+        }
+        else if (reminderIndex == 5) {
+            date.minusDays(1);
+        }
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), startTime.getHour(), startTime.getMinute(), startTime.getSecond());
+        calendar.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), remTime.getHour(), remTime.getMinute(), remTime.getSecond());
 
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
         intentAlarm.putExtras(bundle);
-        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), currentNum,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), num, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);

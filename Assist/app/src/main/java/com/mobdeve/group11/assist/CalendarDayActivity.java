@@ -121,7 +121,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setWeekView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
-        tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
+        //tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
         ArrayList<LocalDate> daysInWeek = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
         CalendarAdapter cma = new CalendarAdapter(daysInWeek, this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);

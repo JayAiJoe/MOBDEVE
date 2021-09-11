@@ -70,7 +70,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
-        tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
+        //tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
         ArrayList<LocalDate> daysInMonth = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate);
         CalendarAdapter cma = new CalendarAdapter(daysInMonth,this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);

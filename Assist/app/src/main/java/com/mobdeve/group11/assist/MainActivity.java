@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     public void onResume() {
         super.onResume();
         this.initComponents();
