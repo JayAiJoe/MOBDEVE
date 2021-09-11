@@ -54,6 +54,7 @@ public class EditEventActivity extends AppCompatActivity {
     private TextView tvDate, tvSTime, tvETime, tvHead, tvAddGroups, tvTemplate, tvReminder;
     private Activity activity = EditEventActivity.this;
     private ListView lvGroups;
+    private Button btnDelete;
 
     private AssistViewModel viewModel;
     private Event event;
@@ -162,6 +163,18 @@ public class EditEventActivity extends AppCompatActivity {
 
                 if (etName.getText().toString().length() > 0 && checkedTemplate != -1 && reminderIndex != -1){
 
+                    //delete alarm for old message
+                    for (int i = 0; i < selectedGroups.size(); i++) {
+                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                            for (int j = 0; j < contacts.size(); j++) {
+                                int aid = j;
+                                viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
+                                    deleteAlarm(event.getId()*100+aid, event.getTitle());
+                                });
+                            }
+                        });
+                    }
+
                     event.setTitle(etName.getText().toString().trim());
                     event.setDate(selectedDate);
                     event.setTimeStart(startTime);
@@ -205,6 +218,29 @@ public class EditEventActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG);
                     t.show();
                 }
+            }
+        });
+
+        btnDelete = findViewById(R.id.btn_edit_event_delete);
+        this.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //delete alarm for old message
+                for (int i = 0; i < selectedGroups.size(); i++) {
+                    viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                        for (int j = 0; j < contacts.size(); j++) {
+                            int aid = j;
+                            viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
+                                deleteAlarm(event.getId()*100+aid, event.getTitle());
+                            });
+                        }
+                    });
+                }
+
+                viewModel.deleteEvent(event);
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
 
@@ -429,6 +465,14 @@ public class EditEventActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
         Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteAlarm(int id, String name){
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pIntent);
+        Toast.makeText(getApplication(), "Alarm for event " + name + " removed", Toast.LENGTH_SHORT).show();
     }
 
 }

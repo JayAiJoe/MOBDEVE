@@ -6,6 +6,8 @@ import androidx.core.app.NotificationCompatSideChannelService;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -144,6 +146,19 @@ public class ViewEventActivity extends AppCompatActivity {
         this.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //delete alarm for old message
+
+                for (int i = 0; i < groupList.size(); i++) {
+                    viewModel.getContactIdsInGroup(groupList.get(i).getId()).observe(ViewEventActivity.this, contacts -> {
+                        for (int j = 0; j < contacts.size(); j++) {
+                            int aid = j;
+                            viewModel.getContactById(contacts.get(j)).observe(ViewEventActivity.this, contact -> {
+                                deleteAlarm(event.getId()*100+aid, event.getTitle());
+                            });
+                        }
+                    });
+                }
+
                 viewModel.deleteEvent(event);
                 Intent intent = new Intent();
                 setResult(RESULT_CANCELED, intent);
@@ -158,6 +173,14 @@ public class ViewEventActivity extends AppCompatActivity {
         super.onResume();
         this.initInfo();
         this.initComponents();
+    }
+
+    public void deleteAlarm(int id, String name){
+        Intent intentAlarm = new Intent(this, AlarmReceiver.class);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pIntent);
+        Toast.makeText(getApplication(), "Alarm for event " + name + " removed", Toast.LENGTH_SHORT).show();
     }
 
 }
