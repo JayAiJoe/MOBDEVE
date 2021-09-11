@@ -185,8 +185,9 @@ public class EditEventActivity extends AppCompatActivity {
                     for (int i = 0; i < selectedGroups.size(); i++) {
                         viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
                             for (int j = 0; j < contacts.size(); j++) {
+                                int aid = j;
                                 viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
-                                    setAlarm(contact.getContactNumber(), message);
+                                    setAlarm(contact.getContactNumber(), message, event.getId()*100+aid);
                                 });
                             }
                         });
@@ -393,29 +394,29 @@ public class EditEventActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setAlarm(String number, String message) {
+    public void setAlarm(String number, String message, int id) {
         Bundle bundle = new Bundle();
         bundle.putCharSequence("Number", number);
         bundle.putCharSequence("Message", message);
 
         LocalDate date = event.getDate();
-        int num = (int)System.currentTimeMillis()  + (int)(Math.random()*10);
+        //int num = (int)(System.currentTimeMillis() % 1000);
 
         LocalTime remTime = startTime;
         if (reminderIndex == 1) {
-            remTime.minusMinutes(10);
+            remTime = remTime.minusMinutes(10);
         }
         else if (reminderIndex == 2) {
-            remTime.minusMinutes(30);
+            remTime = remTime.minusMinutes(30);
         }
         else if (reminderIndex == 3) {
-            remTime.minusHours(1);
+            remTime = remTime.minusHours(1);
         }
         else if (reminderIndex == 4) {
-            remTime.minusHours(3);
+            remTime = remTime.minusHours(3);
         }
         else if (reminderIndex == 5) {
-            date.minusDays(1);
+            date = date.minusDays(1);
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -423,10 +424,11 @@ public class EditEventActivity extends AppCompatActivity {
 
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
         intentAlarm.putExtras(bundle);
-        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), num, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
+        Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
     }
 
 }
