@@ -79,6 +79,8 @@ public class EditEventActivity extends AppCompatActivity {
     private int reminderIndex = 0;
 
     private String message = "";
+    //private int size = 0;
+    private List<ContactGroup> previousGroups = new ArrayList<ContactGroup>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -164,10 +166,11 @@ public class EditEventActivity extends AppCompatActivity {
                 if (etName.getText().toString().length() > 0 && checkedTemplate != -1 && reminderIndex != -1){
 
                     //delete alarm for old message
-                    for (int i = 0; i < selectedGroups.size(); i++) {
-                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                    for (int i = 0; i < previousGroups.size(); i++) {
+                        int a = i*1000;
+                        viewModel.getContactIdsInGroup(previousGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
                             for (int j = 0; j < contacts.size(); j++) {
-                                int aid = j;
+                                int aid = j+a;
                                 viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
                                     deleteAlarm(event.getId()*100+aid, event.getTitle());
                                 });
@@ -196,9 +199,10 @@ public class EditEventActivity extends AppCompatActivity {
 
                     //set alarm for message
                     for (int i = 0; i < selectedGroups.size(); i++) {
+                        int a = i*1000;
                         viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
                             for (int j = 0; j < contacts.size(); j++) {
-                                int aid = j;
+                                int aid = j+a;
                                 viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
                                     setAlarm(contact.getContactNumber(), message, event.getId()*100+aid);
                                 });
@@ -226,10 +230,11 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //delete alarm for old message
-                for (int i = 0; i < selectedGroups.size(); i++) {
-                    viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                for (int i = 0; i < previousGroups.size(); i++) {
+                    int a = i*1000;
+                    viewModel.getContactIdsInGroup(previousGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
                         for (int j = 0; j < contacts.size(); j++) {
-                            int aid = j;
+                            int aid = j+a;
                             viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
                                 deleteAlarm(event.getId()*100+aid, event.getTitle());
                             });
@@ -416,12 +421,15 @@ public class EditEventActivity extends AppCompatActivity {
                         selectedGroups.add(groupList.get(i));
                     }
                 }
+                previousGroups.addAll(selectedGroups);
                 adapter.clear();
                 String[] names = AppUtils.getGroupNames(selectedGroups);
                 Arrays.sort(names);
                 adapter.addAll(names);
             });
         });
+
+
 
         viewModel.getAllTemplates().observe(this, templates -> {
             templateList = templates;
@@ -463,7 +471,7 @@ public class EditEventActivity extends AppCompatActivity {
         PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
         Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
     }
 

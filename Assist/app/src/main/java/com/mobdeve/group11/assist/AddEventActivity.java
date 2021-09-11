@@ -279,9 +279,10 @@ public class AddEventActivity extends AppCompatActivity {
 
                 //set alarm for message
                 for (int i = 0; i < selectedGroups.size(); i++) {
+                    int a = i*1000;
                     viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
                         for (int j = 0; j < contacts.size(); j++) {
-                            int aid = j;
+                            int aid = j+a;
                             viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
                                 setAlarm(contact.getContactNumber(), message, eId*100+aid);
                             });
@@ -394,7 +395,7 @@ public class AddEventActivity extends AppCompatActivity {
         PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
         Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
     }
 
