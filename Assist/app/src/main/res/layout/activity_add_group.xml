@@ -47,7 +47,7 @@
     <EditText
         android:id="@+id/et_add_group_gname"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="30sp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"

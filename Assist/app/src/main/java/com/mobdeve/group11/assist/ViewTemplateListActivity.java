@@ -43,13 +43,13 @@ public class ViewTemplateListActivity extends AppCompatActivity {
             int i = 0;
             List<Template> customList = new ArrayList<>();
             Template t1 = new Template();
-            t1.setTitle(String.valueOf(list.get(0).getTitle().charAt(0)));
+            t1.setTitle(String.valueOf(list.get(0).getTitle().charAt(0)).toUpperCase());
             t1.setType(1);
             customList.add(t1);
             for (i = 0; i < list.size() - 1; i++) {
                 Template t2 = new Template();
-                char name1 = list.get(i).getTitle().charAt(0);
-                char name2 = list.get(i + 1).getTitle().charAt(0);
+                char name1 = list.get(i).getTitle().toUpperCase().charAt(0);
+                char name2 = list.get(i + 1).getTitle().toUpperCase().charAt(0);
                 if (name1 == name2) {
                     list.get(i).setType(2);
                     customList.add(list.get(i));

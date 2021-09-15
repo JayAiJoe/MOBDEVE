@@ -47,13 +47,13 @@ public class ViewGroupListActivity extends AppCompatActivity {
             int i = 0;
             List<ContactGroup> customList = new ArrayList<>();
             ContactGroup g1 = new ContactGroup();
-            g1.setName(String.valueOf(list.get(0).getName().charAt(0)));
+            g1.setName(String.valueOf(list.get(0).getName().charAt(0)).toUpperCase());
             g1.setType(1);
             customList.add(g1);
             for (i = 0; i < list.size() - 1; i++) {
                 ContactGroup g2 = new ContactGroup();
-                char name1 = list.get(i).getName().charAt(0);
-                char name2 = list.get(i + 1).getName().charAt(0);
+                char name1 = list.get(i).getName().toUpperCase().charAt(0);
+                char name2 = list.get(i + 1).getName().toUpperCase().charAt(0);
                 if (name1 == name2) {
                     list.get(i).setType(2);
                     customList.add(list.get(i));

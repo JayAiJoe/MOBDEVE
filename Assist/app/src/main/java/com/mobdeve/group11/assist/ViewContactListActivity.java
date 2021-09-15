@@ -46,13 +46,13 @@ public class ViewContactListActivity extends AppCompatActivity {
             int i = 0;
             List<Contact> customList = new ArrayList<>();
             Contact c1 = new Contact();
-            c1.setLastName(String.valueOf(list.get(0).getLastName().charAt(0)));
+            c1.setLastName(String.valueOf(list.get(0).getLastName().charAt(0)).toUpperCase());
             c1.setType(1);
             customList.add(c1);
             for (i = 0; i < list.size() - 1; i++) {
                 Contact c2 = new Contact();
-                char name1 = list.get(i).getLastName().charAt(0);
-                char name2 = list.get(i + 1).getLastName().charAt(0);
+                char name1 = list.get(i).getLastName().toUpperCase().charAt(0);
+                char name2 = list.get(i + 1).getLastName().toUpperCase().charAt(0);
                 if (name1 == name2) {
                     list.get(i).setType(2);
                     customList.add(list.get(i));
