@@ -74,12 +74,12 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvDay = findViewById(R.id.rv_calendar_day);
-        tvMonthYear = findViewById(R.id.tv_calendar_day);
+        tvMonthYear = findViewById(R.id.tv_toolbar_date_title);
 
         //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
 
-        ivBackMonth = findViewById(R.id.iv_toolbar_left);
-        ivAdd = findViewById(R.id.iv_toolbar_right);
+        ivBackMonth = findViewById(R.id.iv_toolbar_date_left);
+        ivAdd = findViewById(R.id.iv_toolbar_date_right);
 
         /*String temp[] = CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate).split(" ");*/
 

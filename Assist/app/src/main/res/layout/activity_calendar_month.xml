@@ -39,7 +39,7 @@
             android:text="@string/calendar"
             android:textAlignment="center"
             android:textColor="@color/gray"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_month_right"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="SUN"
+            android:text="S"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="MON"
+            android:text="M"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="TUE"
+            android:text="T"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="WED"
+            android:text="W"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="THU"
+            android:text="T"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="FRI"
+            android:text="F"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/amiko_semibold"
-            android:text="SAT"
+            android:text="S"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />

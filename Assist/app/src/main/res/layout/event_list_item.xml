@@ -9,7 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="#450F7AE0">
 
         <TextView
             android:id="@+id/tv_list_event_title"
@@ -32,9 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:paddingBottom="5dp"
             android:text="TextView"
             android:textSize="16sp"
-            android:paddingBottom="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_list_event_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
