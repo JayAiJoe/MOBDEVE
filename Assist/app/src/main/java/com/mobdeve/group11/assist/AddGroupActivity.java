@@ -57,7 +57,6 @@ public class AddGroupActivity extends AppCompatActivity {
 
     private boolean[] selectedMembers;
     private ArrayList<Integer> memberList = new ArrayList<>();
-    private DataHelper helper;
 
 
     private List<Contact> contactList;
@@ -90,6 +89,12 @@ public class AddGroupActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
+        setButtons();
     }
 
     private void initComponents() {
@@ -152,7 +157,7 @@ public class AddGroupActivity extends AppCompatActivity {
     }
 
 
-
+    //action buttons
     private void setButtons(){
         tvMembers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,30 +202,7 @@ public class AddGroupActivity extends AppCompatActivity {
         });
     }
 
-    //sorted in alphabetical order
-    private ArrayList<UIContact> sortList(ArrayList<UIContact> list) {
-        Collections.sort(list, new Comparator<UIContact>() {
-            @Override
-            public int compare(UIContact c1, UIContact c2) {
-                int ctr = c1.getLName().compareTo(c2.getLName());
-                if (ctr != 0){
-                    return ctr;
-                }
-                else {
-                    return c1.getFName().compareTo(c2.getFName());
-                }
-            }
-        });
-        return list;
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
-        setButtons();
-    }
-
+    //pop-up for selecting group photo
     private void selectImage(){
         final CharSequence[] options = { "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(AddGroupActivity.this);
@@ -241,6 +223,7 @@ public class AddGroupActivity extends AppCompatActivity {
         builder.show();
     }
 
+    //checking for permissions
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -255,6 +238,7 @@ public class AddGroupActivity extends AppCompatActivity {
         }
     }
 
+    //actions after photo is selected
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -268,35 +252,12 @@ public class AddGroupActivity extends AppCompatActivity {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 thumbnail = (BitmapFactory.decodeFile(picturePath));
-                thumbnail=getResizedBitmap(thumbnail, 400);
-                //Log.w("path of image from gallery......******************.........", picturePath+"");
+                thumbnail= AppUtils.getResizedBitmap(thumbnail, 400);
                 ivPic.setImageBitmap(thumbnail);
-                BitMapToString(thumbnail);
             }
         }
     }
-    public String BitMapToString(Bitmap userImage1) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
-        byte[] b = baos.toByteArray();
-        Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
-        return Document_img1;
-    }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
 
 }
 

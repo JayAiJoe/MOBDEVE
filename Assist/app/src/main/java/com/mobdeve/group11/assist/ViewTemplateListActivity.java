@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+//activity for viewing all the templates
 public class ViewTemplateListActivity extends AppCompatActivity {
 
     public static final int NEW_TEMPLATE_ACTIVITY_REQUEST_CODE = 1;
@@ -37,7 +38,8 @@ public class ViewTemplateListActivity extends AppCompatActivity {
     private ImageView ivAdd, ivMenu;
     private TextView tvNumberTemplates;
 
-
+    //add alphabets headings
+    //type 1-alphabet, type 2-name
     List<Template> addAlphabets(List<Template> list) {
         if (list.size() != 0) {
             int i = 0;
@@ -92,6 +94,11 @@ public class ViewTemplateListActivity extends AppCompatActivity {
         });
     }
 
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
+    }
+
     private void initComponents(){
         this.ivAdd = findViewById(R.id.iv_toolbar_right);
         this.ivMenu = findViewById(R.id.iv_toolbar_left);
@@ -112,11 +119,5 @@ public class ViewTemplateListActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
     }
 }

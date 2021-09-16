@@ -20,7 +20,6 @@
         android:requestLegacyExternalStorage="true">
         <activity android:name=".QuickTextActivity"></activity>
         <activity android:name=".CalendarMonthActivity" />
-        <activity android:name=".CalendarYearActivity" />
         <activity android:name=".CalendarDayActivity" />
         <activity android:name=".AddContactActivity" />
         <activity android:name=".AddEventActivity" />

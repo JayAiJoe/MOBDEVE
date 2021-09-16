@@ -94,7 +94,7 @@ class AssistRepository {
 
     LiveData<Integer> countEventsOfTheDay(LocalDate d){ return eventDao.countEventsOfTheDay(d); }
 
-    //async db update functions
+    //db add, update, delete functions
     void addContact(Contact contact) {
         AssistDatabase.databaseWriteExecutor.execute(() -> {
             contactDao.insertContact(contact);

@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+//activity for viewing all the contact groups
 public class ViewGroupListActivity extends AppCompatActivity {
 
     public static final int NEW_GROUP_ACTIVITY_REQUEST_CODE = 1;
@@ -39,9 +40,8 @@ public class ViewGroupListActivity extends AppCompatActivity {
     private TextView tvNumberGroups;
 
 
-    //add alphabets
-    //1-alphabet
-    //2-name
+    //add alphabets headings
+    //type 1-alphabet, type 2-name
     List<ContactGroup> addAlphabets(List<ContactGroup> list) {
         if (list.size() != 0){
             int i = 0;
@@ -97,6 +97,11 @@ public class ViewGroupListActivity extends AppCompatActivity {
         });
     }
 
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
+    }
+
     private void initComponents(){
         this.ivAdd = findViewById(R.id.iv_toolbar_right);
         this.ivMenu = findViewById(R.id.iv_toolbar_left);
@@ -117,10 +122,5 @@ public class ViewGroupListActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
     }
 }

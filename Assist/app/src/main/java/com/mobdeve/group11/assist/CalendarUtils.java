@@ -10,12 +10,14 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+//calendar-related helper functions and variables
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class CalendarUtils {
 
+    //currently selected day (today as default)
     public static LocalDate selectedDate = LocalDate.now();
-    public static LocalDate currentDate = LocalDate.now();
 
+    //get the days of the month in their proper position on the calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
@@ -36,6 +38,7 @@ public class CalendarUtils {
         return daysInMonthArray;
     }
 
+    //get the days of the week in their proper position on the calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<LocalDate> daysInWeekArray(LocalDate date) {
         ArrayList<LocalDate> daysInWeekArray = new ArrayList<>();
@@ -50,6 +53,7 @@ public class CalendarUtils {
         return daysInWeekArray;
     }
 
+    //get the Sunday of the week a given day is in
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static LocalDate sundayForDate(LocalDate date) {
         LocalDate lastWeek = date.minusWeeks(1);
@@ -64,6 +68,7 @@ public class CalendarUtils {
         return null;
     }
 
+    //convert the date to a string with the month and year
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String dateToMonthYear(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");

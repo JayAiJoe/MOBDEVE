@@ -18,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
+    }
+
     private void initComponents() {
         this.quick = findViewById(R.id.btn_home_quick);
         this.calendar = findViewById(R.id.btn_home_calendar);
@@ -64,11 +69,5 @@ public class MainActivity extends AppCompatActivity {
                 activity.startActivityForResult(intent, 1);
             }
         });
-    }
-
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
     }
 }

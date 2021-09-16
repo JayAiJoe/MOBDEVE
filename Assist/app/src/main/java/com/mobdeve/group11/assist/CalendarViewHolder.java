@@ -42,10 +42,6 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
 
     public  void setDate(LocalDate d) { this.date = d;}
 
-    public void hideCount() { this.tvCount.setVisibility(View.INVISIBLE);}
-
-
-
     public void setCount(int count) {
         if(count > 0)
         {

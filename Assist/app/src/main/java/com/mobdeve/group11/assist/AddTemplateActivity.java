@@ -32,6 +32,8 @@ public class AddTemplateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_template);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        this.initComponents();
     }
 
     private void initComponents() {
@@ -74,11 +76,6 @@ public class AddTemplateActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
     }
 
 }

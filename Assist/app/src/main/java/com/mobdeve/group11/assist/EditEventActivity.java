@@ -104,8 +104,6 @@ public class EditEventActivity extends AppCompatActivity {
 
         tvHead = findViewById(R.id.tv_toolbar_edit_title);
         tvHead.setText("Edit Event");
-
-
     }
 
     private void setButtons(){
@@ -309,6 +307,7 @@ public class EditEventActivity extends AppCompatActivity {
 
     }
 
+    //dialogues for date and time inputs
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setDateAndTimes(){
 
@@ -448,14 +447,12 @@ public class EditEventActivity extends AppCompatActivity {
             });
         });
 
-
-
         viewModel.getAllTemplates().observe(this, templates -> {
             templateList = templates;
         });
     }
 
-
+    //set alarm for scheduled sms when edit is saved
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setAlarm(String number, String message, int id) {
         Bundle bundle = new Bundle();
@@ -494,6 +491,7 @@ public class EditEventActivity extends AppCompatActivity {
         Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + String.format(Locale.ENGLISH,"%02d", remTime.getMinute()) , Toast.LENGTH_SHORT).show();
     }
 
+    //delete the previous alarm that was edited
     public void deleteAlarm(int id, String name){
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
         PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);

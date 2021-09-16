@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 @Database(entities = {Contact.class, ContactGroup.class, Event.class, EventGrouping.class, GroupMembership.class, Template.class, ThumbnailImage.class},
         version = 8,
         exportSchema = false)
@@ -52,7 +53,7 @@ public abstract class AssistDatabase extends RoomDatabase {
             super.onCreate(db);
 
             databaseWriteExecutor.execute(() -> {
-
+                //fill database with sample data once on creation
             });
         }
     };

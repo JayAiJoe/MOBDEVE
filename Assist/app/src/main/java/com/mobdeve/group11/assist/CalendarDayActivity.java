@@ -28,6 +28,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+//weekly calendar activity with events of the day
 public class CalendarDayActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
     public static final int NEW_EVENT_ACTIVITY_REQUEST_CODE = 1;
@@ -57,6 +58,8 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     private EventCountRunnable eventCountRunnable;
     ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(nCores, maxPool, keepAlive, keepAliveUnit, new LinkedBlockingDeque<Runnable>());
 
+
+    //handler for counting the number of events per day
     private Handler handler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message message){
@@ -105,17 +108,8 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     private void initWidgets(){
         rvDay = findViewById(R.id.rv_calendar_day);
         tvMonthYear = findViewById(R.id.tv_calender_month_week);
-
-
-        //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
-
         ivBackMonth = findViewById(R.id.iv_toolbar_date_left);
         ivAdd = findViewById(R.id.iv_toolbar_date_right);
-
-        /*String temp[] = CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate).split(" ");*/
-
-        //tvHead = findViewById(R.id.tv_toolbar_date_title);
-        //this.tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
 
         ivBackMonth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +143,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     }
 
 
+    //fill recycler view with the correct days
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setWeekView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
@@ -168,7 +163,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         }
     }
 
-
+    //show the events of the selected day
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setEventsView(){
         viewModel.getEventsByDay(CalendarUtils.selectedDate).observe(this, events -> {
@@ -177,6 +172,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         });
     }
 
+    //show the previous week
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void prevWeek(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
@@ -184,6 +180,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         setEventsView();
     }
 
+    //show the next week
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void nextWeek(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
@@ -191,6 +188,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         setEventsView();
     }
 
+    //actions when a day is clicked
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date) {
@@ -200,13 +198,5 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
         setEventsView();
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void onResume() {
-        super.onResume();
-        //initWidgets();
-        //setWeekView();
-    }
-
 
 }

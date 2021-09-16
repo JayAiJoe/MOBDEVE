@@ -27,7 +27,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         this.holderList = new HashMap<>();
     }
 
-
     @NonNull
     @org.jetbrains.annotations.NotNull
     @Override
@@ -73,10 +72,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         void onItemClick(int position, LocalDate date);
     }
 
+    //get view holder based on position
     public CalendarViewHolder getViewByPosition(int position) {
         return holderList.get(position);
     }
 
+    //highlight the currently selected cell
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void showSelected(){
         for(int i=0; i<days.size(); i++) {
@@ -86,10 +87,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                 else
                     holderList.get(i).getCell().setBackgroundColor(Color.TRANSPARENT);
             }
-
         }
-
-
     }
 
 

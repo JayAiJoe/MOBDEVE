@@ -54,6 +54,11 @@ public class AddContactActivity extends AppCompatActivity  {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,13 +125,7 @@ public class AddContactActivity extends AppCompatActivity  {
         });
     }
 
-   
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
-    }
-
+    //pop-up for selecting a profile picture
     private void selectImage(){
         final CharSequence[] options = { "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(AddContactActivity.this);
@@ -147,6 +146,7 @@ public class AddContactActivity extends AppCompatActivity  {
         builder.show();
     }
 
+    //checking for permissions
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -161,6 +161,7 @@ public class AddContactActivity extends AppCompatActivity  {
         }
     }
 
+    //after image is selected
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -174,28 +175,11 @@ public class AddContactActivity extends AppCompatActivity  {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 thumbnail = (BitmapFactory.decodeFile(picturePath));
-                thumbnail=getResizedBitmap(thumbnail, 400);
-                //Log.w("path of image from gallery......******************.........", picturePath+"");
+                thumbnail= AppUtils.getResizedBitmap(thumbnail, 400);
                 ivPic.setImageBitmap(thumbnail);
                 tvPic.setText("Change Photo");
             }
         }
-    }
-
-
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
 }

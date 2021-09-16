@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//activity for viewing a contact
 public class ContactActivity extends AppCompatActivity {
 
     public static final int EDIT_REQUEST = 1;
@@ -52,6 +53,12 @@ public class ContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
     }
 
     private void initComponents(){
@@ -136,7 +143,7 @@ public class ContactActivity extends AppCompatActivity {
                     tvEmpty.setVisibility(View.GONE);
                     tvGroupsTitle.setVisibility(View.VISIBLE);
                 }
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(groupList))));
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getGroupNames(groupList))));
                 lvGroups.setAdapter(adapter);
 
             });
@@ -146,33 +153,5 @@ public class ContactActivity extends AppCompatActivity {
         this.tvHead.setText("Contacts");
 
     }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-            /*
-            contact.setFirstName(data.getStringExtra(ContactInfo.FIRST_NAME.name()));
-            contact.setLastName(data.getStringExtra(ContactInfo.LAST_NAME.name()));
-            contact.setContactNumber(data.getStringExtra(ContactInfo.PHONE_NUMBER.name()));
-            contact.setGuardian(data.getStringExtra(ContactInfo.GUARDIAN.name()));
-            viewModel.updateContact(contact);
-             */
-        }
-    }
-
-    private String[] getNames(List<ContactGroup> gList){
-        String[] strArray = new String[gList.size()];
-        for(int i=0; i<gList.size();i++)
-        {
-            strArray[i] = gList.get(i).getName();
-        }
-        return strArray;
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
-    }
+    
 }

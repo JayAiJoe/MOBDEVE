@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//activity for viewing a ContactGroup
 public class GroupActivity extends AppCompatActivity{
 
     public static final int EDIT_REQUEST = 1;
@@ -50,6 +51,12 @@ public class GroupActivity extends AppCompatActivity{
         setContentView(R.layout.activity_group);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
     }
 
     private void initComponents() {
@@ -90,12 +97,6 @@ public class GroupActivity extends AppCompatActivity{
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
-    }
-
     private void initInfo(){
         this.ivPic = findViewById(R.id.iv_view_group_picture);
         this.tvName = findViewById(R.id.tv_view_group_name);
@@ -134,7 +135,7 @@ public class GroupActivity extends AppCompatActivity{
                     tvEmpty.setVisibility(View.GONE);
                     tvMembersTitle.setVisibility(View.VISIBLE);
                 }
-                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(getNames(contactList))));
+                adapter = new ArrayAdapter<String>(this, R.layout.listview_item, new ArrayList<String>(Arrays.asList(AppUtils.getContactNames(contactList))));
                 lvMembers.setAdapter(adapter);
 
             });
@@ -143,20 +144,4 @@ public class GroupActivity extends AppCompatActivity{
 
         this.tvHead.setText("Group");
     }
-
-    private String[] getNames(List<Contact> cList){
-        String[] strArray = new String[cList.size()];
-        for(int i=0; i<cList.size();i++)
-        {
-            strArray[i] = cList.get(i).getFirstName() + " " + cList.get(i).getLastName();
-        }
-        return strArray;
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
-    }
-
 }

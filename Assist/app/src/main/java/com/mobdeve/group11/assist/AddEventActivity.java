@@ -53,7 +53,6 @@ import java.util.Locale;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    //**** add viewModel
     private AssistViewModel viewModel;
 
     private ImageView ivCancel, ivDone;
@@ -109,10 +108,6 @@ public class AddEventActivity extends AppCompatActivity {
 
     }
 
-    public void onResume() {
-        super.onResume();
-    }
-
     private void initComponents(){
         ivCancel = findViewById(R.id.iv_toolbar_edit_left);
         ivDone = findViewById(R.id.iv_toolbar_edit_right);
@@ -131,6 +126,7 @@ public class AddEventActivity extends AppCompatActivity {
         tvHead.setText("Add Event");
     }
 
+    //dialogues for inputting date and time
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setDateAndTimes(){
 
@@ -220,6 +216,8 @@ public class AddEventActivity extends AppCompatActivity {
         };
     }
 
+
+    //action buttons
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setButtons(){
 
@@ -390,6 +388,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     }
 
+    //set alarm for scheduled sms when event is added
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setAlarm(String number, String message, int id) {
         Bundle bundle = new Bundle();

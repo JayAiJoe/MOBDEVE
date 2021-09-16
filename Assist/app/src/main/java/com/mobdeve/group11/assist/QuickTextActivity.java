@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//activity for instantly sending sms
 public class QuickTextActivity extends AppCompatActivity {
 
     private AssistViewModel viewModel;
@@ -45,13 +46,6 @@ public class QuickTextActivity extends AppCompatActivity {
     private final List<ContactGroup> selectedGroups = new ArrayList<ContactGroup>();
     private List<ContactGroup> groupList;
     private boolean[] checkedGroups = new boolean[0];
-    private ArrayAdapter<String> adapter;
-
-    private List<Contact> contactList;
-
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
-
-    private String currentPhoneNo;
     private String currentMessage;
 
 
@@ -157,7 +151,7 @@ public class QuickTextActivity extends AppCompatActivity {
         });
     }
 
-
+    //directly send a message to the given phone number
     private void sendSMS(String phoneNumber, String message)
     {
         String SENT = "SMS_SENT";
@@ -169,7 +163,7 @@ public class QuickTextActivity extends AppCompatActivity {
         PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
                 new Intent(DELIVERED), 0);
 
-        //---when the SMS has been sent---
+        //when the SMS has been sent
         registerReceiver(new BroadcastReceiver(){
             @Override
             public void onReceive(Context arg0, Intent arg1) {
@@ -199,7 +193,7 @@ public class QuickTextActivity extends AppCompatActivity {
             }
         }, new IntentFilter(SENT));
 
-        //---when the SMS has been delivered---
+        //when the SMS has been delivered
         registerReceiver(new BroadcastReceiver(){
             @Override
             public void onReceive(Context arg0, Intent arg1) {

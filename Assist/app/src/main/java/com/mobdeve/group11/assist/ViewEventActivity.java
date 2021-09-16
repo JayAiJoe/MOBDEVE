@@ -31,8 +31,6 @@ import java.util.List;
 
 public class ViewEventActivity extends AppCompatActivity {
 
-    public static final int EDIT_REQUEST = 1;
-
     private AssistViewModel viewModel;
 
     private ImageView ivBackDay, ivEdit, ivEmpty;
@@ -55,7 +53,13 @@ public class ViewEventActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
 
         initInfo();
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -168,13 +172,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
-    }
-
+    //delete associated alarm when an event is deleted
     public void deleteAlarm(int id, String name){
         Intent intentAlarm = new Intent(this, AlarmReceiver.class);
         PendingIntent pIntent =  PendingIntent.getBroadcast(this.getApplicationContext(), id, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);

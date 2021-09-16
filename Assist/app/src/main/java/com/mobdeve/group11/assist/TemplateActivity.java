@@ -18,6 +18,7 @@ import com.mobdeve.group11.assist.database.Template;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//activity for viewing a template
 public class TemplateActivity extends AppCompatActivity {
 
     public static final int EDIT_REQUEST = 1;
@@ -37,6 +38,12 @@ public class TemplateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_template);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
     }
 
     private void initComponents() {
@@ -93,17 +100,6 @@ public class TemplateActivity extends AppCompatActivity {
         });
 
         this.tvHead.setText("Templates");
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
     }
 
 }

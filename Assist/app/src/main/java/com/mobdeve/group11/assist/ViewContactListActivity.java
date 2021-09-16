@@ -1,9 +1,6 @@
 package com.mobdeve.group11.assist;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,17 +11,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
 import com.mobdeve.group11.assist.database.Contact;
-import com.mobdeve.group11.assist.database.ContactGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+//activity for viewing all the contacts
 public class ViewContactListActivity extends AppCompatActivity {
 
     public static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
@@ -38,9 +32,8 @@ public class ViewContactListActivity extends AppCompatActivity {
     private TextView tvNumberContacts;
 
 
-    //add alphabets
-    //1-alphabet
-    //2-name
+    //add alphabets headings
+    //type 1-alphabet, type 2-name
     List <Contact> addAlphabets(List<Contact> list) {
         if (list.size() != 0){
             int i = 0;
@@ -75,7 +68,6 @@ public class ViewContactListActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +87,11 @@ public class ViewContactListActivity extends AppCompatActivity {
             int count = contacts.size();
             this.tvNumberContacts.setText(count+" Contacts");
         });
+    }
+
+    public void onResume() {
+        super.onResume();
+        this.initComponents();
     }
 
     private void initComponents(){
@@ -117,10 +114,5 @@ public class ViewContactListActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initComponents();
     }
 }

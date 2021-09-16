@@ -37,6 +37,9 @@ public class EditTemplateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_template);
 
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        this.initInfo();
+        this.initComponents();
     }
 
     private void initComponents() {
@@ -98,12 +101,6 @@ public class EditTemplateActivity extends AppCompatActivity {
                 Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
     }
 
 }

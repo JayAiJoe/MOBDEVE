@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    //toast messages regarding sms success/failure
     @Override
     public void onReceive(Context context, Intent intent)
     {

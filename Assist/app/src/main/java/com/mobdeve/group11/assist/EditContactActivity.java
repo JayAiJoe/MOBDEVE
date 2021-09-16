@@ -62,6 +62,12 @@ public class EditContactActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
     }
 
+    public void onResume() {
+        super.onResume();
+        this.initInfo();
+        this.initComponents();
+    }
+
     private void initComponents(){
         verifyStoragePermissions(activity);
         this.ivCancel = findViewById(R.id.iv_toolbar_edit_left);
@@ -150,12 +156,7 @@ public class EditContactActivity extends AppCompatActivity {
         }
     }
 
-    public void onResume() {
-        super.onResume();
-        this.initInfo();
-        this.initComponents();
-    }
-
+    //pop-up for selecting profile picture
     private void selectImage(){
         final CharSequence[] options = { "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -176,6 +177,7 @@ public class EditContactActivity extends AppCompatActivity {
         builder.show();
     }
 
+    //checking for permissions
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -190,6 +192,7 @@ public class EditContactActivity extends AppCompatActivity {
         }
     }
 
+    //actions after photo is selected
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -203,8 +206,7 @@ public class EditContactActivity extends AppCompatActivity {
                 String picturePath = c.getString(columnIndex);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                thumbnail=getResizedBitmap(thumbnail, 400);
-                //Log.w("path of image from gallery......******************.........", picturePath+"");
+                thumbnail= AppUtils.getResizedBitmap(thumbnail, 400);
                 ivPic.setImageBitmap(thumbnail);
                 tvPic.setText("Change Photo");
                 if(thumbnailImage != null){
@@ -219,18 +221,6 @@ public class EditContactActivity extends AppCompatActivity {
         }
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
+
 }

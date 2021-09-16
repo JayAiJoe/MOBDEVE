@@ -27,6 +27,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+//monthly calendar activity
 public class CalendarMonthActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
 
     private AssistViewModel viewModel;
@@ -47,6 +48,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     private EventCountRunnable eventCountRunnable;
     ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(nCores, maxPool, keepAlive, keepAliveUnit, new LinkedBlockingDeque<Runnable>());
 
+    //handler for counting the number of events per day
     private Handler handler = new Handler(Looper.getMainLooper()){
         @Override
         public void handleMessage(@NonNull Message message){
@@ -76,7 +78,6 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
 
     }
 
-    //@RequiresApi(api = Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvMonth = findViewById(R.id.rv_calendar_month);
@@ -84,9 +85,8 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
         ivBackYear = findViewById(R.id.iv_toolbar_left);
         ivAdd = findViewById(R.id.iv_toolbar_right);
 
-
+        //ensure no "blinking" happens
         ((SimpleItemAnimator) rvMonth.getItemAnimator()).setSupportsChangeAnimations(false);
-
 
         ivBackYear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +107,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     }
 
 
+    //fill the recycler view with the correct days
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
@@ -127,6 +128,7 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
 
     }
 
+    //actions when a day is clicked
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date) {
@@ -142,24 +144,25 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
         }
     }
 
+    //show the previous month
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void prevMonth(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    //show the next month
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void nextMonth(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    //update the calendar with the currently selected day on resume
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume() {
         super.onResume();
-        //initWidgets();
         setMonthView();
     }
-
 
 }
