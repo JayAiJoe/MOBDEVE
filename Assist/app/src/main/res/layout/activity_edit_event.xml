@@ -145,22 +145,6 @@
         app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_edit_event_template" />
 
-    <Button
-        android:id="@+id/btn_edit_event_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#9C1111"
-
-        android:fontFamily="@font/amiko_semibold"
-        android:text="Delete Event"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/tv_edit_to"
         android:layout_width="wrap_content"
@@ -179,7 +163,7 @@
         android:id="@+id/lv_edit_event"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_edit_event_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gl_edit_event_right"
         app:layout_constraintStart_toStartOf="@+id/gl_edit_event_left"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_groups" />

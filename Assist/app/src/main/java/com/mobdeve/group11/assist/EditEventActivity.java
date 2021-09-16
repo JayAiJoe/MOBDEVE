@@ -55,7 +55,6 @@ public class EditEventActivity extends AppCompatActivity {
     private TextView tvDate, tvSTime, tvETime, tvHead, tvAddGroups, tvTemplate, tvReminder;
     private Activity activity = EditEventActivity.this;
     private ListView lvGroups;
-    private Button btnDelete;
 
     private AssistViewModel viewModel;
     private Event event;
@@ -228,30 +227,6 @@ public class EditEventActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG);
                     t.show();
                 }
-            }
-        });
-
-        btnDelete = findViewById(R.id.btn_edit_event_delete);
-        this.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //delete alarm for old message
-                for (int i = 0; i < previousGroups.size(); i++) {
-                    int a = i*1000;
-                    viewModel.getContactIdsInGroup(previousGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
-                        for (int j = 0; j < contacts.size(); j++) {
-                            int aid = j+a;
-                            viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
-                                deleteAlarm(event.getId()*100+aid, event.getTitle());
-                            });
-                        }
-                    });
-                }
-
-                viewModel.deleteEvent(event);
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
-                finish();
             }
         });
 
