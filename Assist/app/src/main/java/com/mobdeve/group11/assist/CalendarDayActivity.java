@@ -106,6 +106,7 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
         rvDay = findViewById(R.id.rv_calendar_day);
         tvMonthYear = findViewById(R.id.tv_calender_month_week);
 
+
         //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
 
         ivBackMonth = findViewById(R.id.iv_toolbar_date_left);

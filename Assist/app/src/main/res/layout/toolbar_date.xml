@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:fontFamily="@font/amiko_bold"
-        android:text="Month Year"
         android:textColor="#FD4E5D"
         android:textSize="20sp"
         android:textStyle="bold"
