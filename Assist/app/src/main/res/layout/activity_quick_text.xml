@@ -82,7 +82,9 @@
     android:text="Send"
     android:textAllCaps="false"
     android:textSize="18sp"
-    app:icon="@drawable/pencilicon"
+    android:textColor="#FFFFFF"
+    android:drawablePadding="10dp"
+    android:drawableLeft="@drawable/deleteicon"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/gl_view_quick_right"
     app:layout_constraintStart_toStartOf="@+id/gl_view_quick_left" />
