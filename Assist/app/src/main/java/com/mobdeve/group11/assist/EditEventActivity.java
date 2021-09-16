@@ -46,6 +46,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EditEventActivity extends AppCompatActivity {
 
@@ -490,7 +491,7 @@ public class EditEventActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
-        Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + String.format(Locale.ENGLISH,"%02d", remTime.getMinute()) , Toast.LENGTH_SHORT).show();
     }
 
     public void deleteAlarm(int id, String name){

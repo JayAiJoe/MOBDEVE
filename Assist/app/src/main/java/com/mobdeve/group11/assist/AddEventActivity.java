@@ -49,6 +49,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class AddEventActivity extends AppCompatActivity {
 
@@ -424,7 +425,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() , pIntent);
-        Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + remTime.getMinute() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplication(), "Alarm set: " + remTime.getHour() + ":" + String.format(Locale.ENGLISH,"%02d", remTime.getMinute()) , Toast.LENGTH_SHORT).show();
     }
 
 }
