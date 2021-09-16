@@ -107,12 +107,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#9C1111"
-
         android:fontFamily="@font/amiko_semibold"
         android:text="Delete Contact"
         android:textAllCaps="false"
         android:textSize="18sp"
-        app:icon="@drawable/deleteicon"
+        android:textColor="#FFFFFF"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/deleteicon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gl_view_contact_right"
         app:layout_constraintStart_toStartOf="@+id/gl_view_contact_left" />
