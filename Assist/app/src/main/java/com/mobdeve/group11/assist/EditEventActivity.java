@@ -196,17 +196,24 @@ public class EditEventActivity extends AppCompatActivity {
                         message = template.getSubject() + "\n\n" + template.getContent();
                             });
 
-                    //set alarm for message
-                    for (int i = 0; i < selectedGroups.size(); i++) {
-                        int a = i*1000;
-                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
-                            for (int j = 0; j < contacts.size(); j++) {
-                                int aid = j+a;
-                                viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
-                                    setAlarm(contact.getContactNumber(), message, event.getId()*100+aid);
-                                });
-                            }
-                        });
+                    //set alarm for message if start time is valid
+                    if(!selectedDate.isBefore(LocalDate.now()) && !startTime.isBefore(LocalTime.now())){
+                        for (int i = 0; i < selectedGroups.size(); i++) {
+                            int a = i*1000;
+                            viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(EditEventActivity.this, contacts -> {
+                                for (int j = 0; j < contacts.size(); j++) {
+                                    int aid = j+a;
+                                    viewModel.getContactById(contacts.get(j)).observe(EditEventActivity.this, contact -> {
+                                        setAlarm(contact.getContactNumber(), message, event.getId()*100+aid);
+                                    });
+                                }
+                            });
+                        }
+                    } else{
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "Start time has passed. No messages will be sent.",
+                                Toast.LENGTH_LONG);
+                        t.show();
                     }
 
                     viewModel.updateEvent(event);

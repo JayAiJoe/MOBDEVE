@@ -302,20 +302,27 @@ public class AddEventActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(AddEventActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(AddEventActivity.this, new String[]{Manifest.permission.SEND_SMS}, 1);
                 }
-                else{
-                    //set alarm for message
-                    for (int i = 0; i < selectedGroups.size(); i++) {
-                        int a = i*1000;
-                        viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
-                            for (int j = 0; j < contacts.size(); j++) {
-                                int aid = j+a;
-                                viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
-                                    setAlarm(contact.getContactNumber(), message, eId*100+aid);
+                else {
+                    //set alarm for message if start time is valid
+                        if (!selectedDate.isBefore(LocalDate.now()) && !startTime.isBefore(LocalTime.now())) {
+                            for (int i = 0; i < selectedGroups.size(); i++) {
+                                int a = i * 1000;
+                                viewModel.getContactIdsInGroup(selectedGroups.get(i).getId()).observe(AddEventActivity.this, contacts -> {
+                                    for (int j = 0; j < contacts.size(); j++) {
+                                        int aid = j + a;
+                                        viewModel.getContactById(contacts.get(j)).observe(AddEventActivity.this, contact -> {
+                                            setAlarm(contact.getContactNumber(), message, eId * 100 + aid);
+                                        });
+                                    }
                                 });
                             }
-                        });
+                        } else{
+                            Toast t = Toast.makeText(getApplicationContext(),
+                                    "Start time has passed. No messages will be sent.",
+                                    Toast.LENGTH_LONG);
+                            t.show();
+                        }
                     }
-                }
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();
