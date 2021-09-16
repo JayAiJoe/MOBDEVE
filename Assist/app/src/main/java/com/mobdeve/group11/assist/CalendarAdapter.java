@@ -8,23 +8,23 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.mobdeve.group11.assist.database.AssistViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
+    private HashMap<Integer,CalendarViewHolder> holderList;
 
 
     public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener){
         this.days = days;
         this.onItemListener = onItemListener;
+        this.holderList = new HashMap<>();
     }
 
 
@@ -39,7 +39,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         if(days.size() > 15)
             layoutParams.height = (int)(parent.getHeight()*0.166666);
         else
-            layoutParams.height = (int)parent.getHeight();
+            layoutParams.height = (int) parent.getHeight();
         return new CalendarViewHolder(view, onItemListener, days);
     }
 
@@ -54,8 +54,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             holder.getTvDay().setText(String.valueOf(date.getDayOfMonth()));
             if(date.equals(CalendarUtils.selectedDate))
                 holder.getCell().setBackgroundColor(Color.LTGRAY);
+            else
+                holder.getCell().setBackgroundColor(Color.TRANSPARENT);
+        }
 
-
+        if(!holderList.containsKey(position)){
+            holderList.put(position,holder);
         }
 
     }
@@ -68,4 +72,26 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     public interface OnItemListener{
         void onItemClick(int position, LocalDate date);
     }
+
+    public CalendarViewHolder getViewByPosition(int position) {
+        return holderList.get(position);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void showSelected(){
+        for(int i=0; i<days.size(); i++) {
+            if(days.get(i) !=  null){
+                if (days.get(i).equals(CalendarUtils.selectedDate))
+                    holderList.get(i).getCell().setBackgroundColor(Color.LTGRAY);
+                else
+                    holderList.get(i).getCell().setBackgroundColor(Color.TRANSPARENT);
+            }
+
+        }
+
+
+    }
+
+
+
 }

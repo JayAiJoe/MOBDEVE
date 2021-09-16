@@ -92,7 +92,7 @@ class AssistRepository {
 
     LiveData<ThumbnailImage> getThumbnailById(Integer id) { return thumbnailImageDao.getImageByImageId(id); }
 
-   LiveData<Integer> countEventsOfTheDay(LocalDate d){ return eventDao.countEventsOfTheDay(d); }
+    LiveData<Integer> countEventsOfTheDay(LocalDate d){ return eventDao.countEventsOfTheDay(d); }
 
     //async db update functions
     void addContact(Contact contact) {

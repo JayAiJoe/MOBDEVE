@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class CalendarUtils {
 
     public static LocalDate selectedDate = LocalDate.now();
+    public static LocalDate currentDate = LocalDate.now();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {

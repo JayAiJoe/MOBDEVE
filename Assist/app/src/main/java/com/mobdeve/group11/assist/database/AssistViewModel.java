@@ -53,6 +53,8 @@ public class AssistViewModel extends AndroidViewModel {
 
     public LiveData<ThumbnailImage> getThumbnailById(Integer id) { return mRepository.getThumbnailById(id); }
 
+    public LiveData<Integer> countEventsOfTheDay(LocalDate d) { return mRepository.countEventsOfTheDay(d); }
+
     public void addContact(Contact contact) { mRepository.addContact(contact); }
 
     public long addContactGetId(Contact contact) { return mRepository.addContactGetId(contact); }
@@ -102,7 +104,5 @@ public class AssistViewModel extends AndroidViewModel {
     public Integer deleteAllGroupingsInEvent(Integer id) { return mRepository.deleteAllGroupingsInEvent(id); }
 
     public void deleteThumbnail(ThumbnailImage thumbnailImage) { mRepository.deleteThumbnail(thumbnailImage); }
-
-    public LiveData<Integer> countEventsOfTheDay(LocalDate d) { return mRepository.countEventsOfTheDay(d); }
 
 }

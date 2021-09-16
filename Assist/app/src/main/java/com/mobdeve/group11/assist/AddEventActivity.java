@@ -189,6 +189,15 @@ public class AddEventActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 startTime = LocalTime.of(hourOfDay,minute);
                 tvSTime.setText(String.format("%2d:%02d", startTime.getHour(), startTime.getMinute()));
+                if(startTime.isAfter(endTime))
+                {
+                    endTime = LocalTime.of(hourOfDay,minute);
+                    tvETime.setText(String.format("%2d:%02d", endTime.getHour(), endTime.getMinute()));
+                    Toast t = Toast.makeText(getApplicationContext(),
+                            "Invalid end time adjusted",
+                            Toast.LENGTH_LONG);
+                    t.show();
+                }
             }
         };
 
@@ -197,6 +206,15 @@ public class AddEventActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 endTime = LocalTime.of(hourOfDay,minute);
                 tvETime.setText(String.format("%2d:%02d", endTime.getHour(), endTime.getMinute()));
+                if(endTime.isBefore(startTime))
+                {
+                    startTime = LocalTime.of(hourOfDay,minute);
+                    tvSTime.setText(String.format("%2d:%02d", startTime.getHour(), startTime.getMinute()));
+                    Toast t = Toast.makeText(getApplicationContext(),
+                            "Invalid start time adjusted",
+                            Toast.LENGTH_LONG);
+                    t.show();
+                }
             }
         };
     }

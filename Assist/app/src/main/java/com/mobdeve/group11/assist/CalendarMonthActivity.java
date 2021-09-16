@@ -1,17 +1,21 @@
 package com.mobdeve.group11.assist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,15 +23,45 @@ import com.mobdeve.group11.assist.database.AssistViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarMonthActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
 
-
+    private AssistViewModel viewModel;
 
     private TextView tvMonthYear, tvHead;
     private RecyclerView rvMonth;
     private ImageView ivBackYear, ivAdd;
     private Activity activity = CalendarMonthActivity.this;
+
+    private CalendarAdapter cma;
+    private ArrayList<LocalDate> daysInMonth;
+
+    int nCores = Runtime.getRuntime().availableProcessors();
+    int maxPool = nCores + 8;
+    int keepAlive = 1000;
+    TimeUnit keepAliveUnit = TimeUnit.MILLISECONDS;
+
+    private EventCountRunnable eventCountRunnable;
+    ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(nCores, maxPool, keepAlive, keepAliveUnit, new LinkedBlockingDeque<Runnable>());
+
+    private Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message message){
+            super.handleMessage(message);
+
+            Bundle data = message.getData();
+            int index = data.getInt("INDEX");
+
+            viewModel.countEventsOfTheDay(daysInMonth.get(index)).observe(CalendarMonthActivity.this, count->{
+                if(cma != null)
+                    if(cma.getViewByPosition(index) != null)
+                            cma.getViewByPosition(index).setCount(count);
+            });
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -35,6 +69,11 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_month);
         CalendarUtils.selectedDate = LocalDate.now();
+        viewModel = new ViewModelProvider(this).get(AssistViewModel.class);
+
+        initWidgets();
+        setMonthView();
+
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
@@ -44,9 +83,10 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
         tvMonthYear = findViewById(R.id.tv_calendar_month);
         ivBackYear = findViewById(R.id.iv_toolbar_left);
         ivAdd = findViewById(R.id.iv_toolbar_right);
-        //tvHead = findViewById(R.id.tv_toolbar_date_title);
 
-        //this.tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
+
+        ((SimpleItemAnimator) rvMonth.getItemAnimator()).setSupportsChangeAnimations(false);
+
 
         ivBackYear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +111,20 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     private void setMonthView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
         //tvHead.setText(""+ CalendarUtils.selectedDate.getYear());
-        ArrayList<LocalDate> daysInMonth = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate);
-        CalendarAdapter cma = new CalendarAdapter(daysInMonth,this);
+        daysInMonth = CalendarUtils.daysInMonthArray(CalendarUtils.selectedDate);
+        cma = new CalendarAdapter(daysInMonth,this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
         rvMonth.setLayoutManager(lm);
         rvMonth.setAdapter(cma);
+
+        for (int i = 0; i < daysInMonth.size(); i++) {
+            LocalDate dayTemp = daysInMonth.get(i);
+            if(dayTemp != null){
+                eventCountRunnable = new EventCountRunnable(i, handler);
+                threadPoolExecutor.execute(eventCountRunnable);
+            }
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,7 +132,9 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     public void onItemClick(int position, LocalDate date) {
         if(date != null){
             CalendarUtils.selectedDate = date;
-            setMonthView();
+            //setMonthView();
+            if(cma != null)
+                cma.showSelected();
 
             //go to calendar day view
             Intent intent = new Intent(CalendarMonthActivity.this, CalendarDayActivity.class);
@@ -106,7 +157,9 @@ public class CalendarMonthActivity extends AppCompatActivity implements Calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume() {
         super.onResume();
-        initWidgets();
+        //initWidgets();
         setMonthView();
     }
+
+
 }

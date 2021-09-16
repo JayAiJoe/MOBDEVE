@@ -1,5 +1,6 @@
 package com.mobdeve.group11.assist;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,21 +13,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobdeve.group11.assist.database.AssistViewModel;
-import com.mobdeve.group11.assist.database.ContactGroup;
-import com.mobdeve.group11.assist.database.Event;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarDayActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
@@ -45,6 +45,33 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     private Activity activity = CalendarDayActivity.this;
 
     //private Button btnAddEvent;
+
+    private CalendarAdapter cma;
+    private ArrayList<LocalDate> daysInWeek;
+
+    int nCores = Runtime.getRuntime().availableProcessors();
+    int maxPool = nCores + 8;
+    int keepAlive = 1000;
+    TimeUnit keepAliveUnit = TimeUnit.MILLISECONDS;
+
+    private EventCountRunnable eventCountRunnable;
+    ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(nCores, maxPool, keepAlive, keepAliveUnit, new LinkedBlockingDeque<Runnable>());
+
+    private Handler handler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message message){
+            super.handleMessage(message);
+
+            Bundle data = message.getData();
+            int index = data.getInt("INDEX");
+
+            viewModel.countEventsOfTheDay(daysInWeek.get(index)).observe(CalendarDayActivity.this, count->{
+                if(cma != null)
+                    if(cma.getViewByPosition(index) != null)
+                            cma.getViewByPosition(index).setCount(count);
+            });
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -68,13 +95,16 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
             if(events != null)
                 this.eventAdapter.setDataEvents(events);
         });
+
+        initWidgets();
+        setWeekView();
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initWidgets(){
         rvDay = findViewById(R.id.rv_calendar_day);
-        tvMonthYear = findViewById(R.id.tv_toolbar_date_title);
+        tvMonthYear = findViewById(R.id.tv_calender_month_week);
 
         //btnAddEvent = findViewById(R.id.btn_calendar_day_add_event);
 
@@ -122,11 +152,19 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     private void setWeekView(){
         tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
         //tvHead.setText(CalendarUtils.selectedDate.getMonth().toString());
-        ArrayList<LocalDate> daysInWeek = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
-        CalendarAdapter cma = new CalendarAdapter(daysInWeek, this);
+        daysInWeek = CalendarUtils.daysInWeekArray(CalendarUtils.selectedDate);
+        cma = new CalendarAdapter(daysInWeek, this);
         RecyclerView.LayoutManager lm = new GridLayoutManager(getApplicationContext(), 7);
         rvDay.setLayoutManager(lm);
         rvDay.setAdapter(cma);
+
+        for (int i = 0; i < daysInWeek.size(); i++) {
+            LocalDate dayTemp = daysInWeek.get(i);
+            if(dayTemp != null){
+                eventCountRunnable = new EventCountRunnable(i, handler);
+                threadPoolExecutor.execute(eventCountRunnable);
+            }
+        }
     }
 
 
@@ -156,15 +194,18 @@ public class CalendarDayActivity extends AppCompatActivity implements CalendarAd
     @Override
     public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
-        setWeekView();
+        if(cma != null)
+            cma.showSelected();
+        tvMonthYear.setText(CalendarUtils.dateToMonthYear(CalendarUtils.selectedDate));
         setEventsView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onResume() {
         super.onResume();
-        initWidgets();
-        setWeekView();
+        //initWidgets();
+        //setWeekView();
     }
+
 
 }

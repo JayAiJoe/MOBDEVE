@@ -35,21 +35,6 @@
             app:backgroundTint="#116ACC" />
 
         <Button
-            android:id="@+id/btn_home_calendar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/clear_button"
-            android:fontFamily="@font/amiko_bold"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:shadowColor="#000000"
-            android:text="@string/calendar"
-            android:textColor="@color/blue"
-            android:textSize="18sp"
-            app:backgroundTint="#116ACC" />
-
-        <Button
             android:id="@+id/btn_home_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,6 +75,21 @@
             android:paddingRight="8dp"
             android:shadowColor="#000000"
             android:text="@string/templates"
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            app:backgroundTint="#116ACC" />
+
+        <Button
+            android:id="@+id/btn_home_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/clear_button"
+            android:fontFamily="@font/amiko_bold"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:shadowColor="#000000"
+            android:text="@string/calendar"
             android:textColor="@color/blue"
             android:textSize="18sp"
             app:backgroundTint="#116ACC" />
